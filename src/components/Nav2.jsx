@@ -1,6 +1,8 @@
 import React from 'react';
 import TweenOne from 'rc-tween-one';
 import { Link } from 'rc-scroll-anim';
+import { Button, Menu, Dropdown } from 'antd';
+
 
 class Header extends React.Component {
   constructor(props) {
@@ -32,14 +34,26 @@ class Header extends React.Component {
         tag = 'a';
         delete item.to;
       }
+
+
       return React.createElement(
         tag,
         { ...item, ...tagProps, key: i.toString() },
         navData[key].children
       );
+      
     });
+    let navLength = navData.length
+    let btnElement = React.createElement(
+      Button,
+      {type:"ghost",ghost:"white",key:navLength+1},
+      "signin"
+    );
+    navChildren.push(btnElement)
+    
     const moment = phoneOpen === undefined ? 300 : null;
     return (
+
       <TweenOne
         component="header"
         animation={{ opacity: 0, type: 'from' }}
@@ -89,8 +103,10 @@ class Header extends React.Component {
           >
             {navChildren}
           </TweenOne>
+          
         </div>
       </TweenOne>
+      
     );
   }
 }

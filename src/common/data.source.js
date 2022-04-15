@@ -17,6 +17,12 @@ export const Nav20DataSource = {
         children: '导航名称',
         className: 'menu-item',
       },
+      {
+        name: 'linkNav',
+        to: '当前页面 ID 地址，参考如上',
+        children: '导航名称',
+        className: 'menu-item',
+      },
     ],
   },
   mobileMenu: { className: 'header2-mobile-menu' },
@@ -104,7 +110,7 @@ export const Content80DataSource = {
           'https://gw.alipayobjects.com/zos/rmsportal/PiqyziYmvbgAudYfhuBr.svg',
         className: 'title-image',
       },
-      { name: 'title', children: '特邀嘉宾', className: 'title-h1' },
+      { name: 'title', children: 'dogs', className: 'title-h1' },
     ],
   },
   block: {

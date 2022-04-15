@@ -1,7 +1,7 @@
 import React from 'react';
 import OverPack from 'rc-scroll-anim/lib/ScrollOverPack';
 import QueueAnim from 'rc-queue-anim';
-import { getChildrenToRender } from './utils';
+import { getChildrenToRender } from '../common/utils';
 
 class Content9 extends React.PureComponent {
   getBlockChildren = (block, i) => {
