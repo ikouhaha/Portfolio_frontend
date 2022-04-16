@@ -8,7 +8,39 @@ import { getChildrenToRender } from '../common/utils'
 class Content11 extends React.PureComponent {
   render() {
     const { ...props } = this.props;
-    const { dataSource } = props;
+    const dataSource = {
+      OverPack: {
+        className: 'home-page-wrapper content11-wrapper',
+        playScale: 0.3,
+      },
+      titleWrapper: {
+        className: 'title-wrapper',
+        children: [
+          {
+            name: 'image',
+            children:
+              'https://gw.alipayobjects.com/zos/rmsportal/PiqyziYmvbgAudYfhuBr.svg',
+            className: 'title-image',
+          },
+          { name: 'title', children: '丰富的特色展台', className: 'title-h1' },
+          {
+            name: 'content',
+            children:
+              '特色展台包括 Ant Design 、AntV、AntG、Egg 等明星产品，更有产品专家',
+            className: 'title-content',
+          },
+          {
+            name: 'content2',
+            children: '现场问诊，为你答疑解难',
+            className: 'title-content',
+          },
+        ],
+      },
+      button: {
+        className: '',
+        children: { a: { className: 'button', href: '#', children: '立即报名' } },
+      },
+    };
     delete props.dataSource;
     delete props.isMobile;
     return (

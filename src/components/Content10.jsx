@@ -27,7 +27,32 @@ class Content10 extends React.PureComponent {
 
   render() {
     const { ...props } = this.props;
-    const { dataSource } = props;
+    const dataSource  = {
+      wrapper: { className: 'home-page-wrapper content10-wrapper' },
+      Content: {
+        className: 'icon-wrapper',
+        children: {
+          icon: {
+            className: 'icon',
+            children:
+              'https://gw.alipayobjects.com/zos/rmsportal/zIUVomgdcKEKcnnQdOzw.svg',
+            name: '主要图标',
+          },
+          iconShadow: {
+            className: 'icon-shadow',
+            children:
+              'https://gw.alipayobjects.com/zos/rmsportal/WIePwurYppfVvDNASZRN.svg',
+            name: '图标影阴',
+          },
+          url: { children: 'https://gaode.com/place/B0FFH3KPBX', name: '跳转地址' },
+          title: { children: '大会地址', name: '弹框标题' },
+          content: {
+            children: '蚂蚁 Z 空间  浙江省杭州市西湖区西溪路556号',
+            name: '弹框内容',
+          },
+        },
+      },
+    };
     delete props.dataSource;
     delete props.isMobile;
     return (

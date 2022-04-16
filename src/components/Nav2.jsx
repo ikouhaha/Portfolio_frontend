@@ -1,8 +1,8 @@
 import React from 'react';
 import TweenOne from 'rc-tween-one';
-import { Link } from 'rc-scroll-anim';
-import { Button, Menu, Dropdown } from 'antd';
 
+import { Button, Menu, Dropdown } from 'antd';
+import { Link } from 'react-router-dom'
 
 class Header extends React.Component {
   constructor(props) {
@@ -20,7 +20,76 @@ class Header extends React.Component {
   };
 
   render() {
-    const { dataSource, isMobile, ...props } = this.props;
+    const dataSource = {
+      isScrollLink: true,
+      wrapper: { className: 'header2 home-page-wrapper jrhtw9ph4a-editor_css' },
+      page: { className: 'home-page' },
+      logo: {
+        className: 'header2-logo',
+        children:
+          'https://gw.alipayobjects.com/os/s/prod/seeconf/9b458a789d9a000312899b42a7542b9c.svg',
+      },
+      LinkMenu: {
+        className: 'header2-menu',
+        children: [
+          {
+            name: 'linkNav',
+            to: '/',
+            children: 'Home',
+            className: 'menu-item',
+          },
+
+          {
+            name: 'linkNav',
+            to: '/login',
+            children: 'signin',
+            className: 'menu-item',
+          },
+        ],
+      },
+      mobileMenu: { className: 'header2-mobile-menu' },
+      Menu: {
+        children: [
+          {
+            name: 'Banner3_0',
+            to: 'Banner3_0',
+            children: '首页',
+            className: 'active menu-item',
+          },
+          {
+            name: 'Content8_0',
+            to: 'Content8_0',
+            children: '特邀嘉宾',
+            className: 'menu-item',
+          },
+          {
+            name: 'Content9_0',
+            to: 'Content9_0',
+            children: '会议日程',
+            className: 'menu-item',
+          },
+          {
+            name: 'Content10_0',
+            to: 'Content10_0',
+            children: '大会地址',
+            className: 'menu-item',
+          },
+          {
+            name: 'Content11_0',
+            to: 'Content11_0',
+            children: '展台展示',
+            className: 'menu-item',
+          },
+          {
+            name: 'Content12_0',
+            to: 'Content12_0',
+            children: '特别鸣谢',
+            className: 'menu-item',
+          },
+        ],
+      },
+    };
+    const {  isMobile, ...props } = this.props;
 
     const { phoneOpen } = this.state;
     const { LinkMenu } = dataSource;
@@ -34,7 +103,7 @@ class Header extends React.Component {
         tag = 'a';
         delete item.to;
       }
-
+      
 
       return React.createElement(
         tag,
@@ -44,12 +113,12 @@ class Header extends React.Component {
       
     });
     let navLength = navData.length
-    let btnElement = React.createElement(
-      Button,
-      {type:"ghost",ghost:"white",key:navLength+1},
-      "signin"
-    );
-    navChildren.push(btnElement)
+    // let btnElement = React.createElement(
+    //   Button,
+    //   {type:"ghost",ghost:"white",key:navLength+1},
+    //   "signin"
+    // );
+    // navChildren.push(btnElement)
     
     const moment = phoneOpen === undefined ? 300 : null;
     return (
