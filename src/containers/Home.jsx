@@ -21,6 +21,7 @@ const mapDispatchToProps = dispatch => ({
   })
   
 const mapStateToProps = state => ({app: state.App});
+
 @connect(mapStateToProps,mapDispatchToProps)
 class Home extends React.Component {
     constructor(props) {
@@ -29,7 +30,7 @@ class Home extends React.Component {
     }
 
     render() {
-        
+        console.log(this.props)
         const childrens = [
             <Banner3
             id="Banner3_0"
@@ -84,61 +85,6 @@ class Home extends React.Component {
 }
 
 
-// function Home {
-//     const { ...currentProps } = props;
-    // const childrens = [
-    //     <Banner3
-    //     id="Banner3_0"
-    //     key="Banner3_0"
-
-    //     isMobile={currentProps.isMobile}
-    // />,
-    // <Content8
-    //     id="Content8_0"
-    //     key="Content8_0"
-    //     dataSource={Content80DataSource}
-    //     isMobile={currentProps.isMobile}
-    // />,
-    // <Content9
-    //     id="Content9_0"
-    //     key="Content9_0"
-    //     dataSource={Content90DataSource}
-    //     isMobile={currentProps.isMobile}
-    // />,
-    // <Content10
-    //     id="Content10_0"
-    //     key="Content10_0"
-    //     dataSource={Content100DataSource}
-    //     isMobile={currentProps.isMobile}
-    // />,
-    // <Content11
-    //     id="Content11_0"
-    //     key="Content11_0"
-    //     dataSource={Content110DataSource}
-    //     isMobile={currentProps.isMobile}
-    // />,
-    // <Content12
-    //     id="Content12_0"
-    //     key="Content12_0"
-    //     dataSource={Content120DataSource}
-    //     isMobile={currentProps.isMobile}
-    // />
-    // ]
-
-
-//     console.log(this.is)
-//     return (
-//         <div
-//             className="templates-wrapper"
-
-//         >
-
-//            {currentProps.isShow&&childrens}
-
-//         </div>
-//     )
-
-// }
 
 
 export default Home;

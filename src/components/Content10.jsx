@@ -56,7 +56,7 @@ class Content10 extends React.PureComponent {
     delete props.dataSource;
     delete props.isMobile;
     return (
-      <div {...props} {...dataSource.wrapper}>
+      <div  {...dataSource.wrapper}>
         <div
           {...dataSource.Content}
           onMouseEnter={this.markerEnter}

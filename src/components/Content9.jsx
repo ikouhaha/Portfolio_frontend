@@ -193,7 +193,7 @@ class Content9 extends React.PureComponent {
     delete props.isMobile;
     const children = dataSource.block.children.map(this.getBlockChildren);
     return (
-      <div {...props} {...dataSource.wrapper}>
+      <div {...dataSource.wrapper}>
         <div {...dataSource.page}>
           <div {...dataSource.titleWrapper}>
             {dataSource.titleWrapper.children.map(getChildrenToRender)}

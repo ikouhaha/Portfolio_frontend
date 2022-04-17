@@ -2,8 +2,8 @@ import React from 'react';
 
 
 
-import { Layout, Space, Avatar, Dropdown, Menu } from 'antd';
-import { Link } from 'react-router-dom'
+import { Layout, Space, Avatar, Dropdown, Menu,Button } from 'antd';
+import { Link ,Navigate,useNavigate } from 'react-router-dom'
 import Title from 'antd/lib/typography/Title';
 import { DownOutlined } from '@ant-design/icons';
 const { Header, Content } = Layout;
@@ -39,26 +39,31 @@ class Nav extends React.Component {
     };
 
     render() {
+        const navigate = () =>{
+            this.props.navigate("/login")
+        };
+        
+    
         return (
             <Header>
-
-
-
                 <Space>
 
                     <Title className='header2-logo' style={{ color: 'white' }} level={2}>Pet Finder</Title>
                     <Link to="/" className='header-nav-link'>Home</Link>
                 </Space>
 
-
-
-
                 <span style={{ height: 64, float: 'right' }}>
                     <Space>
                         {(() => {
                             if (!isLogin) {
+                                const childrens = [
+                                    <Link to="/signin" className='header-nav-link' >Signin</Link>,
+                                    <Link to="/signup" className='header-nav-link' ><Button ghost >SignUp</Button></Link>
+                                    
+                                ]
                                 return (
-                                    <Link to="/login" className='header-nav-link' >Login</Link>
+                                    
+                                    childrens
                                 )
                             } else {
                                 return (
@@ -67,11 +72,6 @@ class Nav extends React.Component {
                                             <Avatar size="32" src='./dp.png' />
                                             <DownOutlined className='header-nav-link' style={{ paddingLeft: 6 }} />
                                         </span>
-
-
-                                        {/* <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                                Hover me <DownOutlined />
-                              </a> */}
 
                                     </Dropdown>
                                 )

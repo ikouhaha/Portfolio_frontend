@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 class Banner extends React.Component {
   render() {
     const { ...currentProps } = this.props;
+    
     const dataSource  = {
       wrapper: { className: 'banner3' },
       textWrapper: {
@@ -62,7 +63,7 @@ class Banner extends React.Component {
       );
     });
     return (
-      <div {...currentProps} {...dataSource.wrapper}>
+      <div  {...dataSource.wrapper}>
         <QueueAnim
           key="QueueAnim"
           type={['bottom', 'top']}

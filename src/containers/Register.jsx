@@ -1,6 +1,6 @@
 
 
-import LoginForm from '../components/LoginForm';
+import RegisterForm from '../components/RegisterForm';
 
 
 import React from "react";
@@ -17,8 +17,8 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({ app: state.App });
 
-@connect(mapStateToProps,mapDispatchToProps)
-class Login extends React.Component {
+@connect(mapStateToProps, mapDispatchToProps)
+class Register extends React.Component {
     constructor(props) {
         super(props);
 
@@ -27,25 +27,26 @@ class Login extends React.Component {
     render() {
 
         const childrens = [
-            <LoginForm key="login" {...this.props.app} />
+            <RegisterForm key="register" {...this.props.app} {...this.props.appAction} />
         ]
 
         return (
+
             <div
                 className="templates-wrapper"
 
             >
 
+
                 {this.props.app.isShow && childrens}
 
+
             </div>
+
         )
     }
 
 }
 
 
-
-
-
-export default Login;
+export default Register;

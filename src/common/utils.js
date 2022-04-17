@@ -19,3 +19,8 @@ export const getChildrenToRender = (item, i) => {
   return React.createElement(tag, { key: i.toString(), ...item }, children);
 };
 
+
+export const uuid = () => {
+  return Math.random().toString(36).substr(2, 9);;
+}
+

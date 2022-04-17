@@ -44,7 +44,7 @@ class Content11 extends React.PureComponent {
     delete props.dataSource;
     delete props.isMobile;
     return (
-      <OverPack {...props} {...dataSource.OverPack}>
+      <OverPack  {...dataSource.OverPack}>
         <QueueAnim
           type="bottom"
           leaveReverse

@@ -126,7 +126,7 @@ class Content12 extends React.PureComponent {
       dataSource.block.children
     );
     return (
-      <div {...props} {...dataSource.wrapper}>
+      <div  {...dataSource.wrapper}>
         <div {...dataSource.page}>
           <div key="title" {...dataSource.titleWrapper}>
             {dataSource.titleWrapper.children.map(getChildrenToRender)}

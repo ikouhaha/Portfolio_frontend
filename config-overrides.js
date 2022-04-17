@@ -4,7 +4,6 @@ const { override, fixBabelImports, addLessLoader,addDecoratorsLegacy } = require
 
 module.exports = override(
   addDecoratorsLegacy(),
-    
    fixBabelImports('import', {
     libraryName: 'antd',
     libraryDirectory: 'es',
