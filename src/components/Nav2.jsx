@@ -4,6 +4,7 @@ import TweenOne from 'rc-tween-one';
 import { Button, Menu, Dropdown } from 'antd';
 import { Link } from 'react-router-dom'
 
+
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -41,7 +42,7 @@ class Header extends React.Component {
 
           {
             name: 'linkNav',
-            to: '/login',
+            to: '/signin',
             children: 'signin',
             className: 'menu-item',
           },
