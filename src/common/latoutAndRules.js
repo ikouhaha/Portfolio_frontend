@@ -1,17 +1,27 @@
 export const formItemLayout = {
-    labelCol: { xs: { span: 24 }, sm: { span: 6 } },
-    wrapperCol: { xs: { span: 24 }, sm: { span: 12 } }
-}
-
-export const formItemRadioLayout = {
-    wrapperCol: { xs: { span: 24}, sm: { span: 12 }}
-}
+    labelCol: {
+      xs: { span: 24 },
+      sm: { span: 8 },
+    },
+    wrapperCol: {
+      xs: { span: 24 },
+      sm: { span: 16 },
+    },
+  }
 
 
 export const tailFormItemLayout = {
-    wrapperCol: { xs: { span: 16, offset: 8 }, sm: { span: 16, offset: 8 } }
-}
-
+    wrapperCol: {
+      xs: {
+        span: 24,
+        offset: 0,
+      },
+      sm: {
+        span: 16,
+        offset: 8,
+      },
+    },
+  };
 
 
 export const emailRules = [
@@ -40,12 +50,12 @@ export const companyCodeRules = [
     ({ getFieldValue }) => ({
         validator(rule, value) {
             if (getFieldValue('role') === "staff") {
-                if(!value){
+                if (!value) {
                     return Promise.reject('Please contact your manager to get the company code');
                 }
-                
+
             }
-            
+
 
 
             return Promise.resolve();
@@ -55,18 +65,24 @@ export const companyCodeRules = [
 
 
 export const usernameRules = [
-    { required: true, message: 'Please input your username!', whitespace:
-   true }
+    {
+        required: true, message: 'Please input your username!', whitespace:
+            true
+    }
 ]
 
 export const requireTextFieldRules = [
-    { required: true, message: 'Please input the field!', whitespace:
-   true }
+    {
+        required: true, message: 'Please input the field!', whitespace:
+            true
+    }
 ]
 
 export const requireRadioFieldRules = [
-    { required: true, message: 'Please choose the field!', whitespace:
-   true }
+    {
+        required: true, message: 'Please choose the field!', whitespace:
+            true
+    }
 ]
 
 

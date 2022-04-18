@@ -3,6 +3,7 @@ const LOGOUT_SUCCESS = 'user/logoutSuccess';
 
 
 export function login(user){
+  user.isLogin=true
   return {
     type: LOGIN_SUCCESS,
     value:user
@@ -17,10 +18,7 @@ export function logout(){
 }
 
 const initialState = {
-  firstName:"",
-  lastName:"",
-  avator:"",
-  accessToken:""
+  isLogin:false
 };
 
 export default function reducer(state = initialState, action){

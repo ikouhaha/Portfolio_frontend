@@ -3,44 +3,71 @@ import { Button, Text, Form, Card, Input, Radio } from 'antd';
 
 import 'rc-texty/assets/index.css';
 
-import { formItemLayout, emailRules, passwordRules, confirmRules, usernameRules, tailFormItemLayout, requireRadioFieldRules,requireTextFieldRules,companyCodeRules } from '../common/latoutAndRules'
+import { formItemLayout, emailRules, passwordRules, confirmRules, usernameRules, tailFormItemLayout, requireRadioFieldRules, requireTextFieldRules, companyCodeRules } from '../common/latoutAndRules'
 
 import { config } from "../common/config"
 import { uuid } from "../common/utils"
+import * as http from "../common/http-common"
 import { GoogleLogin } from 'react-google-login';
 
+import { useNavigate } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
+import * as AppReducer from '../redux/app'
 
 
+const mapDispatchToProps = dispatch => ({
+  //⑤ Bindactioncreators simplify dispatch
+  appAction: bindActionCreators(AppReducer, dispatch)
+})
+
+const mapStateToProps = state => ({ app: state.App });
 
 function RegisterForm(props) {
-  React.useEffect(() => {
 
 
-  }, []);
-  
-  const [role, setRole] = useState("user")
-  const [fields, setFields] = useState([])
   const [form] = Form.useForm();
+  const navigate = useNavigate();
+
 
   const onFinish = (values) => {
-    //ignore confirm field
-    const { confirm, ...data } = values
-    console.log(data)
+
+
+    (async () => {
+      try {
+        //ignore confirm field
+        const { confirm, ...data } = values
+        console.log(data)
+        console.log("start")
+        const res = await http.post(navigate, "/users", data)
+        console.warn(res)
+        console.log("end")
+        navigate("/login")
+      } catch (ex) {
+        console.dir(ex)
+      }
+
+    })()
   }
   const successGoogle = (res) => {
     console.log(res)
-
-    let profile = { ...res.profileObj }
-    let newObj = {
-      "email":profile.email,
-      "lastName":profile.familyName,
-      "firstName":profile.givenName,
-      "username":profile.email.split('@')[0],
+    if (!res) {
+      return;
     }
-    Object.keys(newObj).forEach(key=>{
+    let profile = { ...res.profileObj }
+
+    let newObj = {
+      "email": profile.email,
+      "lastName": profile.familyName,
+      "firstName": profile.givenName,
+      "username": profile.email.split('@')[0],
+      "avatarUrl": profile.imageUrl,
+      "googleId": profile.googleId
+    }
+    Object.keys(newObj).forEach(key => {
       setFormValue(key, newObj[key])
     })
-   
+
   }
   const failGoogle = (res) => {
     console.log(res)
@@ -53,25 +80,13 @@ function RegisterForm(props) {
     })
   }
 
-  const handleFormValueChange = (values) => {
-    console.log(values)
-    if (values["role"]) {
-      if (values["role"] == "staff") {
-        
-        //setRole(values["role"])
-      } else {
-        //setRole(values["role"])
-      }
-    }
-  }
-  
 
-  setFormValue("role", role)
+
+
   const children = [
     <div key={uuid()} className="site-card-border-less-wrapper">
       <Card >
-        {/* <Button onClick={test}>test</Button> */}
-        <Form form={form} {...formItemLayout} name="register" onFinish={onFinish} onValuesChange={handleFormValueChange} >
+        <Form form={form} {...formItemLayout} name="register" onFinish={onFinish}  >
           <Form.Item name="email" label="e-mail" rules={emailRules}  >
             <Input name="email" />
           </Form.Item>
@@ -90,31 +105,38 @@ function RegisterForm(props) {
           <Form.Item name="lastName" label="Last Name" >
             <Input />
           </Form.Item>
-          <Form.Item name="role" label="Choose Role" rules={requireRadioFieldRules}>
-            <Radio.Group style={{ display: 'table' }} buttonStyle="solid">
+          <Form.Item name="role" initialValue={"user"} label="Choose Role" rules={requireRadioFieldRules}>
+            <Radio.Group  buttonStyle="solid">
               <Radio.Button value="user">Normal User</Radio.Button>
               <Radio.Button value="staff">Staff</Radio.Button>
             </Radio.Group>
           </Form.Item>
-          <Form.Item   name="companyCode" label="Company Code"  rules={companyCodeRules}>
+          <Form.Item name="companyCode" label="Company Code" rules={companyCodeRules}>
             <Input />
           </Form.Item>
-          <Form.Item {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">Register</Button>
+          <Form.Item name="avatarUrl" hidden>
+            <Input />
           </Form.Item>
-          <Form.Item {...tailFormItemLayout}>
+          <Form.Item name="googleId" hidden>
+            <Input />
+          </Form.Item>
+          <Form.Item label="Other">
             <GoogleLogin
               clientId={config.googleClientID}
+              buttonText="Register with Google"
               scope="profile email"
-
+              accessType="offline"
               redirectUri={config.baseUrl + '/auth/google/callback'}
               onSuccess={successGoogle}
               onFailure={failGoogle}
               responseType="token"
               cookiePolicy={'single_host_origin'}
-            />,
+            />
           </Form.Item>
-
+          <Form.Item {...tailFormItemLayout}>
+            <Button type="primary" htmlType="submit">Register</Button>
+          </Form.Item>
+       
         </Form>
 
       </Card>
@@ -125,7 +147,7 @@ function RegisterForm(props) {
 
 
   return (
-    <div className='banner3'>
+    <div className='banner3' style={{"text-align":"left"}}>
       <div
         className='banner3-text-wrapper'
       >
@@ -136,4 +158,4 @@ function RegisterForm(props) {
 
 }
 
-export default RegisterForm;
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);

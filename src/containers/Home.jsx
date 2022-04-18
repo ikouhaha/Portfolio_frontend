@@ -76,7 +76,7 @@ class Home extends React.Component {
 
             >
 
-                {this.props.app.isShow && childrens}
+                {childrens}
 
             </div>
         )

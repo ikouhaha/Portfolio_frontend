@@ -4,21 +4,18 @@ import LoginForm from '../components/LoginForm';
 
 
 import React from "react";
-
-import * as AppReducer from '../redux/app'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-
+import * as AppReducer from '../redux/app'
 
 const mapDispatchToProps = dispatch => ({
     //⑤ Bindactioncreators simplify dispatch
     appAction: bindActionCreators(AppReducer, dispatch)
-})
-
-const mapStateToProps = state => ({ app: state.App });
-
+  })
+  
+  const mapStateToProps = state => ({ app: state.App });
 @connect(mapStateToProps,mapDispatchToProps)
-class Login extends React.Component {
+  class Login extends React.Component {
     constructor(props) {
         super(props);
 
@@ -27,25 +24,22 @@ class Login extends React.Component {
     render() {
 
         const childrens = [
-            <LoginForm key="login" {...this.props.app} />
+            <LoginForm key="login" />
         ]
 
         return (
+
             <div
                 className="templates-wrapper"
 
             >
-
-                {this.props.app.isShow && childrens}
-
+                {childrens}
             </div>
+
         )
     }
 
 }
-
-
-
 
 
 export default Login;

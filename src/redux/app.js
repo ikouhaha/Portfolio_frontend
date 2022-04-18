@@ -18,16 +18,10 @@ export function setShow(show) {
     }
 }
 
-export function setToken(token) {
-    return {
-        type: SET_SHOW,
-        value: token
-    }
-}
-
 export function setLoading(loading) {
+    
     return {
-        type: SET_SHOW,
+        type: SET_LOADING,
         value: loading
     }
 }
@@ -37,7 +31,7 @@ const initialState = {
     isMobile: false,
     isShow: false,
     loading: false,
-    token: ""
+    
 };
 
 export default function reducer(state = initialState, action) {
@@ -54,12 +48,6 @@ export default function reducer(state = initialState, action) {
                 {},
                 state,
                 { isShow: action.value }
-            );
-        case SET_TOKEN:
-            return Object.assign(
-                {},
-                state,
-                { token: action.value }
             );
         case SET_LOADING:
             return Object.assign(
