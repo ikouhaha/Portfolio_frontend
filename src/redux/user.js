@@ -17,7 +17,7 @@ export function logout(){
 }
 
 const initialState = {
-  
+  isLogin:false
 };
 
 export default function reducer(state = initialState, action){

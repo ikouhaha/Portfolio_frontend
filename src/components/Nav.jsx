@@ -36,7 +36,12 @@ function Nav(props) {
             loading(props)
             let res = await http.get(props,"/auth/profile")
             console.log(res)
-            props.userAction.login(res.user)
+            if(res&&res.user){
+                props.userAction.login(res.user)
+            }else{
+                props.userAction.logout()
+            }
+            
             
             done(props)
           } catch (ex) {
