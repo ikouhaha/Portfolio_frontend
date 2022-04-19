@@ -30,13 +30,13 @@ function RegisterForm(props) {
       try {
         //ignore confirm field
         const { confirm, ...data } = values
-        loading(props)
-        const res = await http.post(props, "/users", data)
-        done(props)
+        
+        const res = await http.post(props, "/users", {param:data})
+        
         props.navigate("/signin")
 
       } catch (ex) {
-        done(props)
+        
         console.dir(ex)
       }
 

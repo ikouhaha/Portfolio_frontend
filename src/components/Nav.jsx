@@ -27,31 +27,7 @@ const menu = (
     </Menu>
 );
 
-function Nav(props) {
-    React.useEffect(()=> {
-        (async () => {
-          try {
-            
-         
-            loading(props)
-            let res = await http.get(props,"/auth/profile")
-            console.log(res)
-            if(res&&res.user){
-                props.userAction.login(res.user)
-            }else{
-                props.userAction.logout()
-            }
-            
-            
-            done(props)
-          } catch (ex) {
-            done(props)
-            console.dir(ex)
-          }
-      
-        })()
-      },[]);
-    
+function Nav(props) { 
     return (
         <Header>
             <Space>

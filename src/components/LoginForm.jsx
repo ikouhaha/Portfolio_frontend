@@ -33,13 +33,13 @@ function LoginForm(props) {
         }
         delete data.password
         
-        loading(props)
-        let res = await http.post(props, "/auth", data, config)
+        
+        let res = await http.post(props, "/auth", {param:data,requestConfig:config})
         //props.userAction.login(res.user)
         props.navigate("/")
-        done(props)
+        
       } catch (ex) {
-        done(props)
+        
         console.dir(ex)
       }
 
@@ -55,13 +55,13 @@ function LoginForm(props) {
           "access_token": values.accessToken
         }
         console.log(values.accessToken)
-        loading(props)
-        let res = await http.post(props, "/auth/google/token", data)
+        
+        let res = await http.post(props, "/auth/google/token", {param:data})
         //props.userAction.login(res.user)
         props.navigate("/")
-        done(props)
+        
       } catch (ex) {
-        done(props)
+        
         console.dir(ex)
       }
 

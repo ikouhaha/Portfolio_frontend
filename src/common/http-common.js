@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {config} from './config'
 import {message} from "antd"
-
+import {loading,done} from './utils'
 
 const http = axios.create({
     baseURL:config.baseUrl,
@@ -42,49 +42,66 @@ let messageSucceess = (msg)=>{
     }
 }
 
-export const get = async (props,endpoint,successMsg)=>{
+export const get = async (props,endpoint,{successMsg}={})=>{
     let res = {};
     const {navigate} = props
     try{
+        loading(props)
+        console.log(successMsg)
         let response = await http.get(endpoint)
+        
         const {data} = response
         res = data
 
         messageSucceess(successMsg)
-        
-        
+        //console.error(response)
+     
+    
+      
+       
         return res 
         
     }catch(ex){
         // console.log(ex.response.status)
         messageError(ex,navigate)
         throw ex
+    }finally{
+        setTimeout(()=>{
+            done(props)
+        },60000)
+        
     }
   
 } 
 
-export const post = async (props,endpoint,param,requestConfig)=>{
+export const post = async (props,endpoint,
+    {successMsg=null,param,requestConfig}={})=>{
     let res = {};
     const {navigate} = props
     try{
         let response
+        loading(props)
         if(requestConfig){
             response =await http.post(endpoint,param,requestConfig)
         }else{
             response =await http.post(endpoint,param)
         }
 
-        const { data } = response 
-        res = data
-        messageSucceess(data)
+        //console.error(response)
+         const {data}  = response 
+         res = data
+         messageSucceess(successMsg)
         
        
         return res
     }catch(ex){
-        console.log(ex)
         // console.log(ex.response.status)
         messageError(ex,navigate)
         throw ex
+    }finally{
+        setTimeout(()=>{
+            done(props)
+        },1000)
     }
   
 } 

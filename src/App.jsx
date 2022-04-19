@@ -16,9 +16,11 @@ import './less/antMotionStyle.less';
 import Footer2 from './components/Footer2';
 import Nav from './components/Nav';
 import LoadingOverlay from 'react-loading-overlay';
+import BarLoader from "react-spinners/BarLoader";
 
 import { connect } from 'react-redux';
-import {getAllStateMap,getAllActionMap} from './common/utils'
+import {getAllStateMap,getAllActionMap,loading,done} from './common/utils'
+import * as http from './common/http-common'
 
 const { Header, Content } = Layout;
 
@@ -43,7 +45,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-
+    const {...props} = this.props
     enquireScreen((b) => {
       this.props.appAction.setMobile(!!b)
     });
@@ -55,15 +57,46 @@ class App extends React.Component {
       }, 500);
     }
 
+    (async () => {
+      try {
+        
+     
+        
+        let res = await http.get(props,"/auth/profile")
+        console.log(res)
+        if(res&&res.user){
+            props.userAction.login(res.user)
+        }else{
+            props.userAction.logout()
+        }
+        
+        
+        
+      } catch (ex) {
+        
+        console.dir(ex)
+      }
+  
+    })()
   }
 
   render() {
 
     return (
-      <LoadingOverlay
+      <LoadingOverlay        
         active={this.props.app.loading}
-        spinner
-        text='Loading content...'
+        spinner={<BarLoader height={3}
+
+        css={{
+            display: 'inherit',
+            position: 'fixed',
+            margin: '0 auto',
+            width:'100%'
+        }}
+        color="#4285F4"
+        loading  />}
+        
+    
       >
         <Router>
           <Nav />

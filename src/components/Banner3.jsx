@@ -11,7 +11,9 @@ import { useNavigate, Link, unstable_HistoryRouter } from 'react-router-dom';
 
 class Banner extends React.Component {
 
-
+  componentDidMount(){
+    
+  }
   render() {
 
     const { ...currentProps } = this.props
@@ -22,11 +24,11 @@ class Banner extends React.Component {
     const test = () => {
       (async () => {
         try {
-          loading(this.props)
+          
           await http.get(this.props, "/dogs/37")
-          done(this.props)
+          
         } catch (ex) {
-          done(this.props)
+          
         }
 
       })()

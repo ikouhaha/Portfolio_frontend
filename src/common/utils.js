@@ -33,16 +33,17 @@ export const uuid = () => {
 }
 
 export const loading = (props) => {
+  
   if (props && props.appAction)
-    if(props.app&&!props.app.loading){
-      props.appAction.setLoading(true)
-    }
+      props.appAction.loading()
+    
    
 }
 
 export const done = (props) => {
+  
   if (props && props.appAction)
-    props.appAction.setLoading(false)
+    props.appAction.done(false)
 }
 
 export const getAllStateMap = state => ({ app: state.App, user: state.User });

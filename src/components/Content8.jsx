@@ -13,13 +13,13 @@ class Content8 extends React.Component {
   componentDidMount(){
     (async () => {
       try {
-        loading(this.props)
+        console.log(this.props)
         let res = await http.get(this.props, "/dogs?page=1&limit=10")
         console.log(res)
         
-        done(this.props)
+        
       } catch (ex) {
-        done(this.props)
+        
         console.dir(ex)
       }
 

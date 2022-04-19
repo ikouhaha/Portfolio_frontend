@@ -15,14 +15,14 @@ function Logout(props) {
       try {
         
      
-        loading(props)
+        
         let res = await http.get(props,"/auth/signout")
         //console.log(res)
         props.userAction.logout()
         navigate("/")
-        done(props)
+        
       } catch (ex) {
-        done(props)
+        
         console.dir(ex)
       }
   
