@@ -68,7 +68,7 @@ export const get = async (props,endpoint,{successMsg}={})=>{
     }finally{
         setTimeout(()=>{
             done(props)
-        },60000)
+        },500000)
         
     }
   
@@ -101,7 +101,7 @@ export const post = async (props,endpoint,
     }finally{
         setTimeout(()=>{
             done(props)
-        },1000)
+        },500)
     }
   
 } 
