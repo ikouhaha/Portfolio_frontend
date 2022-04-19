@@ -7,14 +7,8 @@ import React from "react";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import * as AppReducer from '../redux/app'
-
-const mapDispatchToProps = dispatch => ({
-    //⑤ Bindactioncreators simplify dispatch
-    appAction: bindActionCreators(AppReducer, dispatch)
-  })
-  
-  const mapStateToProps = state => ({ app: state.App });
-@connect(mapStateToProps,mapDispatchToProps)
+import {getAllActionMap,getAllStateMap} from '../common/utils'
+@connect(getAllStateMap,getAllActionMap)
   class Login extends React.Component {
     constructor(props) {
         super(props);

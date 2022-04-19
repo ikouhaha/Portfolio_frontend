@@ -6,40 +6,20 @@ import 'rc-texty/assets/index.css';
 import { formItemLayout, emailRules, passwordRules, confirmRules, usernameRules, tailFormItemLayout, requireRadioFieldRules, requireTextFieldRules, companyCodeRules } from '../common/latoutAndRules'
 
 import { config } from "../common/config"
-import { uuid } from "../common/utils"
+import { uuid,loading,done,getAllStateMap,getAllActionMap} from "../common/utils"
 import * as http from "../common/http-common"
 import { GoogleLogin } from 'react-google-login';
 
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, unstable_HistoryRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
-import * as AppReducer from '../redux/app'
-import * as UserReducer from '../redux/user'
 
 
-
-const mapDispatchToProps = dispatch => ({
-  //⑤ Bindactioncreators simplify dispatch
-  appAction: bindActionCreators(AppReducer, dispatch),
-  userAction:bindActionCreators(UserReducer,dispatch)
-})
-
-const mapStateToProps = state => ({ app: state.App ,user:state.User});
 
 function LoginForm(props) {
 
-  React.useEffect(() => {
-    console.log(props)
-
-  }, []);
-
   const [form] = Form.useForm();
-  const navigate = useNavigate();
-
 
   const onFinish = (values) => {
-
-
     (async () => {
       try {
         //ignore confirm field
@@ -52,32 +32,41 @@ function LoginForm(props) {
           }
         }
         delete data.password
-
-        props.appAction.setLoading(true)
-        const res = await http.post(navigate, "/auth", data, config)
-        console.warn(res)
-        props.userAction.login(res.user)
-        props.appAction.setLoading(false)
-        //navigate("/")
+        
+        loading(props)
+        let res = await http.post(props, "/auth", data, config)
+        //props.userAction.login(res.user)
+        props.navigate("/")
+        done(props)
       } catch (ex) {
+        done(props)
         console.dir(ex)
       }
 
     })()
   }
-  const successGoogle = (res) => {
-    console.log(res)
-    if (!res) {
+  const successGoogle = (values) => {
+    if (!values) {
       return;
     }
-    let profile = { ...res.profileObj }
+    (async () => {
+      try {
+        let data = {
+          "access_token": values.accessToken
+        }
+        console.log(values.accessToken)
+        loading(props)
+        let res = await http.post(props, "/auth/google/token", data)
+        //props.userAction.login(res.user)
+        props.navigate("/")
+        done(props)
+      } catch (ex) {
+        done(props)
+        console.dir(ex)
+      }
 
-    let newObj = {
-      "access_token": profile.access_token
-    }
-    Object.keys(newObj).forEach(key => {
-      setFormValue(key, newObj[key])
-    })
+    })()
+    
 
   }
   const failGoogle = (res) => {
@@ -98,6 +87,7 @@ function LoginForm(props) {
     <div key={uuid()} className="site-card-border-less-wrapper">
       <Card >
         <Form
+          form={form}
           id="components-form-demo-normal-login"
           name="normal_login"
           className="login-form"
@@ -151,6 +141,7 @@ function LoginForm(props) {
           <div id="scaffold-src-components-Login-demo-basic">
             Other login methods &nbsp; 
             <GoogleLogin
+              autoLoad={false}
               disabledStyle
               clientId={config.googleClientID}
               buttonText="Login with Google"
@@ -196,4 +187,11 @@ function LoginForm(props) {
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+const output = (props) =>{
+  const navigation = useNavigate();
+  return <LoginForm {...props} navigate={navigation} />
+}
+export default connect(getAllStateMap, getAllActionMap)(output)
+
+
+

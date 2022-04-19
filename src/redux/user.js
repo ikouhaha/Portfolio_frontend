@@ -2,11 +2,10 @@ const LOGIN_SUCCESS = 'user/loginSuccess';
 const LOGOUT_SUCCESS = 'user/logoutSuccess';
 
 
-export function login(user){
-  user.isLogin=true
+export function login(user){  
   return {
     type: LOGIN_SUCCESS,
-    value:user
+    value:user||initialState
   }
 }
 
@@ -18,7 +17,7 @@ export function logout(){
 }
 
 const initialState = {
-  isLogin:false
+  
 };
 
 export default function reducer(state = initialState, action){

@@ -6,13 +6,22 @@ import {message} from "antd"
 const http = axios.create({
     baseURL:config.baseUrl,
     headers:{
-        "Content-type":"application/json; charset=utf-8"
+        "Content-type":"application/json; charset=utf-8",
+        
     },
-    responseType :'json'
+    responseType :'json',
+    withCredentials:true,
+    
 })
 
 let messageError = (ex,navigate)=>{
-    if(ex.response&&ex.response.data&&ex.response.data.stack){
+    
+    if(ex.response&&ex.response.status&&ex.response.status==401){
+        navigate("/signin")
+    }else if(ex.response&&ex.response.status&&ex.response.status==404){
+        navigate("/404")
+    }
+    else if(ex.response&&ex.response.data&&ex.response.data.stack){
         message.error(ex.response.data.stack)
     }
     else if(ex.response&&ex.response.data&&ex.response.data.message){
@@ -27,27 +36,25 @@ let messageError = (ex,navigate)=>{
     }
 }
 
-let messageSucceess = (res,msg)=>{
-    console.log(res)
+let messageSucceess = (msg)=>{
     if(msg){
         message.success(msg)
-    }else if(res&&res.message){
-        message.success(res.message)
-    }else if(res){
-        message.success(res)
     }
 }
 
-export const get = async (navigate,endpoint)=>{
+export const get = async (props,endpoint,successMsg)=>{
     let res = {};
+    const {navigate} = props
     try{
-        
         let response = await http.get(endpoint)
-        const { data } = response 
+        const {data} = response
         res = data
-        messageSucceess(data)
+
+        messageSucceess(successMsg)
         
-        return res
+        
+        return res 
+        
     }catch(ex){
         // console.log(ex.response.status)
         messageError(ex,navigate)
@@ -56,8 +63,9 @@ export const get = async (navigate,endpoint)=>{
   
 } 
 
-export const post = async (navigate,endpoint,param,requestConfig)=>{
+export const post = async (props,endpoint,param,requestConfig)=>{
     let res = {};
+    const {navigate} = props
     try{
         let response
         if(requestConfig){

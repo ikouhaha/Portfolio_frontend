@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom'
 import Home from "./containers/Home"
 import Login from "./containers/Login"
+import Logout from "./containers/Logout"
 import Register from "./containers/Register"
 import NotFound from "./containers/notfound"
 import { Layout, Space, Avatar, Dropdown, Menu } from 'antd';
@@ -17,20 +18,12 @@ import Nav from './components/Nav';
 import LoadingOverlay from 'react-loading-overlay';
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
-import * as AppReducer from './redux/app'
-
+import {getAllStateMap,getAllActionMap} from './common/utils'
 
 const { Header, Content } = Layout;
 
 //import './App.css';
 
-
-const mapStateToProps = state => ({ app: state.App });
-const mapDispatchToProps = dispatch => ({
-  //⑤ Bindactioncreators simplify dispatch
-  appAction: bindActionCreators(AppReducer, dispatch)
-})
 
 
 
@@ -80,7 +73,7 @@ class App extends React.Component {
               <Route exact path="/" element={<Home />} />
               <Route exact path="/signin" element={<Login />} />
               <Route exact path="/signup" element={<Register />} />
-              <Route exact path="/signout" element={<Login />} />
+              <Route exact path="/signout" element={<Logout />} />
               <Route path="*" element={ <NotFound /> }/>  
             </Routes>
           </Content>
@@ -100,4 +93,4 @@ class App extends React.Component {
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(getAllStateMap, getAllActionMap)(App)

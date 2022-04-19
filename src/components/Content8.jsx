@@ -3,17 +3,29 @@ import TweenOne from 'rc-tween-one';
 import OverPack from 'rc-scroll-anim/lib/ScrollOverPack';
 import { Row, Col } from 'antd';
 import QueueAnim from 'rc-queue-anim';
-import { getChildrenToRender } from '../common/utils';
+import { getChildrenToRender,getAllStateMap,getAllActionMap,loading,done } from '../common/utils';
+import { connect } from 'react-redux';
+import * as http from "../common/http-common"
+import { useNavigate, Link, unstable_HistoryRouter } from 'react-router-dom';
 
-import {
+class Content8 extends React.Component {
+  
+  componentDidMount(){
+    (async () => {
+      try {
+        loading(this.props)
+        let res = await http.get(this.props, "/dogs?page=1&limit=10")
+        console.log(res)
+        
+        done(this.props)
+      } catch (ex) {
+        done(this.props)
+        console.dir(ex)
+      }
 
+    })()
+  }
 
-  Content80DataSource,
-
-
-} from '../common/data.source';
-
-class Content8 extends React.PureComponent {
   getDelay = (e, b) => (e % b) * 100 + Math.floor(e / b) * 100 + b * 100;
 
   getBlockChildren = (item, i) => {
@@ -70,7 +82,7 @@ class Content8 extends React.PureComponent {
               img: {
                 className: 'content8-img',
                 children:
-                  'https://gw.alipayobjects.com/zos/rmsportal/JahzbVrdHdJlkJjkNsBJ.png',
+                  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAIAAABvrngfAAAAGUlEQVR4nGJxj+FhQAVMDBiAmkKAAAAA//9RPwC+l7MxBgAAAABJRU5ErkJggg==',
               },
               title: { className: 'content8-title', children: 'Jack' },
               content: {
@@ -237,4 +249,12 @@ class Content8 extends React.PureComponent {
   }
 }
 
-export default Content8;
+
+const output = (props) =>{
+  const navigation = useNavigate();
+  return <Content8 {...props} navigate={navigation} />
+}
+export default connect(getAllStateMap, getAllActionMap)(output)
+
+
+

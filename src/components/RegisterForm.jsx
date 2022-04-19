@@ -6,7 +6,7 @@ import 'rc-texty/assets/index.css';
 import { formItemLayout, emailRules, passwordRules, confirmRules, usernameRules, tailFormItemLayout, requireRadioFieldRules, requireTextFieldRules, companyCodeRules } from '../common/latoutAndRules'
 
 import { config } from "../common/config"
-import { uuid } from "../common/utils"
+import { uuid,loading,done,getAllActionMap,getAllStateMap } from "../common/utils"
 import * as http from "../common/http-common"
 import { GoogleLogin } from 'react-google-login';
 
@@ -16,18 +16,11 @@ import { bindActionCreators } from 'redux'
 import * as AppReducer from '../redux/app'
 
 
-const mapDispatchToProps = dispatch => ({
-  //⑤ Bindactioncreators simplify dispatch
-  appAction: bindActionCreators(AppReducer, dispatch)
-})
-
-const mapStateToProps = state => ({ app: state.App });
-
 function RegisterForm(props) {
 
 
   const [form] = Form.useForm();
-  const navigate = useNavigate();
+  
 
 
   const onFinish = (values) => {
@@ -37,13 +30,13 @@ function RegisterForm(props) {
       try {
         //ignore confirm field
         const { confirm, ...data } = values
-        console.log(data)
-        console.log("start")
-        const res = await http.post(navigate, "/users", data)
-        console.warn(res)
-        console.log("end")
-        navigate("/login")
+        loading(props)
+        const res = await http.post(props, "/users", data)
+        done(props)
+        props.navigate("/signin")
+
       } catch (ex) {
+        done(props)
         console.dir(ex)
       }
 
@@ -158,4 +151,10 @@ function RegisterForm(props) {
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);
+const output = (props) =>{
+  const navigation = useNavigate();
+  return <RegisterForm {...props} navigate={navigation} />
+}
+export default connect(getAllStateMap, getAllActionMap)(output)
+
+

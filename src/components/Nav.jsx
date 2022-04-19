@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 
 
-import { Layout, Space, Avatar, Dropdown, Menu,Button } from 'antd';
-import { Link ,Navigate,useNavigate } from 'react-router-dom'
+import { Layout, Space, Avatar, Dropdown, Menu, Button } from 'antd';
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import Title from 'antd/lib/typography/Title';
 import { DownOutlined } from '@ant-design/icons';
+import { connect } from 'react-redux';
+import { getAllStateMap, getAllActionMap,loading,done } from '../common/utils'
+import * as http from "../common/http-common"
+
 const { Header, Content } = Layout;
-const isLogin = false;
 
 const menu = (
     <Menu>
@@ -18,76 +21,82 @@ const menu = (
             <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">2nd menu item</a>
         </Menu.Item>
         <Menu.Item>
-            <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">3d menu item</a>
+            <Link to="/signout"  >logout</Link>
+
         </Menu.Item>
     </Menu>
 );
 
-class Nav extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            phoneOpen: false,
-        };
-    }
-
-    phoneClick = () => {
-        const phoneOpen = !this.state.phoneOpen;
-        this.setState({
-            phoneOpen,
-        });
-    };
-
-    render() {
-        const navigate = () =>{
-            this.props.navigate("/login")
-        };
-        
+function Nav(props) {
+    React.useEffect(()=> {
+        (async () => {
+          try {
+            
+         
+            loading(props)
+            let res = await http.get(props,"/auth/profile")
+            console.log(res)
+            props.userAction.login(res.user)
+            
+            done(props)
+          } catch (ex) {
+            done(props)
+            console.dir(ex)
+          }
+      
+        })()
+      },[]);
     
-        return (
-            <Header>
-                <Space>
+    return (
+        <Header>
+            <Space>
 
-                    <Title className='header2-logo' style={{ color: 'white' }} level={2}>Pet Finder</Title>
-                    <Link to="/" className='header-nav-link'>Home</Link>
+                <Title className='header2-logo' style={{ color: 'white' }} level={2}>Pet Finder</Title>
+                <Link to="/" className='header-nav-link'>Home</Link>
+            </Space>
+
+            <span style={{ height: 64, float: 'right' }}>
+                <Space>
+                    {(() => {
+                        if (!props.user.isLogin) {
+                            const childrens = [
+                                <Link to="/signin" className='header-nav-link' >Signin</Link>,
+                                <Link to="/signup" className='header-nav-link' ><Button ghost >SignUp</Button></Link>
+
+                            ]
+                            return (
+
+                                childrens
+                            )
+                        } else {
+                            return (
+                                <Dropdown overlay={menu} placement="bottomRight" arrow>
+                                    <a onClick={e => e.preventDefault()}>
+                                        <Avatar size="32" src={props.user.avatarUrl?props.user.avatarUrl:"./dp.png"} />
+                                        <DownOutlined className='header-nav-link' style={{ paddingLeft: 6 }} />
+                                    </a>
+
+                                </Dropdown>
+                            )
+                        }
+                    })()}
                 </Space>
 
-                <span style={{ height: 64, float: 'right' }}>
-                    <Space>
-                        {(() => {
-                            if (!isLogin) {
-                                const childrens = [
-                                    <Link to="/signin" className='header-nav-link' >Signin</Link>,
-                                    <Link to="/signup" className='header-nav-link' ><Button ghost >SignUp</Button></Link>
-                                    
-                                ]
-                                return (
-                                    
-                                    childrens
-                                )
-                            } else {
-                                return (
-                                    <Dropdown overlay={menu} placement="bottomRight" arrow>
-                                        <span>
-                                            <Avatar size="32" src='./dp.png' />
-                                            <DownOutlined className='header-nav-link' style={{ paddingLeft: 6 }} />
-                                        </span>
+            </span>
 
-                                    </Dropdown>
-                                )
-                            }
-                        })()}
+        </Header>
+    );
 
-
-
-
-                    </Space>
-
-                </span>
-
-            </Header>
-        );
-    }
 }
 
-export default Nav;
+
+const output = (props) => {
+    const navigation = useNavigate();
+    return <Nav {...props} navigate={navigation} />
+}
+export default connect(getAllStateMap, getAllActionMap)(output)
+
+
+
+
+
