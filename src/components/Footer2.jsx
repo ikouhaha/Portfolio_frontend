@@ -62,6 +62,7 @@ class Footer2 extends React.PureComponent {
     };
     const { ...props } = this.props;
     //const { dataSource } = props;
+    //page render data source
     delete props.dataSource;
     delete props.isMobile;
     return (

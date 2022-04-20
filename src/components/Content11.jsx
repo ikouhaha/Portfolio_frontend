@@ -8,6 +8,8 @@ import { getChildrenToRender } from '../common/utils'
 class Content11 extends React.PureComponent {
   render() {
     const { ...props } = this.props;
+
+    //page render data source
     const dataSource = {
       OverPack: {
         className: 'home-page-wrapper content11-wrapper',

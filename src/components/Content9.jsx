@@ -59,6 +59,8 @@ class Content9 extends React.PureComponent {
 
   render() {
     const { ...props } = this.props;
+
+    //page render data source
     const dataSource  = {
       wrapper: { className: 'home-page-wrapper content9-wrapper' },
       page: { className: 'home-page content9' },

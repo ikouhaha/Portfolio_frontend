@@ -25,7 +25,7 @@ class Banner extends React.Component {
       (async () => {
         try {
           
-          await http.get(this.props, "/dogs/37")
+          //await http.get(this.props, "/dogs/37")
           
         } catch (ex) {
           

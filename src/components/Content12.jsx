@@ -20,6 +20,8 @@ class Content12 extends React.PureComponent {
 
   render() {
     const { ...props } = this.props;
+
+    //page render data source
     const dataSource  = {
       wrapper: { className: 'home-page-wrapper content12-wrapper' },
       page: { className: 'home-page content12' },

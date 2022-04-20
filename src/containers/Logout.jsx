@@ -18,7 +18,8 @@ function Logout(props) {
         
         let res = await http.get(props,"/auth/signout")
         //console.log(res)
-        props.userAction.logout()
+        localStorage.clear()
+        props.userAction.reset()
         navigate("/")
         
       } catch (ex) {

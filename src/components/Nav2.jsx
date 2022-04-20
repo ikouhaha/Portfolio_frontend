@@ -21,6 +21,7 @@ class Header extends React.Component {
   };
 
   render() {
+    //page render data source
     const dataSource = {
       isScrollLink: true,
       wrapper: { className: 'header2 home-page-wrapper jrhtw9ph4a-editor_css' },
@@ -114,12 +115,7 @@ class Header extends React.Component {
       
     });
     let navLength = navData.length
-    // let btnElement = React.createElement(
-    //   Button,
-    //   {type:"ghost",ghost:"white",key:navLength+1},
-    //   "signin"
-    // );
-    // navChildren.push(btnElement)
+
     
     const moment = phoneOpen === undefined ? 300 : null;
     return (

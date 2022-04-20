@@ -10,6 +10,7 @@ import Login from "./containers/Login"
 import Logout from "./containers/Logout"
 import Register from "./containers/Register"
 import NotFound from "./containers/notfound"
+import DetailDog from "./containers/detailDog"
 import { Layout, Space, Avatar, Dropdown, Menu } from 'antd';
 import './less/antMotionStyle.less';
 
@@ -24,12 +25,10 @@ import * as http from './common/http-common'
 
 const { Header, Content } = Layout;
 
-//import './App.css';
-
-
 
 
 let isMobile;
+
 enquireScreen((b) => {
   isMobile = b;
 });
@@ -46,10 +45,12 @@ class App extends React.Component {
 
   componentDidMount() {
     const { ...props } = this.props
+    //switch mobile mode base on screen size
     enquireScreen((b) => {
       this.props.appAction.setMobile(!!b)
     });
 
+    //after get port then show the appcation
     if (location.port) {
 
       setTimeout(() => {
@@ -57,19 +58,16 @@ class App extends React.Component {
       }, 500);
     }
 
+    //request to get user profile
     (async () => {
       try {
 
 
-
-        let res = await http.get(props, "/auth/profile")
-        console.log(res)
-        if (res && res.user) {
-          props.userAction.login(res.user)
-        } else {
-          props.userAction.logout()
-        }
-
+        //let res = null
+        let res = await http.get(props, "/users/profile")
+          //store the profile to redux
+        props.userAction.load(res)
+ 
 
 
       } catch (ex) {
@@ -79,8 +77,11 @@ class App extends React.Component {
 
     })()
   }
-
+  onRouteChanged(){
+    console.log("ROUTE CHANGED");
+  }
   render() {
+
 
     return (
       <>
@@ -115,10 +116,13 @@ class App extends React.Component {
 
             <Content>
               <Routes>
+            
                 <Route exact path="/" element={<Home />} />
                 <Route exact path="/signin" element={<Login />} />
                 <Route exact path="/signup" element={<Register />} />
                 <Route exact path="/signout" element={<Logout />} />
+                <Route path="/dog/:id" element={<DetailDog/>} />
+
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Content>
@@ -138,5 +142,5 @@ class App extends React.Component {
 }
 
 
-
+//map state and action in redux define to the component 
 export default connect(getAllStateMap, getAllActionMap)(App)

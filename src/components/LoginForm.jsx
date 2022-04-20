@@ -6,13 +6,12 @@ import 'rc-texty/assets/index.css';
 import { formItemLayout, emailRules, passwordRules, confirmRules, usernameRules, tailFormItemLayout, requireRadioFieldRules, requireTextFieldRules, companyCodeRules } from '../common/latoutAndRules'
 
 import { config } from "../common/config"
-import { uuid,loading,done,getAllStateMap,getAllActionMap} from "../common/utils"
+import { uuid,loading,done,getAllStateMap,getAllActionMap, setLocalStorageItem} from "../common/utils"
 import * as http from "../common/http-common"
 import { GoogleLogin } from 'react-google-login';
 
 import { useNavigate, Link, unstable_HistoryRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-
 
 
 function LoginForm(props) {
@@ -35,7 +34,9 @@ function LoginForm(props) {
         
         
         let res = await http.post(props, "/auth", {param:data,requestConfig:config})
-        //props.userAction.login(res.user)
+        props.userAction.load(res)
+        
+        
         props.navigate("/")
         
       } catch (ex) {
@@ -57,7 +58,8 @@ function LoginForm(props) {
         console.log(values.accessToken)
         
         let res = await http.post(props, "/auth/google/token", {param:data})
-        //props.userAction.login(res.user)
+        
+        props.userAction.load(res)
         props.navigate("/")
         
       } catch (ex) {
@@ -83,10 +85,10 @@ function LoginForm(props) {
 
 
 
-  const children = [
-    <div key={uuid()} className="site-card-border-less-wrapper">
-      <Card >
-        <Form
+
+
+  return (
+         <Form
           form={form}
           id="components-form-demo-normal-login"
           name="normal_login"
@@ -98,23 +100,13 @@ function LoginForm(props) {
         >
           <Form.Item
             name="username"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your Username!',
-              },
-            ]}
+            rules={usernameRules}
           >
             <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
           </Form.Item>
           <Form.Item
             name="password"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your Password!',
-              },
-            ]}
+            rules={passwordRules}
           >
             <Input
               prefix={<LockOutlined className="site-form-item-icon" />}
@@ -156,9 +148,8 @@ function LoginForm(props) {
               responseType="token"
               cookiePolicy={'single_host_origin'}
             />
-            <a style={{ float: 'right' }} href="">
-              Register Now
-            </a>
+            <Link style={{ float: 'right' }} to="/signup" >Register Now</Link>
+
           </div>
          
         
@@ -166,23 +157,7 @@ function LoginForm(props) {
 
 
         </Form>
-
-      </Card>
-    </div>
-
-  ]
-
-
-
-  return (
-    <div className='banner3' style={{ "textAlign": "left" }}>
-      <div
-        className='banner3-text-wrapper'
-        style={{ width: "30%" }}
-      >
-        {children}
-      </div>
-    </div>
+    
   );
 
 }

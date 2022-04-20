@@ -50,7 +50,7 @@ const initialState = {
 };
 
 const loadingDoneHandling = (state,action) =>{
-    console.log("returnObj")
+    // console.log("returnObj")
     let loadingCount = state.loadingCount - 1;
     let returnObj = {}
     if(loadingCount===0){

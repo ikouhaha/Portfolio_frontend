@@ -2,14 +2,14 @@
 
 import LoginForm from '../components/LoginForm';
 
-
+import { Card } from 'antd'
 import React from "react";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import * as AppReducer from '../redux/app'
-import {getAllActionMap,getAllStateMap} from '../common/utils'
-@connect(getAllStateMap,getAllActionMap)
-  class Login extends React.Component {
+import { getAllActionMap, getAllStateMap, uuid } from '../common/utils'
+@connect(getAllStateMap, getAllActionMap)
+class Login extends React.Component {
     constructor(props) {
         super(props);
 
@@ -17,9 +17,7 @@ import {getAllActionMap,getAllStateMap} from '../common/utils'
 
     render() {
 
-        const childrens = [
-            <LoginForm key="login" />
-        ]
+
 
         return (
 
@@ -27,7 +25,18 @@ import {getAllActionMap,getAllStateMap} from '../common/utils'
                 className="templates-wrapper"
 
             >
-                {childrens}
+                <div key={uuid()} className="site-card-border-less-wrapper">
+                    <div className='banner3' style={{ "textAlign": "left" }}>
+                        <div
+                            className='banner3-text-wrapper'
+                            style={{ width: "30%" }}
+                        >
+                            <Card >
+                                <LoginForm key="login" />
+                            </Card>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         )

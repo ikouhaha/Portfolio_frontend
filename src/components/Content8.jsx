@@ -11,19 +11,7 @@ import { useNavigate, Link, unstable_HistoryRouter } from 'react-router-dom';
 class Content8 extends React.Component {
   
   componentDidMount(){
-    (async () => {
-      try {
-        console.log(this.props)
-        let res = await http.get(this.props, "/dogs?page=1&limit=10")
-        console.log(res)
-        
-        
-      } catch (ex) {
-        
-        console.dir(ex)
-      }
-
-    })()
+   
   }
 
   getDelay = (e, b) => (e % b) * 100 + Math.floor(e / b) * 100 + b * 100;
@@ -38,13 +26,19 @@ class Content8 extends React.Component {
       ease: 'easeOutQuad',
       delay,
     };
+    const titleRender = () =>{
+      if(children.title.href){
+        return (<h2 {...children.title}><Link to={children.title.href}>{children.title.children}</Link></h2>)
+      }
+      return (<h2 {...children.title}>{children.title.children}</h2>)
+    }
     return (
       <TweenOne component={Col} animation={liAnim} key={i.toString()} {...item}>
         <div {...children}>
           <div className="image-wrapper" {...children.img}>
             <img src={children.img.children} alt="img" />
           </div>
-          <h2 {...children.title}>{children.title.children}</h2>
+          {titleRender()}
           <div {...children.content}>{children.content.children}</div>
         </div>
       </TweenOne>
@@ -53,6 +47,39 @@ class Content8 extends React.Component {
 
   render() {
     const { ...props } = this.props;
+    const renderDogInformation = (dogs) => {
+      if(!dogs){
+        return []
+      }
+      // console.log(dogs)
+      let renderDogs = []
+      for(let dog of dogs){
+        let renderDog =  {
+          name: 'block0',
+          md: 6,
+          xs: 24,
+          className: 'content8-block-wrapper',
+          children: {
+            className: 'content8-block',
+            img: {
+              className: 'content8-img',
+              children:dog.imageBase64,
+            },
+            title: { className: 'content8-title', children: dog.name ,href:'/dog/'+dog.id},
+            content: {
+              className: 'content8-content',
+              children: dog.about,
+            },
+          },
+        }
+
+        renderDogs.push(renderDog)
+      }
+      return renderDogs
+    }
+    let renderDogs = renderDogInformation(props.dogs)||[]
+    
+    //page render data source
     const dataSource  = {
       wrapper: { className: 'home-page-wrapper content8-wrapper' },
       page: { className: 'home-page content8' },
@@ -66,165 +93,12 @@ class Content8 extends React.Component {
               'https://gw.alipayobjects.com/zos/rmsportal/PiqyziYmvbgAudYfhuBr.svg',
             className: 'title-image',
           },
-          { name: 'title', children: 'dogs', className: 'title-h1' },
+          { name: 'title', children: 'Latest Dogs', className: 'title-h1' },
         ],
       },
       block: {
         className: 'content-wrapper',
-        children: [
-          {
-            name: 'block0',
-            md: 6,
-            xs: 24,
-            className: 'content8-block-wrapper',
-            children: {
-              className: 'content8-block',
-              img: {
-                className: 'content8-img',
-                children:
-                  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAIAAABvrngfAAAAGUlEQVR4nGJxj+FhQAVMDBiAmkKAAAAA//9RPwC+l7MxBgAAAABJRU5ErkJggg==',
-              },
-              title: { className: 'content8-title', children: 'Jack' },
-              content: {
-                className: 'content8-content',
-                children: '公司+职位 信息暂缺',
-              },
-            },
-          },
-          {
-            name: 'block1',
-            md: 6,
-            xs: 24,
-            className: 'content8-block-wrapper',
-            children: {
-              className: 'content8-block',
-              img: {
-                className: 'content8-img',
-                children:
-                  'https://gw.alipayobjects.com/zos/rmsportal/JahzbVrdHdJlkJjkNsBJ.png',
-              },
-              title: { className: 'content8-title', children: 'Jack' },
-              content: {
-                className: 'content8-content',
-                children: '公司+职位 信息暂缺',
-              },
-            },
-          },
-          {
-            name: 'block2',
-            md: 6,
-            xs: 24,
-            className: 'content8-block-wrapper',
-            children: {
-              className: 'content8-block',
-              img: {
-                className: 'content8-img',
-                children:
-                  'https://gw.alipayobjects.com/zos/rmsportal/JahzbVrdHdJlkJjkNsBJ.png',
-              },
-              title: { className: 'content8-title', children: 'Jack' },
-              content: {
-                className: 'content8-content',
-                children: '公司+职位 信息暂缺',
-              },
-            },
-          },
-          {
-            name: 'block3',
-            md: 6,
-            xs: 24,
-            className: 'content8-block-wrapper',
-            children: {
-              className: 'content8-block',
-              img: {
-                className: 'content8-img',
-                children:
-                  'https://gw.alipayobjects.com/zos/rmsportal/JahzbVrdHdJlkJjkNsBJ.png',
-              },
-              title: { className: 'content8-title', children: 'Jack' },
-              content: {
-                className: 'content8-content',
-                children: '公司+职位 信息暂缺',
-              },
-            },
-          },
-          {
-            name: 'block4',
-            md: 6,
-            xs: 24,
-            className: 'content8-block-wrapper',
-            children: {
-              className: 'content8-block',
-              img: {
-                className: 'content8-img',
-                children:
-                  'https://gw.alipayobjects.com/zos/rmsportal/JahzbVrdHdJlkJjkNsBJ.png',
-              },
-              title: { className: 'content8-title', children: 'Jack' },
-              content: {
-                className: 'content8-content',
-                children: '公司+职位 信息暂缺',
-              },
-            },
-          },
-          {
-            name: 'block5',
-            md: 6,
-            xs: 24,
-            className: 'content8-block-wrapper',
-            children: {
-              className: 'content8-block',
-              img: {
-                className: 'content8-img',
-                children:
-                  'https://gw.alipayobjects.com/zos/rmsportal/JahzbVrdHdJlkJjkNsBJ.png',
-              },
-              title: { className: 'content8-title', children: 'Jack' },
-              content: {
-                className: 'content8-content',
-                children: '公司+职位 信息暂缺',
-              },
-            },
-          },
-          {
-            name: 'block6',
-            md: 6,
-            xs: 24,
-            className: 'content8-block-wrapper',
-            children: {
-              className: 'content8-block',
-              img: {
-                className: 'content8-img',
-                children:
-                  'https://gw.alipayobjects.com/zos/rmsportal/JahzbVrdHdJlkJjkNsBJ.png',
-              },
-              title: { className: 'content8-title', children: 'Jack' },
-              content: {
-                className: 'content8-content',
-                children: '公司+职位 信息暂缺',
-              },
-            },
-          },
-          {
-            name: 'block7',
-            md: 6,
-            xs: 24,
-            className: 'content8-block-wrapper',
-            children: {
-              className: 'content8-block',
-              img: {
-                className: 'content8-img',
-                children:
-                  'https://gw.alipayobjects.com/zos/rmsportal/JahzbVrdHdJlkJjkNsBJ.png',
-              },
-              title: { className: 'content8-title', children: 'Jack' },
-              content: {
-                className: 'content8-content',
-                children: '公司+职位 信息暂缺',
-              },
-            },
-          },
-        ],
+        children: renderDogs,
       },
     };
     delete props.dataSource;

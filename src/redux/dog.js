@@ -1,19 +1,21 @@
 import { setLocalStorageItem, getLocalStorageItem } from "../common/utils";
 
-const LOAD = 'user/load';
-const RESET = 'user/reset';
+const LOAD = 'dog/load';
+const RESET = 'dog/reset';
 
 
-export function load(user) {
-  setLocalStorageItem("user", user)
+
+
+export function load(val) {
+
   return {
     type: LOAD,
-    value: user
+    value: val
   }
 }
 
+
 export function reset() {
-  localStorage.clear()
   return {
     type: RESET
 
@@ -22,11 +24,14 @@ export function reset() {
 
 
 const initialState = {
-  isLogin: false,
-  token: ''
+  breed:
+  {
+    weight: {},
+    height: {}
+  }
 };
 
-export default function reducer(state = getLocalStorageItem("user") || initialState, action) {
+export default function reducer(state = initialState, action) {
   //console.log(action)
   switch (action.type) {
     case LOAD:
