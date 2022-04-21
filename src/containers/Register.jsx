@@ -4,34 +4,40 @@ import RegisterForm from '../components/RegisterForm';
 
 
 import React from "react";
+import { getAllStateMap,getAllActionMap } from '../common/utils';
+
+import { useNavigate } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 
 
-class Register extends React.Component {
-    constructor(props) {
-        super(props);
+function Register(props) {
 
-    }
 
-    render() {
+    const childrens = [
+        <RegisterForm key="register" {...props}/>
+    ]
 
-        const childrens = [
-            <RegisterForm key="register" />
-        ]
+    return (
 
-        return (
+        <div
+            className="templates-wrapper"
 
-            <div
-                className="templates-wrapper"
+        >
+            {childrens}
+        </div>
 
-            >
-                {childrens}
-            </div>
+    )
 
-        )
-    }
 
 }
 
 
-export default Register;
+//map state and action in redux define to the component 
+const output = (props) => {
+    const navigation = useNavigate();
+    return <Register {...props} navigate={navigation} />
+}
+export default connect(getAllStateMap, getAllActionMap)(output)
+
+

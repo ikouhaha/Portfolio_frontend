@@ -1,16 +1,15 @@
 import axios from 'axios'
 import { config } from './config'
 import { message } from "antd"
-import { loading, done } from './utils'
+import { loading, done, getAccessToken } from './utils'
 
 const http = axios.create({
     baseURL: config.baseUrl,
     headers: {
-        "Content-type": "application/json; charset=utf-8",
-
+        "Content-type": "application/json; charset=utf-8"
     },
     responseType: 'json',
-    
+
 
 
 })
@@ -18,12 +17,18 @@ const http = axios.create({
 let messageError = (ex, props) => {
     const { navigate } = props
     if (ex.response && ex.response.status && ex.response.status == 401) {
-        if(props.userAction){
+        if(ex.response.statusText){
+            message.error(ex.response.statusText)
+        }
+        if (props.userAction) {
             props.userAction.reset()
         }
         navigate("/signin")
     } else if (ex.response && ex.response.status && ex.response.status == 404) {
         navigate("/404")
+    }
+    else if (ex.message) {
+        message.error(ex.message)
     }
     else if (ex.response && ex.response.data && ex.response.data.stack) {
         message.error(ex.response.data.stack)
@@ -46,23 +51,21 @@ let messageSucceess = (msg) => {
     }
 }
 
-export const get = async (props, endpoint, { successMsg } = {}) => {
+export const get = async (props, endpoint, { successMsg,needLoading=true } = {}) => {
     //add auth header automatically
-    
+
     let res = {};
-    
+
     try {
-        let header = {}
-        if (props.user && props.user.token) {
-            let authObj = {
-                "Authorization": props.user.token
-            }
-            header = { ...header, ...authObj }
+        if(needLoading){
+            loading(props)
         }
-        console.log(header)
-        loading(props)
+        
+        if (getAccessToken()) {
+            http.defaults.headers.common["Authorization"] = getAccessToken()
+        }
         // console.log(successMsg)
-        let response = await http.get(endpoint,{headers:{...header}})
+        let response = await http.get(endpoint)
 
         const { data } = response
         res = data
@@ -80,35 +83,29 @@ export const get = async (props, endpoint, { successMsg } = {}) => {
         messageError(ex, props)
         throw ex
     } finally {
-        setTimeout(() => {
+        if (needLoading) {
             done(props)
-        }, 500)
+        }
+        
 
     }
 
 }
 
 export const post = async (props, endpoint,
-    { successMsg = null, param, requestConfig } = {}) => {
+    { successMsg = null, param, requestConfig = {},needLoading=true } = {}) => {
     let res = {};
-    
+
     try {
-        let header = {}
+
         let response
+        if (needLoading) {
         loading(props)
-        if (props.user && props.user.token) {
-            let authObj = {
-                "auth": props.user.token
-            }
-            header = { ...header, ...authObj }
         }
-        if (requestConfig) {
-            header = { ...header, ...requestConfig }
-
+        if (getAccessToken() && !requestConfig.auth) {
+            http.defaults.headers.common["Authorization"] = getAccessToken()
         }
-
-        console.log(header)
-        response = await http.post(endpoint, param, header)
+        response = await http.post(endpoint, param, requestConfig)
         //console.error(response)
         const { data } = response
         res = data
@@ -121,9 +118,46 @@ export const post = async (props, endpoint,
         messageError(ex, props)
         throw ex
     } finally {
-        setTimeout(() => {
+        if (needLoading) {
+        done(props)
+        }
+
+    }
+
+}
+
+export const put = async (props, endpoint,
+    { successMsg = null, param, requestConfig = {}, needLoading = true } = {}) => {
+    let res = {};
+
+    try {
+
+        let response
+        if (needLoading) {
+            loading(props)
+        }
+
+        if (getAccessToken() && !requestConfig.auth) {
+            http.defaults.headers.common["Authorization"] = getAccessToken()
+        }
+
+        response = await http.put(endpoint, param, requestConfig)
+        //console.error(response)
+        const { data } = response
+        res = data
+        messageSucceess(successMsg)
+
+
+        return res
+    } catch (ex) {
+        // console.log(ex.response.status)
+        messageError(ex, props)
+        throw ex
+    } finally {
+
+        if (needLoading) {
             done(props)
-        }, 500)
+        }
     }
 
 } 

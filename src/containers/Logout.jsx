@@ -36,11 +36,14 @@ function Logout(props) {
 }
 
 
-const output = (props) =>{
+
+//map state and action in redux define to the component 
+const output = (props) => {
   const navigation = useNavigate();
   return <Logout {...props} navigate={navigation} />
 }
 export default connect(getAllStateMap, getAllActionMap)(output)
+
 
 
 

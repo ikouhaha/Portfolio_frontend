@@ -4,8 +4,6 @@ import { Button } from 'antd';
 import { bindActionCreators } from 'redux'
 import * as AppReducer from '../redux/app'
 import * as UserReducer from '../redux/user'
-import * as DogReducer from '../redux/dog'
-
 
 
 export const isImg = /^http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?/;
@@ -58,14 +56,24 @@ export const getLocalStorageItem = (key) => {
   return null
 }
 
-export const getAllStateMap = state => ({ app: state.App, user: state.User,dog:state.Dog });
+export const getAccessToken = () => {
+  return getLocalStorageItem("user")?getLocalStorageItem("user").token:undefined
+}
+
+export const getAllStateMap = state => ({ app: state.App, user: state.User });
 
 
 export const getAllActionMap = dispatch => ({
   //⑤ Bindactioncreators simplify dispatch
   appAction: bindActionCreators(AppReducer, dispatch),
   userAction: bindActionCreators(UserReducer, dispatch),
-  dogAction:bindActionCreators(DogReducer,dispatch)
+
 })
 
 
+export const toBase64 = file => new Promise((resolve, reject) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => resolve(reader.result);
+  reader.onerror = error => reject(error);
+});

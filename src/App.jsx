@@ -112,7 +112,7 @@ class App extends React.Component {
 
         >
           <Router>
-            <Nav />
+            <Nav  user={this.props.user}/>
 
             <Content>
               <Routes>

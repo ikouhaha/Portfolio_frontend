@@ -11,8 +11,6 @@ import * as http from "../common/http-common"
 import { GoogleLogin } from 'react-google-login';
 
 import { useNavigate, Link, unstable_HistoryRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-
 
 function LoginForm(props) {
 
@@ -162,11 +160,8 @@ function LoginForm(props) {
 
 }
 
-const output = (props) =>{
-  const navigation = useNavigate();
-  return <LoginForm {...props} navigate={navigation} />
-}
-export default connect(getAllStateMap, getAllActionMap)(output)
+
+export default LoginForm
 
 
 

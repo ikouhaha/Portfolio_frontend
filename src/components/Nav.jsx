@@ -6,9 +6,6 @@ import { Layout, Space, Avatar, Dropdown, Menu, Button } from 'antd';
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import Title from 'antd/lib/typography/Title';
 import { DownOutlined } from '@ant-design/icons';
-import { connect } from 'react-redux';
-import { getAllStateMap, getAllActionMap,loading,done } from '../common/utils'
-import * as http from "../common/http-common"
 
 const { Header, Content } = Layout;
 
@@ -71,11 +68,7 @@ function Nav(props) {
 }
 
 
-const output = (props) => {
-    const navigation = useNavigate();
-    return <Nav {...props} navigate={navigation} />
-}
-export default connect(getAllStateMap, getAllActionMap)(output)
+export default Nav
 
 
 

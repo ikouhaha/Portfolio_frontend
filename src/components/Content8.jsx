@@ -124,11 +124,7 @@ class Content8 extends React.Component {
 }
 
 
-const output = (props) =>{
-  const navigation = useNavigate();
-  return <Content8 {...props} navigate={navigation} />
-}
-export default connect(getAllStateMap, getAllActionMap)(output)
+export default Content8
 
 
 

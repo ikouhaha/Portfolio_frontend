@@ -23,7 +23,7 @@ function Home(props) {
             try {
                 console.log(props)
                 let res = await http.get(props, "/dogs?page=1&limit=8")
-                setDogs(res)                
+                setDogs(res)      
             } catch (ex) {
 
                 console.dir(ex)
@@ -39,36 +39,36 @@ function Home(props) {
         <Banner3
             id="Banner3_0"
             key="Banner3_0"
-
+            navigate={props.navigate}
         />,
         <Content8
             id="Content8_0"
             key="Content8_0"
             dogs={dogs}
-
+            navigate={props.navigate}
         />,
         <Content9
             id="Content9_0"
             key="Content9_0"
+            navigate={props.navigate}
 
 
         />,
         <Content10
             id="Content10_0"
             key="Content10_0"
-
-
+            navigate={props.navigate}
         />,
         <Content11
             id="Content11_0"
             key="Content11_0"
-
+            navigate={props.navigate}
 
         />,
         <Content12
             id="Content12_0"
             key="Content12_0"
-
+            navigate={props.navigate}
 
         />
     ]

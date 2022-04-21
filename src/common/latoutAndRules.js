@@ -9,6 +9,17 @@ export const formItemLayout = {
     },
   }
 
+  export const formItem2Layout = {
+    labelCol: {
+      xs: { span: 16 },
+      sm: { span: 6 },
+    },
+    wrapperCol: {
+      xs: { span: 24 },
+      sm: { span: 16 },
+    },
+  }
+
 
 export const tailFormItemLayout = {
     wrapperCol: {
@@ -78,6 +89,33 @@ export const requireTextFieldRules = [
     }
 ]
 
+export const requireUploadFieldRules = [
+  { required: true, message: 'Please upload the file!' },
+  ({ getFieldValue }) => ({
+      validator(rule, value) {
+          if (value) {
+              if(value.length==0){                
+                return Promise.reject();
+              }
+              return Promise.resolve();
+          }
+          return Promise.reject();
+      }
+  })
+]
+
+export const requireSelectFieldRules = [
+  { required: true, message: 'Please select the field value!' },
+  ({ getFieldValue }) => ({
+      validator(rule, value) {
+          
+          if (value) {
+              return Promise.resolve();
+          }
+          return Promise.reject();
+      }
+  })
+]
 export const requireRadioFieldRules = [
     {
         required: true, message: 'Please choose the field!', whitespace:

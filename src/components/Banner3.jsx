@@ -3,10 +3,6 @@ import { Button } from 'antd';
 import QueueAnim from 'rc-queue-anim';
 import Texty from 'rc-texty';
 import 'rc-texty/assets/index.css';
-import { connect } from 'react-redux';
-import { getAllActionMap, getAllStateMap, loading, done } from '../common/utils';
-import * as http from '../common/http-common'
-import { useNavigate, Link, unstable_HistoryRouter } from 'react-router-dom';
 
 
 class Banner extends React.Component {
@@ -102,10 +98,6 @@ class Banner extends React.Component {
 }
 
 
-const output = (props) =>{
-  const navigation = useNavigate();
-  return <Banner {...props} navigate={navigation} />
-}
-export default connect(getAllStateMap, getAllActionMap)(output)
+export default Banner
 
 
