@@ -23,7 +23,7 @@ function Home(props) {
             try {
                 console.log(props)
                 let res = await http.get(props, "/dogs?page=1&limit=8")
-                setDogs(res)      
+                setDogs(res.list)      
             } catch (ex) {
 
                 console.dir(ex)

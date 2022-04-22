@@ -47,6 +47,9 @@ class Content8 extends React.Component {
 
   render() {
     const { ...props } = this.props;
+    if(!props.dogs){
+      return (<></>)
+    }
     const renderDogInformation = (dogs) => {
       if(!dogs){
         return []
@@ -65,7 +68,7 @@ class Content8 extends React.Component {
               className: 'content8-img',
               children:dog.imageBase64,
             },
-            title: { className: 'content8-title', children: dog.name ,href:'/dog/'+dog.id},
+            title: { className: 'content8-title', children: dog.name ,href:'/dogs/dog/'+dog.id},
             content: {
               className: 'content8-content',
               children: dog.about,

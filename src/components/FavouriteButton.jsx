@@ -15,9 +15,9 @@ function FavouriteButton(props) {
 
  
   if(props.isFavourite){
-      return (<Button type="link" onClick={()=>props.handleFavourite(false)} icon={<HeartFilled />}></Button>)
+      return (<Button type={props.type||'link'} onClick={()=>props.handleFavourite(false)} icon={<HeartFilled />}></Button>)
   }else{
-    return (<Button type="link" onClick={()=>props.handleFavourite(true)} icon={<HeartOutlined />}></Button>)
+    return (<Button type={props.type||'link'} onClick={()=>props.handleFavourite(true)} icon={<HeartOutlined />}></Button>)
   }
  
 }

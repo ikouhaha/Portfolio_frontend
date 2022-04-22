@@ -27,10 +27,12 @@ const menu = (
 function Nav(props) { 
     return (
         <Header>
-            <Space>
+            <Space size='large'>
 
                 <Title className='header2-logo' style={{ color: 'white' }} level={2}>Pet Finder</Title>
                 <Link to="/" className='header-nav-link'>Home</Link>
+                <Link to="/dogs" className='header-nav-link'>Dogs</Link>
+                <Link to="/favourites" className='header-nav-link'>Favourites</Link>
             </Space>
 
             <span style={{ height: 64, float: 'right' }}>

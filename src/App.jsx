@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { enquireScreen } from 'enquire-js';
 import {
   BrowserRouter as Router,
-  Routes, Route, Link
+  Routes, Route, Link, BrowserRouter
 } from 'react-router-dom'
 import Home from "./containers/Home"
 import Login from "./containers/Login"
@@ -11,6 +11,7 @@ import Logout from "./containers/Logout"
 import Register from "./containers/Register"
 import NotFound from "./containers/notfound"
 import DetailDog from "./containers/detailDog"
+import Dogs from "./containers/dogs"
 import { Layout, Space, Avatar, Dropdown, Menu } from 'antd';
 import './less/antMotionStyle.less';
 
@@ -116,14 +117,16 @@ class App extends React.Component {
 
             <Content>
               <Routes>
-            
+           
                 <Route exact path="/" element={<Home />} />
                 <Route exact path="/signin" element={<Login />} />
                 <Route exact path="/signup" element={<Register />} />
                 <Route exact path="/signout" element={<Logout />} />
-                <Route path="/dog/:id" element={<DetailDog/>} />
-
+                <Route exact path="/dogs" element={<Dogs/>} />
+                <Route exact path="/favourites" element={<DetailDog/>} />
+                <Route exact path="/dogs/dog/:id" element={<DetailDog/>} />
                 <Route path="*" element={<NotFound />} />
+              
               </Routes>
             </Content>
 

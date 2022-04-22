@@ -9,19 +9,26 @@ import { InboxOutlined } from '@ant-design/icons';
 import { formItem2Layout, emailRules, passwordRules, requireUploadFieldRules, usernameRules, tailFormItemLayout, requireRadioFieldRules, requireTextFieldRules, companyCodeRules, requireSelectFieldRules } from '../common/latoutAndRules'
 
 import { HeartOutlined, HeartFilled } from '@ant-design/icons';
-import { uuid,toBase64 } from '../common/utils';
+import { uuid,toBase64, getAllActionMap, getAllStateMap } from '../common/utils';
+import { config } from '../common/config';
+import { connect } from 'react-redux';
 const { Option } = Select;
+
 
 
 function DogModalForm(props) {
 
     const dog = { ...props.dog }
+    const breeds = [...props.breeds||[]]
+    if(!dog.id){
+        return (<></>)
+    }
     const [fileList, setFileList] = useState([
         {
-          uid: '-1',
+          uid: '1',
           name: 'image.png',
           status: 'done',
-          url: 'http://localhost:10888/api/v1/dogs/image/83',
+          url: config.baseUrl+'/dogs/image/'+dog.id,
         },
       ]);
 
@@ -31,6 +38,7 @@ function DogModalForm(props) {
         // props.action.load({isFavourite:true})
     }, []);
 
+    
     
 
     const setBase64Field = async (file) => {
@@ -89,7 +97,7 @@ function DogModalForm(props) {
                         allowClear
                         showSearch
                     >
-                        {props.breeds.map((item) => (
+                        {breeds.map((item) => (
                             <Option
                                 title={item.name}
                                 key={item.id}
@@ -105,8 +113,8 @@ function DogModalForm(props) {
                 <Form.Item name="createdBy" initialValue={dog.createdBy} hidden  ><Input /></Form.Item>
                 <Form.Item name="companyCode" initialValue={dog.companyCode} hidden  ><Input /></Form.Item>
 
-                <Form.Item name="image" label="Dog Image" valuePropName="fileList" getValueFromEvent={normFile} rules={requireUploadFieldRules}>
-                    <Upload.Dragger name="files" defaultFileList={fileList} listType="picture" accept='image/*' beforeUpload={beforeUpload} multiple={false} maxCount={1}>
+                <Form.Item name="image" label="Dog Image" initialValue={fileList} valuePropName="fileList" getValueFromEvent={normFile} rules={requireUploadFieldRules}>
+                    <Upload.Dragger name="files"  listType="picture" accept='image/*' beforeUpload={beforeUpload} multiple={false} maxCount={1}>
                         <p className="ant-upload-drag-icon">
                             <InboxOutlined />
                         </p>
@@ -119,4 +127,4 @@ function DogModalForm(props) {
     )
 
 }
-export default DogModalForm;
+export default connect(getAllStateMap,getAllActionMap)(DogModalForm);

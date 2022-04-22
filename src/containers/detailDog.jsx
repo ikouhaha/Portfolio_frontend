@@ -19,23 +19,24 @@ function DetailDog(props) {
   const [isFavourite, setFavourite] = useState(false)
   const [dog, setDog] = useState({ breed: { weight: {}, height: {} } })
   const [breeds, setBreeds] = useState([])
+  
+  const loadPage = (async () => {
+    try {
+      let res = await http.get(props, "/dogs/" + id)
+
+      setDog(res)
+      setFavourite(res.isFavourite)
+
+      let res2 = await http.get(props, "/breeds")
+      setBreeds(res2)
+
+    } catch (ex) {
+
+      console.dir(ex)
+    }
+  })
   React.useEffect(() => {
-    (async () => {
-      try {
-        let res = await http.get(props, "/dogs/" + id)
-        
-        setDog(res)
-        setFavourite(res.isFavourite)
-        
-        let res2 = await http.get(props, "/breeds")
-        setBreeds(res2)
-
-      } catch (ex) {
-
-        console.dir(ex)
-      }
-
-    })()
+    loadPage()
   }, []);
 
 
@@ -43,21 +44,22 @@ function DetailDog(props) {
   const editClick = () => {
     setShowEditModal(true)
   }
-  const handleCancel = () =>{
+  const handleCancel = () => {
     setShowEditModal(false)
   }
-  const onEditFormFinish=(values)=>{
+  const onEditFormFinish = (values) => {
     (async () => {
       try {
         //ignore image field
         const { image, ...data } = values
-        
-        const res = await http.put(props, "/dogs/"+id, {param:data,successMsg:"update successfully"})
-        
+
+        const res = await http.put(props, "/dogs/" + id, { param: data, successMsg: "update successfully" })
+
         //props.navigate("/signin")
-        //setShowEditModal(false)
+        setShowEditModal(false)
+        loadPage()
       } catch (ex) {
-        
+
         console.dir(ex)
       }
 
@@ -71,7 +73,7 @@ function DetailDog(props) {
         let favouriteLink = val ? 'favourite' : 'unfavourite'
 
         console.log("put")
-        await http.put(props, `/users/${favouriteLink}/${id}`,{needLoading:false})
+        await http.put(props, `/users/${favouriteLink}/${id}`, { needLoading: false })
         setFavourite(val)
 
 
@@ -82,7 +84,6 @@ function DetailDog(props) {
 
     })()
   }
-
 
   return (
     <>
@@ -105,7 +106,14 @@ function DetailDog(props) {
                     <Row>
                       <Col span={6}><img width={'100%'} src={dog.imageBase64}></img>
                         <FavouriteButton isFavourite={isFavourite} handleFavourite={(val) => handleFavourite(val)} />
-                        <Button type="link" onClick={editClick} icon={<EditOutlined />}></Button>
+                        {(()=>{
+                          if(dog.canUpdate){
+                            return (
+                              <Button type="link" onClick={editClick} icon={<EditOutlined />}></Button>
+                            )
+                          }
+                        })()}
+                        
                       </Col>
                       <Col span={1}></Col>
                       <Col span={17}>

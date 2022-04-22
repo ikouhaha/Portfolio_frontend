@@ -4,6 +4,7 @@ import { Button } from 'antd';
 import { bindActionCreators } from 'redux'
 import * as AppReducer from '../redux/app'
 import * as UserReducer from '../redux/user'
+import * as SelectReducer from '../redux/select'
 
 
 export const isImg = /^http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?/;
@@ -60,13 +61,14 @@ export const getAccessToken = () => {
   return getLocalStorageItem("user")?getLocalStorageItem("user").token:undefined
 }
 
-export const getAllStateMap = state => ({ app: state.App, user: state.User });
+export const getAllStateMap = state => ({ app: state.App, user: state.User,select:state.Select });
 
 
 export const getAllActionMap = dispatch => ({
   //⑤ Bindactioncreators simplify dispatch
   appAction: bindActionCreators(AppReducer, dispatch),
   userAction: bindActionCreators(UserReducer, dispatch),
+  selectAction: bindActionCreators(SelectReducer,dispatch)
 
 })
 
@@ -77,3 +79,11 @@ export const toBase64 = file => new Promise((resolve, reject) => {
   reader.onload = () => resolve(reader.result);
   reader.onerror = error => reject(error);
 });
+
+export const getFilterString = filterObj  => {
+  let string = [];
+  Object.keys(filterObj).forEach(key=>{
+    string.push(`${key}=${filterObj[key]}`)
+  })
+  return string.join('&')
+};

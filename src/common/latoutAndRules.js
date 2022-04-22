@@ -93,6 +93,7 @@ export const requireUploadFieldRules = [
   { required: true, message: 'Please upload the file!' },
   ({ getFieldValue }) => ({
       validator(rule, value) {
+        console.log(value)
           if (value) {
               if(value.length==0){                
                 return Promise.reject();
