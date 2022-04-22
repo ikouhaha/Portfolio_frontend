@@ -5,7 +5,7 @@ import 'rc-texty/assets/index.css';
 
 import { formItemLayout, emailRules, passwordRules, confirmRules, usernameRules, tailFormItemLayout, requireRadioFieldRules, requireTextFieldRules, companyCodeRules } from '../common/latoutAndRules'
 
-import { config } from "../common/config"
+
 import { uuid,loading,done,getAllActionMap,getAllStateMap } from "../common/utils"
 import * as http from "../common/http-common"
 import { GoogleLogin } from 'react-google-login';
@@ -115,11 +115,11 @@ function RegisterForm(props) {
           </Form.Item>
           <Form.Item label="Other">
             <GoogleLogin
-              clientId={config.googleClientID}
+              clientId={process.env.GOOGLE_CLIENT_ID}
               buttonText="Register with Google"
               scope="profile email"
               accessType="offline"
-              redirectUri={config.baseUrl + '/auth/google/callback'}
+              redirectUri={process.env.BASE_LINK + '/auth/google/callback'}
               onSuccess={successGoogle}
               onFailure={failGoogle}
               responseType="token"

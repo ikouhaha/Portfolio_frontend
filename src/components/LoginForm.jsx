@@ -133,14 +133,14 @@ function LoginForm(props) {
             <GoogleLogin
               autoLoad={false}
               disabledStyle
-              clientId={config.googleClientID}
+              clientId={process.env.GOOGLE_CLIENT_ID}
               buttonText="Login with Google"
               scope="profile email"
               render={renderProps => (
                 <Button type="secondary" onClick={renderProps.onClick} shape="circle" icon={<GoogleOutlined />} />
               )}
               accessType="offline"
-              redirectUri={config.baseUrl + '/auth/google/callback'}
+              redirectUri={process.env.BASE_LINK + '/auth/google/callback'}
               onSuccess={successGoogle}
               onFailure={failGoogle}
               responseType="token"

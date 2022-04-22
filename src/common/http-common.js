@@ -1,10 +1,9 @@
 import axios from 'axios'
-import { config } from './config'
 import { message } from "antd"
 import { loading, done, getAccessToken } from './utils'
 
 const http = axios.create({
-    baseURL: config.baseUrl,
+    baseURL: process.env.BASE_URL,
     headers: {
         "Content-type": "application/json; charset=utf-8"
     },

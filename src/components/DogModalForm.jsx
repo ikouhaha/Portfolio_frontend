@@ -10,7 +10,7 @@ import { formItem2Layout, emailRules, passwordRules, requireUploadFieldRules, us
 
 import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 import { uuid,toBase64, getAllActionMap, getAllStateMap } from '../common/utils';
-import { config } from '../common/config';
+
 import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
@@ -41,7 +41,7 @@ function DogModalForm(props) {
           uid: '1',
           name: 'image.png',
           status: 'done',
-          url: config.baseUrl+'/dogs/image/'+dog.id,
+          url: process.env.BASE_URL+'/dogs/image/'+dog.id,
         },
       ]);
 

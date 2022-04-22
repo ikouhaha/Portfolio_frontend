@@ -101,7 +101,7 @@ function DogCard(props) {
                     <img
                         style={{ height: 250, objectFit: 'contain', width: '100%' }}
                         alt="example"
-                        src={config.baseUrl + '/dogs/image/' + dog.id}
+                        src={process.env.BASE_URL + '/dogs/image/' + dog.id}
                     />
                 }
                 actions={[...actions()]}
