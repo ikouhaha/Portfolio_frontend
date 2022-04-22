@@ -12,8 +12,21 @@ import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 import { uuid,toBase64, getAllActionMap, getAllStateMap } from '../common/utils';
 import { config } from '../common/config';
 import { connect } from 'react-redux';
+
+import PropTypes from 'prop-types';
+
 const { Option } = Select;
 
+DogModalForm.propTypes = {
+    isShow:PropTypes.bool.isRequired,
+    loading:PropTypes.bool.isRequired,
+    dog:PropTypes.object.isRequired,
+    breeds:PropTypes.array.isRequired,
+    app:PropTypes.object.isRequired,
+    handleCancel:PropTypes.func.isRequired,
+    onFormFinish:PropTypes.func.isRequired,
+    
+}
 
 
 function DogModalForm(props) {
@@ -71,7 +84,7 @@ function DogModalForm(props) {
         return e && e.fileList;
     };
     return (
-        <Modal closable={true} maskClosable={false} title="Dog Info" visible={props.isShow} onOk={props.handleOk} onCancel={props.handleCancel}
+        <Modal closable={true} maskClosable={false} title="Dog Info" visible={props.isShow}  onCancel={props.handleCancel}
             footer={[
                 <Button form={formid} key="submit" htmlType="submit" loading={props.loading}>
                     Submit

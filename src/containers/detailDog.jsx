@@ -96,11 +96,7 @@ function DetailDog(props) {
             <div className="home-page content9">
               <Layout className="layout">
                 <Content style={{ padding: '0 50px' }}>
-                  <Breadcrumb style={{ margin: '16px 0' }}>
-                    <Breadcrumb.Item><Link to="/"> Home</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item><Link to="/dogs">List</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item>Dog</Breadcrumb.Item>
-                  </Breadcrumb>
+                  {props.breadcrumb}
                   <div className="site-layout-content">
 
                     <Row>

@@ -161,3 +161,39 @@ export const put = async (props, endpoint,
     }
 
 } 
+
+export const del = async (props, endpoint,
+    { successMsg = null, param, requestConfig = {}, needLoading = true } = {}) => {
+    let res = {};
+
+    try {
+
+        let response
+        if (needLoading) {
+            loading(props)
+        }
+
+        if (getAccessToken() && !requestConfig.auth) {
+            http.defaults.headers.common["Authorization"] = getAccessToken()
+        }
+
+        response = await http.delete(endpoint, param, requestConfig)
+        //console.error(response)
+        const { data } = response
+        res = data
+        messageSucceess(successMsg)
+
+
+        return res
+    } catch (ex) {
+        // console.log(ex.response.status)
+        messageError(ex, props)
+        throw ex
+    } finally {
+
+        if (needLoading) {
+            done(props)
+        }
+    }
+
+} 

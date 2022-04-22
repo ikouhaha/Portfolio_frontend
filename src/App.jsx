@@ -12,7 +12,7 @@ import Register from "./containers/Register"
 import NotFound from "./containers/notfound"
 import DetailDog from "./containers/detailDog"
 import Dogs from "./containers/dogs"
-import { Layout, Space, Avatar, Dropdown, Menu } from 'antd';
+import { Layout, Space, Avatar, Dropdown, Menu, Breadcrumb } from 'antd';
 import './less/antMotionStyle.less';
 
 import Footer2 from './components/Footer2';
@@ -66,9 +66,9 @@ class App extends React.Component {
 
         //let res = null
         let res = await http.get(props, "/users/profile")
-          //store the profile to redux
+        //store the profile to redux
         props.userAction.load(res)
- 
+
 
 
       } catch (ex) {
@@ -78,9 +78,42 @@ class App extends React.Component {
 
     })()
   }
-  onRouteChanged(){
+  onRouteChanged() {
     console.log("ROUTE CHANGED");
   }
+
+ 
+  DogBread = () => {
+    return (
+      <Breadcrumb style={{ margin: '16px 0' }}>
+        <Breadcrumb.Item><Link to="/"> Home</Link></Breadcrumb.Item>
+        <Breadcrumb.Item><Link to="/dogs">List</Link></Breadcrumb.Item>
+        <Breadcrumb.Item>Dog</Breadcrumb.Item>
+      </Breadcrumb>
+    )
+  }
+
+  favouriteDogBread = () => {
+    return (
+      <Breadcrumb style={{ margin: '16px 0' }}>
+        <Breadcrumb.Item><Link to="/"> Home</Link></Breadcrumb.Item>
+        <Breadcrumb.Item><Link to="/dogs">List</Link></Breadcrumb.Item>
+        <Breadcrumb.Item>Dog</Breadcrumb.Item>
+      </Breadcrumb>
+    )
+  }
+
+
+  DogsBread = () => {
+    return (
+      <Breadcrumb style={{ margin: '16px 0' }}>
+        <Breadcrumb.Item><Link to="/"> Home</Link></Breadcrumb.Item>
+
+        <Breadcrumb.Item>List</Breadcrumb.Item>
+      </Breadcrumb>
+    )
+  }
+
   render() {
 
 
@@ -88,7 +121,7 @@ class App extends React.Component {
       <>
         <LoadingOverlay
           styles={{
-            content: {margin:'unset',width:'100%'}
+            content: { margin: 'unset', width: '100%' }
           }}
           active={this.props.app.loading}
           spinner={<BarLoader height={5}
@@ -113,20 +146,20 @@ class App extends React.Component {
 
         >
           <Router>
-            <Nav  user={this.props.user}/>
+            <Nav user={this.props.user} />
 
             <Content>
               <Routes>
-           
+
                 <Route exact path="/" element={<Home />} />
                 <Route exact path="/signin" element={<Login />} />
                 <Route exact path="/signup" element={<Register />} />
                 <Route exact path="/signout" element={<Logout />} />
-                <Route exact path="/dogs" element={<Dogs/>} />
-                <Route exact path="/favourites" element={<DetailDog/>} />
-                <Route exact path="/dogs/dog/:id" element={<DetailDog/>} />
+                <Route exact path="/dogs" element={<Dogs breadcrumb={this.DogsBread()} />} />
+                <Route exact path="/favourites" element={<DetailDog />} />
+                <Route exact path="/dogs/dog/:id" element={<DetailDog breadcrumb={this.DogBread()} />} />
                 <Route path="*" element={<NotFound />} />
-              
+
               </Routes>
             </Content>
 

@@ -1,21 +1,35 @@
 
 
-import { Card, Avatar, Button } from 'antd';
-import { EyeOutlined, EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import { Card, Avatar, Button,Modal } from 'antd';
+import { EyeOutlined, EditOutlined, EllipsisOutlined, SettingOutlined,DeleteOutlined,ExclamationCircleOutlined } from '@ant-design/icons';
 import React, { Children, useState } from 'react';
 import { config } from '../common/config';
 import FavouriteButton from './FavouriteButton';
 import DogModalForm from './DogModalForm';
 import {Link} from 'react-router-dom'
+import PropTypes from 'prop-types';
+
 const { Meta } = Card;
 
+const { confirm } = Modal;
 
+DogCard.propTypes = {
+    
+    dog:PropTypes.object.isRequired,
+    breeds:PropTypes.array.isRequired,
+    app:PropTypes.object.isRequired,
+    handleFavourite:PropTypes.func.isRequired,
+    handleDelete:PropTypes.func.isRequired,
+    onFormFinish:PropTypes.func.isRequired,
+    
+}
 
 function DogCard(props) {
-    const { ...dog } = props.dog
-    const [isFavourite, setFavourite] = useState(dog.isFavourite)
+    
     const [showActionModal, setShowActionModal] = useState(false)
-
+    const dog = {...props.dog}
+    
+    const [isFavourite, setFavourite] = useState(dog.isFavourite)
     const handleFavourite = (val) => {
 
         setFavourite(val)
@@ -29,9 +43,27 @@ function DogCard(props) {
     const showModal = () => {
         setShowActionModal(true)
     }
+
+    const showDeleteModal = () =>{
+        confirm({
+            title: 'Are you sure delete this dog?',
+            icon: <ExclamationCircleOutlined />,
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk() {
+                return props.handleDelete(dog.id)
+            },
+            onCancel() {
+             
+            },
+          });
+      
+    }
+
     const onFormFinish = (values) => {
         setShowActionModal(false)
-        return props.onFormFinish(values)
+        return props.onFormFinish(dog.id,values)
     }
 
     if (!dog) {
@@ -45,6 +77,9 @@ function DogCard(props) {
         if (dog.canUpdate) {
             childrens.push(<Button onClick={showModal} type="text"><EditOutlined key="edit" /></Button>)
         }
+        if (dog.canDelete) {
+            childrens.push(<Button onClick={showDeleteModal} type="text"><DeleteOutlined key="delete" /></Button>)
+        }
         return childrens
     }
 
@@ -55,7 +90,7 @@ function DogCard(props) {
                 dog={dog}
                 breeds={props.breeds}
                 handleCancel={handleCancel}
-                onFinish={onFormFinish}
+                onFormFinish={onFormFinish}
                 loading={props.app.loading}
 
             />
@@ -80,4 +115,8 @@ function DogCard(props) {
     )
 
 }
+
+
+
+
 export default DogCard;

@@ -10,6 +10,7 @@ import { formItem2Layout, emailRules, passwordRules, requireUploadFieldRules, us
 
 import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 import { uuid, toBase64 } from '../common/utils';
+import PropTypes from 'prop-types';
 
 const { Option } = Select;
 
@@ -83,14 +84,21 @@ function DogFilter(props) {
                 }}
               />
             </Tooltip>
-            <Tooltip title="create new one">
-              <Button
-                icon={<FileAddFilled />}
-                onClick={() => {
-
-                }}
-              />
-            </Tooltip>
+            {(()=>{
+                if(props.canCreate){
+                  return (
+                    <Tooltip title="create new one">
+                    <Button
+                      icon={<FileAddFilled />}
+                      onClick={() => {
+                        props.handleCreateClick()
+                      }}
+                    />
+                  </Tooltip>
+                  )
+                }
+            })()}
+           
           </Space>
 
         </Col>

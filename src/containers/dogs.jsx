@@ -7,7 +7,7 @@ import * as http from '../common/http-common'
 
 import { MessageOutlined, EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import FavouriteButton from "../components/FavouriteButton";
-import { getAllActionMap, getAllStateMap,getFilterString,loading ,done} from "../common/utils";
+import { getAllActionMap, getAllStateMap, getFilterString, loading, done } from "../common/utils";
 import { connect } from 'react-redux';
 import DogFilter from "../components/DogFilter";
 import DogCard from "../components/DogCard";
@@ -20,27 +20,29 @@ const { Meta } = Card;
 const { Header, Footer, Sider, Content } = Layout;
 function Dogs(props) {
   const { id } = useParams();
-  
+
   const [action, setAction] = useState('create')
- 
+
   const [dogs, setDogs] = useState([])
   const [breeds, setBreeds] = useState([])
   const [filter, setFilter] = useState({ page: 1, limit: 8 })
   const [dogCount, setDogCount] = useState(0)
-  
+  const [canCreate, setCanCreate] = useState(false)
+
   const loadPage = (async () => {
     try {
       //get dogs
       loading(props)
       console.log(getFilterString(filter))
-      let res =  await http.get(props, `/dogs?${getFilterString(filter)}`,{needLoading:false})
+      let res = await http.get(props, `/dogs?${getFilterString(filter)}`, { needLoading: false })
       console.log(res)
       setDogs(res.list)
       setDogCount(res.totalCount)
+      setCanCreate(res.canCreate)
       //get all breeds
-      let breeds = await http.get(props, "/breeds",{needLoading:false})
+      let breeds = await http.get(props, "/breeds", { needLoading: false })
       setBreeds(breeds)
-      
+
       done(props)
 
     } catch (ex) {
@@ -53,14 +55,32 @@ function Dogs(props) {
   }, [filter]);
 
 
+  const handleCreateClick = () => {
+    console.log("create click")
 
+  }
 
-  const onFormFinish = (values) =>{
-    (async ()=>{
+  const handleDelete = (id) => {
+    (async () => {
       try {
+
+        const res = await http.del(props, "/dogs/" + id, { successMsg: "delete successfully" })
+        loadPage()
+      } catch (ex) {
+
+        console.dir(ex)
+      }
+
+    })()
+  }
+
+  const onFormFinish = (id,values) => {
+    (async () => {
+      try {
+        console.log(id,values)
         //ignore image field
         const { image, ...data } = values
-
+        console.log(data)
         const res = await http.put(props, "/dogs/" + id, { param: data, successMsg: "update successfully" })
         loadPage()
       } catch (ex) {
@@ -72,17 +92,17 @@ function Dogs(props) {
   }
 
   const onFilterFinish = (values) => {
-    let ofilter = {...filter,...values}
+    let ofilter = { ...filter, ...values }
     Object.keys(ofilter).forEach(key => ofilter[key] === undefined && delete ofilter[key])
     setFilter(ofilter)
   }
-  const handlePageChange = async (val)=>{
-    let ofilter = {...filter}
+  const handlePageChange = async (val) => {
+    let ofilter = { ...filter }
     ofilter["page"] = val
     setFilter(ofilter)
-    
+
   }
-  const handleFavourite = (val,id) => {
+  const handleFavourite = (val, id) => {
 
     (async () => {
       try {
@@ -99,13 +119,26 @@ function Dogs(props) {
 
   const renderDogs = () => {
     return dogs.map((dog, index) => (
-      <Col span={6} key={'col'+index}  ><DogCard key={'dog'+index} dog={dog} {...props} handleFavourite={handleFavourite}  eventKey={index} onFormFinish={onFormFinish} >user.firstname</DogCard></Col>
+      <Col span={6} key={'col' + index}  >
+        <DogCard
+          key={'dog' + index}
+          dog={dog} 
+          breeds={breeds}
+          app={props.app}
+          handleFavourite={handleFavourite}
+          eventKey={index}
+          onFormFinish={onFormFinish}
+          handleDelete={handleDelete}
+          >
+          
+        </DogCard>
+        </Col>
     ));
   }
 
   return (
     <>
-       
+
       <div
         className="templates-wrapper"
       >
@@ -117,13 +150,9 @@ function Dogs(props) {
 
               <Layout className="layout">
                 <Content style={{ padding: '0 50px' }}>
-                  <Breadcrumb style={{ margin: '16px 0' }}>
-                    <Breadcrumb.Item><Link to="/"> Home</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item>List</Breadcrumb.Item>
-
-                  </Breadcrumb>
+                  {props.breadcrumb}
                   <div className="site-layout-content">
-                    <DogFilter breeds={breeds} onFinish={onFilterFinish} />
+                    <DogFilter canCreate={canCreate} breeds={breeds} onFinish={onFilterFinish} handleCreateClick={handleCreateClick} />
                     <Row gutter={[5, 16]}>
                       {renderDogs()}
                     </Row>
@@ -131,13 +160,13 @@ function Dogs(props) {
                   </div>
                   <Pagination
                     defaultPageSize="8"
-                    style={{textAlign:"center",paddingTop:15}}
+                    style={{ textAlign: "center", paddingTop: 15 }}
                     simple
                     showTotal={total => `Total ${total} items`}
-                    current={dogCount===0?0:filter.page}
+                    current={dogCount === 0 ? 0 : filter.page}
                     total={dogCount}
                     onChange={handlePageChange.bind(this)}
-                    />
+                  />
                 </Content>
                 <Footer style={{ textAlign: 'center' }}></Footer>
               </Layout>
