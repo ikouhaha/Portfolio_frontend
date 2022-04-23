@@ -22,7 +22,7 @@ function Dogs(props) {
   const { id } = useParams();
 
   const [action, setAction] = useState('create')
-
+  const [showActionModal, setShowActionModal] = useState(false)
   const [dogs, setDogs] = useState([])
   const [breeds, setBreeds] = useState([])
   const [filter, setFilter] = useState({ page: 1, limit: 8 })
@@ -57,6 +57,7 @@ function Dogs(props) {
 
   const handleCreateClick = () => {
     console.log("create click")
+    setShowActionModal(true)
 
   }
 
@@ -74,10 +75,10 @@ function Dogs(props) {
     })()
   }
 
-  const onFormFinish = (id,values) => {
+  const onFormFinish = (id, values) => {
     (async () => {
       try {
-        console.log(id,values)
+        console.log(id, values)
         //ignore image field
         const { image, ...data } = values
         console.log(data)
@@ -90,6 +91,25 @@ function Dogs(props) {
 
     })()
   }
+
+  const onCreateFinish = (id, values) => {
+    (async () => {
+      try {
+        console.log(id, values)
+        //ignore image field
+        const { image, ...data } = values
+        console.log(data)
+        const res = await http.post(props, "/dogs", { param: data, successMsg: "create successfully" })
+        setShowActionModal(false)
+        loadPage()
+      } catch (ex) {
+
+        console.dir(ex)
+      }
+
+    })()
+  }
+
 
   const onFilterFinish = (values) => {
     let ofilter = { ...filter, ...values }
@@ -122,23 +142,31 @@ function Dogs(props) {
       <Col span={6} key={'col' + index}  >
         <DogCard
           key={'dog' + index}
-          dog={dog} 
+          dog={dog}
           breeds={breeds}
           app={props.app}
           handleFavourite={handleFavourite}
           eventKey={index}
           onFormFinish={onFormFinish}
           handleDelete={handleDelete}
-          >
-          
+        >
+
         </DogCard>
-        </Col>
+      </Col>
     ));
   }
 
   return (
     <>
+       <DogModalForm
+        isShow={showActionModal}
+        dog={{id:-1,createdBy:props.user.id,companyCode:props.user.companyCode}}
+        breeds={breeds}
+        handleCancel={() => setShowActionModal(false)}
+        onFormFinish={onCreateFinish}
+        loading={props.app.loading}
 
+      />
       <div
         className="templates-wrapper"
       >
@@ -158,6 +186,7 @@ function Dogs(props) {
                     </Row>
 
                   </div>
+                 
                   <Pagination
                     defaultPageSize="8"
                     style={{ textAlign: "center", paddingTop: 15 }}

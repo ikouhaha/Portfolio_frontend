@@ -18,6 +18,7 @@ import PropTypes from 'prop-types';
 const { Option } = Select;
 
 DogModalForm.propTypes = {
+    fileList:PropTypes.array.isRequired,
     isShow:PropTypes.bool.isRequired,
     loading:PropTypes.bool.isRequired,
     dog:PropTypes.object.isRequired,
@@ -36,16 +37,12 @@ function DogModalForm(props) {
     if(!dog.id){
         return (<></>)
     }
-    const [fileList, setFileList] = useState([
-        {
-          uid: '1',
-          name: 'image.png',
-          status: 'done',
-          url: process.env.BASE_URL+'/dogs/image/'+dog.id,
-        },
-      ]);
+    
+    const [fileList, setFileList] = useState(props.fileList);
+   
 
     const [form] = Form.useForm();
+    const modalId = uuid()
     const formid = uuid()
     React.useEffect(() => {
         // props.action.load({isFavourite:true})
@@ -84,7 +81,7 @@ function DogModalForm(props) {
         return e && e.fileList;
     };
     return (
-        <Modal closable={true} maskClosable={false} title="Dog Info" visible={props.isShow}  onCancel={props.handleCancel}
+        <Modal id={modalId} key={modalId} closable={true} maskClosable={false} title="Dog Info" visible={props.isShow}  onCancel={props.handleCancel}
             footer={[
                 <Button form={formid} key="submit" htmlType="submit" loading={props.loading}>
                     Submit
@@ -92,7 +89,7 @@ function DogModalForm(props) {
             ]}
 
         >
-            <Form id={formid} form={form} {...formItem2Layout} name="register" onFinish={(values) => props.onFinish(values)}  >
+            <Form id={formid} key={formid} form={form} {...formItem2Layout} name="register" onFinish={(values) => props.onFormFinish(dog.id,values)}  >
                 <Form.Item name="name" label="name" initialValue={dog.name} rules={requireTextFieldRules}  >
                     <Input name="name" />
                 </Form.Item>

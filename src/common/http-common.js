@@ -3,7 +3,7 @@ import { message } from "antd"
 import { loading, done, getAccessToken } from './utils'
 
 const http = axios.create({
-    baseURL: process.env.BASE_URL,
+    baseURL: process.env.REACT_APP_BASE_URL,
     headers: {
         "Content-type": "application/json; charset=utf-8"
     },
@@ -26,9 +26,7 @@ let messageError = (ex, props) => {
     } else if (ex.response && ex.response.status && ex.response.status == 404) {
         navigate("/404")
     }
-    else if (ex.message) {
-        message.error(ex.message)
-    }
+    
     else if (ex.response && ex.response.data && ex.response.data.stack) {
         message.error(ex.response.data.stack)
     }

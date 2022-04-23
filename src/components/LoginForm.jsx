@@ -6,7 +6,7 @@ import 'rc-texty/assets/index.css';
 import { formItemLayout, emailRules, passwordRules, confirmRules, usernameRules, tailFormItemLayout, requireRadioFieldRules, requireTextFieldRules, companyCodeRules } from '../common/latoutAndRules'
 
 import { config } from "../common/config"
-import { uuid,loading,done,getAllStateMap,getAllActionMap, setLocalStorageItem} from "../common/utils"
+
 import * as http from "../common/http-common"
 import { GoogleLogin } from 'react-google-login';
 
@@ -15,7 +15,7 @@ import { useNavigate, Link, unstable_HistoryRouter } from 'react-router-dom';
 function LoginForm(props) {
 
   const [form] = Form.useForm();
-
+  console.log(process.env)
   const onFinish = (values) => {
     (async () => {
       try {
@@ -133,7 +133,7 @@ function LoginForm(props) {
             <GoogleLogin
               autoLoad={false}
               disabledStyle
-              clientId={process.env.GOOGLE_CLIENT_ID}
+              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
               buttonText="Login with Google"
               scope="profile email"
               render={renderProps => (

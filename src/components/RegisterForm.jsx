@@ -115,7 +115,7 @@ function RegisterForm(props) {
           </Form.Item>
           <Form.Item label="Other">
             <GoogleLogin
-              clientId={process.env.GOOGLE_CLIENT_ID}
+              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
               buttonText="Register with Google"
               scope="profile email"
               accessType="offline"
@@ -140,7 +140,7 @@ function RegisterForm(props) {
 
 
   return (
-    <div className='banner3' style={{"text-align":"left"}}>
+    <div className='banner3' style={{"textAlign":"left"}}>
       <div
         className='banner3-text-wrapper'
       >

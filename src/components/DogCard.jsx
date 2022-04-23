@@ -1,12 +1,12 @@
 
 
-import { Card, Avatar, Button,Modal } from 'antd';
-import { EyeOutlined, EditOutlined, EllipsisOutlined, SettingOutlined,DeleteOutlined,ExclamationCircleOutlined } from '@ant-design/icons';
+import { Card, Avatar, Button, Modal } from 'antd';
+import { EyeOutlined, EditOutlined, EllipsisOutlined, SettingOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import React, { Children, useState } from 'react';
 import { config } from '../common/config';
 import FavouriteButton from './FavouriteButton';
 import DogModalForm from './DogModalForm';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 
 const { Meta } = Card;
@@ -14,27 +14,28 @@ const { Meta } = Card;
 const { confirm } = Modal;
 
 DogCard.propTypes = {
-    
-    dog:PropTypes.object.isRequired,
-    breeds:PropTypes.array.isRequired,
-    app:PropTypes.object.isRequired,
-    handleFavourite:PropTypes.func.isRequired,
-    handleDelete:PropTypes.func.isRequired,
-    onFormFinish:PropTypes.func.isRequired,
-    
+
+    dog: PropTypes.object.isRequired,
+    breeds: PropTypes.array.isRequired,
+    app: PropTypes.object.isRequired,
+    handleFavourite: PropTypes.func.isRequired,
+    handleDelete: PropTypes.func.isRequired,
+    onFormFinish: PropTypes.func.isRequired,
+
 }
 
 function DogCard(props) {
-    
+    const baseLink = process.env.REACT_APP_BASE_URL
     const [showActionModal, setShowActionModal] = useState(false)
-    const dog = {...props.dog}
-    
+    const dog = { ...props.dog }
+
     const [isFavourite, setFavourite] = useState(dog.isFavourite)
     const handleFavourite = (val) => {
 
         setFavourite(val)
         return props.handleFavourite(val, dog.id)
     }
+
 
     const handleCancel = () => {
         setShowActionModal(false)
@@ -44,7 +45,7 @@ function DogCard(props) {
         setShowActionModal(true)
     }
 
-    const showDeleteModal = () =>{
+    const showDeleteModal = () => {
         confirm({
             title: 'Are you sure delete this dog?',
             icon: <ExclamationCircleOutlined />,
@@ -55,15 +56,15 @@ function DogCard(props) {
                 return props.handleDelete(dog.id)
             },
             onCancel() {
-             
+
             },
-          });
-      
+        });
+
     }
 
-    const onFormFinish = (values) => {
+    const onFormFinish = (id,values) => {
         setShowActionModal(false)
-        return props.onFormFinish(dog.id,values)
+        return props.onFormFinish(id, values)
     }
 
     if (!dog) {
@@ -92,16 +93,22 @@ function DogCard(props) {
                 handleCancel={handleCancel}
                 onFormFinish={onFormFinish}
                 loading={props.app.loading}
-
+                fileList={[
+                    {
+                        uid: '1',
+                        name: 'image.png',
+                        status: 'done',
+                        url: baseLink + '/dogs/image/' + dog.id,
+                    }
+                ]}
             />
-
             <Card
                 style={{ width: '100%' }}
                 cover={
                     <img
                         style={{ height: 250, objectFit: 'contain', width: '100%' }}
                         alt="example"
-                        src={process.env.BASE_URL + '/dogs/image/' + dog.id}
+                        src={baseLink + '/dogs/image/' + dog.id}
                     />
                 }
                 actions={[...actions()]}

@@ -8,7 +8,7 @@ LABEL maintainer = ["217013622@stu.vtc.edu.hk"]
 WORKDIR /app
 
 # Install app dependencies
-COPY ["package.json", "package-lock.json", "./"]
+COPY package*.json ./
 RUN ls
 RUN npm install
 
