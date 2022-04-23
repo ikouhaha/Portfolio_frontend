@@ -9,8 +9,6 @@ const http = axios.create({
     },
     responseType: 'json',
 
-
-
 })
 
 let messageError = (ex, props) => {

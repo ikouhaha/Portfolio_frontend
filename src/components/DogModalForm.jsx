@@ -31,7 +31,7 @@ DogModalForm.propTypes = {
 
 
 function DogModalForm(props) {
-
+    
     const dog = { ...props.dog }
     const breeds = [...props.breeds||[]]
     if(!dog.id){
