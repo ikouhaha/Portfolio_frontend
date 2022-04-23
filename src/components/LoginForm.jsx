@@ -140,7 +140,7 @@ function LoginForm(props) {
                 <Button type="secondary" onClick={renderProps.onClick} shape="circle" icon={<GoogleOutlined />} />
               )}
               accessType="offline"
-              redirectUri={process.env.BASE_LINK + '/auth/google/callback'}
+              
               onSuccess={successGoogle}
               onFailure={failGoogle}
               responseType="token"

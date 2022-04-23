@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_fdc6a8dbde584bebb597c67248ceb216 }}/ikouhaha888/profolio_frontend:${{ github.sha }}
+        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_fdc6a8dbde584bebb597c67248ceb216 }}/ikouhaha888/portfolio_frontend:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -48,4 +48,4 @@ jobs:
         app-name: 'VT60003CEM-portfolio'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_f043d2ae425c44e387104d3d8f90bae0 }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_fdc6a8dbde584bebb597c67248ceb216 }}/ikouhaha888/profolio_frontend:${{ github.sha }}'
+        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_fdc6a8dbde584bebb597c67248ceb216 }}/ikouhaha888/portfolio_frontend:${{ github.sha }}'

@@ -9,7 +9,7 @@ import * as http from "../common/http-common"
 import { useNavigate, Link, unstable_HistoryRouter } from 'react-router-dom';
 
 class Content8 extends React.Component {
-  
+   
   componentDidMount(){
    
   }
@@ -19,6 +19,7 @@ class Content8 extends React.Component {
   getBlockChildren = (item, i) => {
     const children = item.children;
     const delay = this.props.isMobile ? i * 50 : this.getDelay(i, 24 / item.md);
+   
     const liAnim = {
       y: 30,
       opacity: 0,
@@ -36,7 +37,7 @@ class Content8 extends React.Component {
       <TweenOne component={Col} animation={liAnim} key={i.toString()} {...item}>
         <div {...children}>
           <div className="image-wrapper" {...children.img}>
-            <img src={children.img.children} alt="img" />
+            <img src={children.img.src} alt="img" />
           </div>
           {titleRender()}
           <div {...children.content}>{children.content.children}</div>
@@ -47,6 +48,7 @@ class Content8 extends React.Component {
 
   render() {
     const { ...props } = this.props;
+    const baseLink = process.env.REACT_APP_BASE_URL
     if(!props.dogs){
       return (<></>)
     }
@@ -66,7 +68,8 @@ class Content8 extends React.Component {
             className: 'content8-block',
             img: {
               className: 'content8-img',
-              children:dog.imageBase64,
+              children:dog.id,
+              src:baseLink + '/dogs/image/' + dog.id
             },
             title: { className: 'content8-title', children: dog.name ,href:'/dogs/dog/'+dog.id},
             content: {

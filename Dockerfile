@@ -2,7 +2,7 @@ FROM node:14-alpine
 
 
 LABEL version="1.0"
-LABEL description="This is the base docker image for the profolio web frontend ."
+LABEL description="This is the base docker image for the portfolio web frontend ."
 LABEL maintainer = ["217013622@stu.vtc.edu.hk"]
 
 WORKDIR /app

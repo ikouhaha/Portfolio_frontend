@@ -119,7 +119,7 @@ function RegisterForm(props) {
               buttonText="Register with Google"
               scope="profile email"
               accessType="offline"
-              redirectUri={process.env.BASE_LINK + '/auth/google/callback'}
+              
               onSuccess={successGoogle}
               onFailure={failGoogle}
               responseType="token"

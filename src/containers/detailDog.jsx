@@ -19,7 +19,8 @@ function DetailDog(props) {
   const [isFavourite, setFavourite] = useState(false)
   const [dog, setDog] = useState({ breed: { weight: {}, height: {} } })
   const [breeds, setBreeds] = useState([])
-  
+  const baseLink = process.env.REACT_APP_BASE_URL
+  const imageLink = baseLink + '/dogs/image/' + dog.id
   const loadPage = (async () => {
     try {
       let res = await http.get(props, "/dogs/" + id)
@@ -87,7 +88,14 @@ function DetailDog(props) {
 
   return (
     <>
-      <DogModalForm isShow={showEditModal} breeds={breeds} handleCancel={handleCancel} onFinish={onEditFormFinish} dog={dog} loading={props.app.loading} />
+      <DogModalForm isShow={showEditModal} breeds={breeds} handleCancel={handleCancel} onFormFinish={onEditFormFinish} dog={dog} loading={props.app.loading} fileList={[
+        {
+          uid: '1',
+          name: 'image.png',
+          status: 'done',
+          url: imageLink,
+        }
+      ]} />
       <div
         className="templates-wrapper"
       >
@@ -100,16 +108,16 @@ function DetailDog(props) {
                   <div className="site-layout-content">
 
                     <Row>
-                      <Col span={6}><img width={'100%'} src={dog.imageBase64}></img>
+                      <Col span={6}><img width={'100%'} src={imageLink}></img>
                         <FavouriteButton isFavourite={isFavourite} handleFavourite={(val) => handleFavourite(val)} />
-                        {(()=>{
-                          if(dog.canUpdate){
+                        {(() => {
+                          if (dog.canUpdate) {
                             return (
                               <Button type="link" onClick={editClick} icon={<EditOutlined />}></Button>
                             )
                           }
                         })()}
-                        
+
                       </Col>
                       <Col span={1}></Col>
                       <Col span={17}>
