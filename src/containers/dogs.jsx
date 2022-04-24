@@ -28,6 +28,7 @@ function Dogs(props) {
   const [filter, setFilter] = useState({ page: 1, limit: 8 })
   const [dogCount, setDogCount] = useState(0)
   const [canCreate, setCanCreate] = useState(false)
+  const [favourites,setFavourites] = useState({})
 
   const loadPage = (async () => {
     try {
@@ -39,6 +40,7 @@ function Dogs(props) {
       setDogs(res.list)
       setDogCount(res.totalCount)
       setCanCreate(res.canCreate)
+      setFavourites(res.favourites)
       //get all breeds
       let breeds = await http.get(props, "/breeds", { needLoading: false })
       setBreeds(breeds)
@@ -61,11 +63,12 @@ function Dogs(props) {
 
   }
 
-  const handleDelete = (id) => {
+  const handleDelete = (id, values) => {
     (async () => {
       try {
+        console.log(id, values)
 
-        const res = await http.del(props, "/dogs/" + id, { successMsg: "delete successfully" })
+        const res = await http.del(props, `/dogs/${id}/${values.companyCode}`, { successMsg: "delete successfully" })
         loadPage()
       } catch (ex) {
 
@@ -126,9 +129,8 @@ function Dogs(props) {
 
     (async () => {
       try {
-        console.log(val)
-        let favouriteLink = val ? 'favourite' : 'unfavourite'
-        await http.put(props, `/users/${favouriteLink}/${id}`, { needLoading: false })
+        await http.put(props, `/favourites/${id}/${val}`, { needLoading: false })
+        setFavourites({...favourites, [id]:val})
       } catch (ex) {
 
         console.dir(ex)
@@ -141,6 +143,7 @@ function Dogs(props) {
     return dogs.map((dog, index) => (
       <Col span={6} key={'col' + index}  >
         <DogCard
+          isFavourite={favourites[dog.id]||false}
           key={'dog' + index}
           dog={dog}
           breeds={breeds}
@@ -158,10 +161,10 @@ function Dogs(props) {
 
   return (
     <>
-       <DogModalForm
+      <DogModalForm
         fileList={[]}
         isShow={showActionModal}
-        dog={{id:-1,createdBy:props.user.id,companyCode:props.user.companyCode}}
+        dog={{ id: -1, createdBy: props.user.id, companyCode: props.user.companyCode }}
         breeds={breeds}
         handleCancel={() => setShowActionModal(false)}
         onFormFinish={onCreateFinish}
@@ -187,7 +190,7 @@ function Dogs(props) {
                     </Row>
 
                   </div>
-                 
+
                   <Pagination
                     defaultPageSize="8"
                     style={{ textAlign: "center", paddingTop: 15 }}

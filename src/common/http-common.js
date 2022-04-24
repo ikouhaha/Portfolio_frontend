@@ -172,7 +172,7 @@ export const del = async (props, endpoint,
             http.defaults.headers.common["Authorization"] = getAccessToken()
         }
 
-        response = await http.delete(endpoint, param, requestConfig)
+        response = await http.delete(endpoint, requestConfig)
         //console.error(response)
         const { data } = response
         res = data

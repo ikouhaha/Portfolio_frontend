@@ -11,6 +11,7 @@ import Logout from "./containers/Logout"
 import Register from "./containers/Register"
 import NotFound from "./containers/notfound"
 import DetailDog from "./containers/detailDog"
+import Favourites from "./containers/favourites"
 import Dogs from "./containers/dogs"
 import { Layout, Space, Avatar, Dropdown, Menu, Breadcrumb } from 'antd';
 import './less/antMotionStyle.less';
@@ -97,7 +98,7 @@ class App extends React.Component {
     return (
       <Breadcrumb style={{ margin: '16px 0' }}>
         <Breadcrumb.Item><Link to="/"> Home</Link></Breadcrumb.Item>
-        <Breadcrumb.Item><Link to="/dogs">List</Link></Breadcrumb.Item>
+        <Breadcrumb.Item><Link to="/favourites">List</Link></Breadcrumb.Item>
         <Breadcrumb.Item>Dog</Breadcrumb.Item>
       </Breadcrumb>
     )
@@ -113,6 +114,8 @@ class App extends React.Component {
       </Breadcrumb>
     )
   }
+
+  
 
   render() {
 
@@ -156,8 +159,9 @@ class App extends React.Component {
                 <Route exact path="/signup" element={<Register />} />
                 <Route exact path="/signout" element={<Logout />} />
                 <Route exact path="/dogs" element={<Dogs breadcrumb={this.DogsBread()} />} />
-                <Route exact path="/favourites" element={<DetailDog />} />
+                <Route exact path="/favourites" element={<Favourites breadcrumb={this.DogsBread()} />} />
                 <Route exact path="/dogs/dog/:id" element={<DetailDog breadcrumb={this.DogBread()} />} />
+                <Route exact path="/favourites/dog/:id" element={<DetailDog breadcrumb={this.favouriteDogBread()} />} />
                 <Route path="*" element={<NotFound />} />
 
               </Routes>

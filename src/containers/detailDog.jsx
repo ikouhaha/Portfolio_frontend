@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { Icon, Layout, Row, Col, Button, Card, Avatar, Descriptions, Badge, Breadcrumb } from 'antd';
+import { Modal,Icon, Layout, Row, Col, Button, Card, Avatar, Descriptions, Badge, Breadcrumb } from 'antd';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 
 import LoginForm from '../components/LoginForm'
 import * as http from '../common/http-common'
 import { EditOutlined } from '@ant-design/icons';
-import { MessageOutlined } from '@ant-design/icons';
+import { MessageOutlined,ExclamationCircleOutlined ,DeleteOutlined} from '@ant-design/icons';
 import FavouriteButton from "../components/FavouriteButton";
-import { getAllActionMap, getAllStateMap } from "../common/utils";
+import { getAllActionMap, getAllStateMap, uuid } from "../common/utils";
 import { connect } from 'react-redux';
 import DogModalForm from "../components/DogModalForm";
+
+const { confirm } = Modal;
+
 
 const { Meta } = Card;
 const { Header, Footer, Sider, Content } = Layout;
 function DetailDog(props) {
   const { id } = useParams();
+  
   const [showEditModal, setShowEditModal] = useState(false)
   const [isFavourite, setFavourite] = useState(false)
   const [dog, setDog] = useState({ breed: { weight: {}, height: {} } })
   const [breeds, setBreeds] = useState([])
   const baseLink = process.env.REACT_APP_BASE_URL
-  const imageLink = baseLink + '/dogs/image/' + dog.id
+  const imageLink = baseLink + '/dogs/image/' + id
   const loadPage = (async () => {
     try {
       let res = await http.get(props, "/dogs/" + id)
@@ -48,16 +52,47 @@ function DetailDog(props) {
   const handleCancel = () => {
     setShowEditModal(false)
   }
-  const onEditFormFinish = (values) => {
+  const handleDelete = (id,values) => {
+    (async () => {
+      try {
+        console.log(id,values)
+
+        const res = await http.del(props, `/dogs/${id}/${values.companyCode}`, { successMsg: "delete successfully" })
+        props.navigate(-1)
+      } catch (ex) {
+
+        console.dir(ex)
+      }
+
+    })()
+  }
+  const showDeleteModal = () => {
+    confirm({
+        title: 'Are you sure delete this dog?',
+        icon: <ExclamationCircleOutlined />,
+        okText: 'Yes',
+        okType: 'danger',
+        cancelText: 'No',
+        onOk() {
+            return handleDelete(dog.id,dog)
+        },
+        onCancel() {
+
+        },
+    });
+
+}
+  const onEditFormFinish = (id,values) => {
     (async () => {
       try {
         //ignore image field
         const { image, ...data } = values
-
+        console.log(values)
+        setShowEditModal(false)
         const res = await http.put(props, "/dogs/" + id, { param: data, successMsg: "update successfully" })
 
         //props.navigate("/signin")
-        setShowEditModal(false)
+        
         loadPage()
       } catch (ex) {
 
@@ -70,11 +105,7 @@ function DetailDog(props) {
 
     (async () => {
       try {
-        console.log(val)
-        let favouriteLink = val ? 'favourite' : 'unfavourite'
-
-        console.log("put")
-        await http.put(props, `/users/${favouriteLink}/${id}`, { needLoading: false })
+        await http.put(props, `/favourites/${id}/${val}`, { needLoading: false })
         setFavourite(val)
 
 
@@ -88,7 +119,7 @@ function DetailDog(props) {
 
   return (
     <>
-      <DogModalForm isShow={showEditModal} breeds={breeds} handleCancel={handleCancel} onFormFinish={onEditFormFinish} dog={dog} loading={props.app.loading} fileList={[
+      <DogModalForm key={'modal'+id} isShow={showEditModal} breeds={breeds} handleCancel={handleCancel} onFormFinish={onEditFormFinish} dog={dog} loading={props.app.loading} fileList={[
         {
           uid: '1',
           name: 'image.png',
@@ -107,20 +138,24 @@ function DetailDog(props) {
                   {props.breadcrumb}
                   <div className="site-layout-content">
 
-                    <Row>
-                      <Col span={6}><img width={'100%'} src={imageLink}></img>
-                        <FavouriteButton isFavourite={isFavourite} handleFavourite={(val) => handleFavourite(val)} />
+                    <Row key={uuid()}>
+                      <Col key={uuid()} span={6}><img width={'100%'} src={imageLink}></img>
+                        <FavouriteButton key={uuid()} loading={props.app.loading} type="text" isFavourite={isFavourite} handleFavourite={(val) => handleFavourite(val)} />
                         {(() => {
+                          let childrens = []
                           if (dog.canUpdate) {
-                            return (
-                              <Button type="link" onClick={editClick} icon={<EditOutlined />}></Button>
-                            )
+                            childrens.push(<Button key={uuid()} onClick={editClick} type="text"><EditOutlined key="edit" /></Button>)
                           }
+                          if (dog.canDelete) {
+                            childrens.push(<Button key={uuid()} onClick={showDeleteModal} type="text"><DeleteOutlined key="delete" /></Button>)
+                          }
+                     
+                          return childrens
                         })()}
 
                       </Col>
-                      <Col span={1}></Col>
-                      <Col span={17}>
+                      <Col key={uuid()} span={1}></Col>
+                      <Col key={uuid()} span={17}>
                         <Descriptions title="Dog Info" layout="vertical" bordered>
                           <Descriptions.Item label="Name">{dog.name}</Descriptions.Item>
                           <Descriptions.Item label="Breed">{dog.breed.name}</Descriptions.Item>
@@ -162,7 +197,5 @@ const output = (props) => {
   return <DetailDog {...props} navigate={navigation} />
 }
 export default connect(getAllStateMap, getAllActionMap)(output)
-
-
 
 

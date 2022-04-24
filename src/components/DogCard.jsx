@@ -8,13 +8,14 @@ import FavouriteButton from './FavouriteButton';
 import DogModalForm from './DogModalForm';
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
+import { uuid } from '../common/utils'
 
 const { Meta } = Card;
 
 const { confirm } = Modal;
 
 DogCard.propTypes = {
-
+    isFavourite: PropTypes.bool.isRequired,
     dog: PropTypes.object.isRequired,
     breeds: PropTypes.array.isRequired,
     app: PropTypes.object.isRequired,
@@ -28,12 +29,14 @@ function DogCard(props) {
     const baseLink = process.env.REACT_APP_BASE_URL
     const [showActionModal, setShowActionModal] = useState(false)
     const dog = { ...props.dog }
+    
 
-    const [isFavourite, setFavourite] = useState(dog.isFavourite)
-    const handleFavourite = (val) => {
+    
+   
 
-        setFavourite(val)
-        return props.handleFavourite(val, dog.id)
+    const handleFavourite =  (val) => {
+        
+         props.handleFavourite(val, dog.id)
     }
 
 
@@ -53,7 +56,7 @@ function DogCard(props) {
             okType: 'danger',
             cancelText: 'No',
             onOk() {
-                return props.handleDelete(dog.id)
+                return props.handleDelete(dog.id,dog)
             },
             onCancel() {
 
@@ -72,8 +75,11 @@ function DogCard(props) {
     }
 
     const actions = () => {
+        if(props.app.load){
+            return (<></>)
+        }
         let childrens = [
-            <FavouriteButton isFavourite={isFavourite} type="text" key="ellipsis" handleFavourite={(val) => handleFavourite(val)} />,
+            <FavouriteButton key={uuid()} loading={props.app.loading} isFavourite={props.isFavourite} type="text"  handleFavourite={(val) => handleFavourite(val)} />,
             <Button type="text"><Link to={`dog/${dog.id}`}><EyeOutlined key="view" /></Link></Button>]
         if (dog.canUpdate) {
             childrens.push(<Button onClick={showModal} type="text"><EditOutlined key="edit" /></Button>)
@@ -103,6 +109,7 @@ function DogCard(props) {
                 ]}
             />
             <Card
+                loading={props.app.loading}
                 style={{ width: '100%' }}
                 cover={
                     <img
