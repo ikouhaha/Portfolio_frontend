@@ -28,26 +28,30 @@ function Dogs(props) {
   const [filter, setFilter] = useState({ page: 1, limit: 8 })
   const [dogCount, setDogCount] = useState(0)
   const [canCreate, setCanCreate] = useState(false)
+  const [favourites,setFavourites] = useState({})
 
-  const loadPage = (async () => {
+  const loadPage = (async (isLoad = true) => {
     try {
       //get dogs
-      loading(props)
-      console.log(getFilterString(filter))
-      let res = await http.get(props, `/dogs?${getFilterString(filter)}`, { needLoading: false })
+      isLoad && loading(props)
+
+      let res = await http.get(props, `/favourites?${getFilterString(filter)}`, { needLoading: false })
       console.log(res)
       setDogs(res.list)
       setDogCount(res.totalCount)
       setCanCreate(res.canCreate)
+      setFavourites(res.favourites)
+      
       //get all breeds
       let breeds = await http.get(props, "/breeds", { needLoading: false })
       setBreeds(breeds)
 
-      done(props)
+      isLoad && done(props)
 
     } catch (ex) {
-      done(props)
+      isLoad && done(props)
       console.dir(ex)
+      throw (ex)
     }
   })
   React.useEffect(() => {
@@ -78,10 +82,10 @@ function Dogs(props) {
   const onFormFinish = (id, values) => {
     (async () => {
       try {
-        console.log(id, values)
+
         //ignore image field
         const { image, ...data } = values
-        console.log(data)
+
         const res = await http.put(props, "/dogs/" + id, { param: data, successMsg: "update successfully" })
         loadPage()
       } catch (ex) {
@@ -95,10 +99,10 @@ function Dogs(props) {
   const onCreateFinish = (id, values) => {
     (async () => {
       try {
-        console.log(id, values)
+
         //ignore image field
         const { image, ...data } = values
-        console.log(data)
+
         const res = await http.post(props, "/dogs", { param: data, successMsg: "create successfully" })
         setShowActionModal(false)
         loadPage()
@@ -126,9 +130,10 @@ function Dogs(props) {
 
     (async () => {
       try {
-        console.log(val)
-        let favouriteLink = val ? 'favourite' : 'unfavourite'
-        await http.put(props, `/users/${favouriteLink}/${id}`, { needLoading: false })
+
+
+        await http.put(props, `/favourites/${id}/${val}`, { needLoading: false })
+        setFavourites({...favourites, [id]:val})
       } catch (ex) {
 
         console.dir(ex)
@@ -143,6 +148,7 @@ function Dogs(props) {
         <DogCard
           key={'dog' + index}
           dog={dog}
+          isFavourite={favourites[dog.id]||false}
           breeds={breeds}
           app={props.app}
           handleFavourite={handleFavourite}
@@ -158,10 +164,10 @@ function Dogs(props) {
 
   return (
     <>
-       <DogModalForm
+      <DogModalForm
         fileList={[]}
         isShow={showActionModal}
-        dog={{id:-1,createdBy:props.user.id,companyCode:props.user.companyCode}}
+        dog={{ id: -1, createdBy: props.user.id, companyCode: props.user.companyCode }}
         breeds={breeds}
         handleCancel={() => setShowActionModal(false)}
         onFormFinish={onCreateFinish}
@@ -187,7 +193,7 @@ function Dogs(props) {
                     </Row>
 
                   </div>
-                 
+
                   <Pagination
                     defaultPageSize="8"
                     style={{ textAlign: "center", paddingTop: 15 }}
