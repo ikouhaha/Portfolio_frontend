@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { uuid } from '../common/utils'
 
+
 const { Meta } = Card;
 
 const { confirm } = Modal;
@@ -120,10 +121,16 @@ function DogCard(props) {
                 }
                 actions={[...actions()]}
             >
-                <Meta
+                
+                <Meta   
+                    style={{height: '100px'}}
+                    className='dog-meta-card'
+                    key={dog.id}
                     title={dog.name}
                     description={dog.about}
+                    
                 />
+                
             </Card>
         </>
     )
