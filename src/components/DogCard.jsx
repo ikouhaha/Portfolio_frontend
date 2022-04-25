@@ -27,7 +27,7 @@ DogCard.propTypes = {
 }
 
 function DogCard(props) {
-    const baseLink = process.env.REACT_APP_BASE_URL
+    const baseLink = process.env.REACT_APP_BASE_URL+process.env.REACT_APP_API_VERSION_LINK
     const [showActionModal, setShowActionModal] = useState(false)
     const dog = { ...props.dog }
     

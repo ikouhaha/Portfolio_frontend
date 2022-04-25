@@ -48,7 +48,7 @@ class Content8 extends React.Component {
 
   render() {
     const { ...props } = this.props;
-    const baseLink = process.env.REACT_APP_BASE_URL
+    const baseLink = process.env.REACT_APP_BASE_URL+process.env.REACT_APP_API_VERSION_LINK
     if(!props.dogs){
       return (<></>)
     }

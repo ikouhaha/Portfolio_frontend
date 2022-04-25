@@ -62,7 +62,7 @@ export const companyCodeRules = [
         validator(rule, value) {
             if (getFieldValue('role') === "staff") {
                 if (!value) {
-                    return Promise.reject('Please contact your manager to get the company code');
+                    return Promise.reject('Please input the code');
                 }
 
             }

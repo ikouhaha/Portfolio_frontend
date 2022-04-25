@@ -23,7 +23,7 @@ function DetailDog(props) {
   const [isFavourite, setFavourite] = useState(false)
   const [dog, setDog] = useState({ breed: { weight: {}, height: {} } })
   const [breeds, setBreeds] = useState([])
-  const baseLink = process.env.REACT_APP_BASE_URL
+  const baseLink = process.env.REACT_APP_BASE_URL+process.env.REACT_APP_API_VERSION_LINK
   const imageLink = baseLink + '/dogs/image/' + id
   const loadPage = (async () => {
     try {

@@ -3,7 +3,7 @@ import { message } from "antd"
 import { loading, done, getAccessToken } from './utils'
 
 const http = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
+    baseURL: process.env.REACT_APP_BASE_URL+process.env.REACT_APP_API_VERSION_LINK,
     headers: {
         "Content-type": "application/json; charset=utf-8"
     },

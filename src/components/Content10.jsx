@@ -1,6 +1,7 @@
 import React from 'react';
 import QueueAnim from 'rc-queue-anim';
 
+
 class Content10 extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -46,7 +47,7 @@ class Content10 extends React.PureComponent {
               'https://gw.alipayobjects.com/zos/rmsportal/WIePwurYppfVvDNASZRN.svg',
             name: '图标影阴',
           },
-          url: { children: 'https://gaode.com/place/B0FFH3KPBX', name: '跳转地址' },
+          url: { children: '', name: '跳转地址' },
           title: { children: '大会地址', name: '弹框标题' },
           content: {
             children: '蚂蚁 Z 空间  浙江省杭州市西湖区西溪路556号',
@@ -66,24 +67,8 @@ class Content10 extends React.PureComponent {
           onClick={this.onClick}
           onTouchEnd={this.onClick}
         >
-          <div {...dataSource.Content.children.icon}>
-            <img src={dataSource.Content.children.icon.children} alt="img" />
-          </div>
-          <div {...dataSource.Content.children.iconShadow}>
-            <img
-              src={dataSource.Content.children.iconShadow.children}
-              alt="img"
-            />
-          </div>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2535.4598546862285!2d114.16532240586659!3d22.32528295779635!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x340400b611f6a195%3A0xa0d1947dc280c278!2z6aaZ5riv5YuV54mp6aCY6aSK5Lit5b-D!5e0!3m2!1sen!2shk!4v1650821190210!5m2!1sen!2shk" height="450"  allowFullScreen={true} style={{width:'100%',border:'0'}} loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
         </div>
-        <QueueAnim type="scale">
-          {this.state.showInfo && (
-            <div className="map-tip" key="map">
-              <h2>{dataSource.Content.children.title.children}</h2>
-              <p>{dataSource.Content.children.content.children}</p>
-            </div>
-          )}
-        </QueueAnim>
       </div>
     );
   }

@@ -11,7 +11,7 @@ class Content12 extends React.PureComponent {
         <Col key={item.name} {...item}>
           <div {...item.children.wrapper}>
             <span {...item.children.img}>
-              <img src={item.children.img.children} alt="img" />
+              <img width={200} style={{objectFit:'contain'}} src={item.children.img.children} alt="img" />
             </span>
           </div>
         </Col>
@@ -35,7 +35,7 @@ class Content12 extends React.PureComponent {
               'https://gw.alipayobjects.com/zos/rmsportal/PiqyziYmvbgAudYfhuBr.svg',
             className: 'title-image',
           },
-          { name: 'title', children: '特别鸣谢', className: 'title-h1' },
+          { name: 'title', children: 'Thanks', className: 'title-h1' },
         ],
       },
       block: {
@@ -50,7 +50,7 @@ class Content12 extends React.PureComponent {
               wrapper: { className: 'block-content' },
               img: {
                 children:
-                  'https://gw.alipayobjects.com/zos/rmsportal/TFicUVisNHTOEeMYXuQF.svg',
+                  'https://main.spca.org.hk/aniformday2018/jpg/spca.gif',
               },
             },
           },
@@ -63,7 +63,7 @@ class Content12 extends React.PureComponent {
               wrapper: { className: 'block-content' },
               img: {
                 children:
-                  'https://gw.alipayobjects.com/zos/rmsportal/hkLGkrlCEkGZeMQlnEkD.svg',
+                  'https://main.spca.org.hk/aniformday2018/jpg/spca.gif',
               },
             },
           },
@@ -76,7 +76,7 @@ class Content12 extends React.PureComponent {
               wrapper: { className: 'block-content' },
               img: {
                 children:
-                  'https://gw.alipayobjects.com/zos/rmsportal/bqyPRSZmhvrsfJrBvASi.svg',
+                  'https://main.spca.org.hk/aniformday2018/jpg/spca.gif',
               },
             },
           },
@@ -89,7 +89,7 @@ class Content12 extends React.PureComponent {
               wrapper: { className: 'block-content' },
               img: {
                 children:
-                  'https://gw.alipayobjects.com/zos/rmsportal/UcsyszzOabdCYDkoPPnM.svg',
+                  'https://main.spca.org.hk/aniformday2018/jpg/spca.gif',
               },
             },
           },
@@ -102,7 +102,7 @@ class Content12 extends React.PureComponent {
               wrapper: { className: 'block-content' },
               img: {
                 children:
-                  'https://gw.alipayobjects.com/zos/rmsportal/kRBeaICGexAmVjqBEqgw.svg',
+                  'https://main.spca.org.hk/aniformday2018/jpg/spca.gif',
               },
             },
           },
@@ -115,7 +115,7 @@ class Content12 extends React.PureComponent {
               wrapper: { className: 'block-content' },
               img: {
                 children:
-                  'https://gw.alipayobjects.com/zos/rmsportal/ftBIiyJcCHpHEioRvPsV.svg',
+                  'https://main.spca.org.hk/aniformday2018/jpg/spca.gif',
               },
             },
           },

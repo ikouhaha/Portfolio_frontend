@@ -3,10 +3,6 @@ import TweenOne from 'rc-tween-one';
 import OverPack from 'rc-scroll-anim/lib/ScrollOverPack';
 import { isImg } from '../common/utils'
 
-import {
-  Footer20DataSource,
-} from '../common/data.source';
-
 class Footer2 extends React.PureComponent {
   
   render() {
@@ -24,7 +20,7 @@ class Footer2 extends React.PureComponent {
           },
           {
             name: 'group',
-            children: '蚂蚁金服体验科技大会',
+            children: 'Pet Finder ©2018',
             className: 'copyright-group',
           },
           {
@@ -35,7 +31,7 @@ class Footer2 extends React.PureComponent {
           },
           {
             name: 'copyright',
-            children: 'Copyright © 蚂蚁金融服务集团',
+            children: 'Copyright ©2022 Created by Ant',
             className: 'copyright-text',
           },
         ],

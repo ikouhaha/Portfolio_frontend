@@ -6,7 +6,7 @@ import { Layout, Space, Avatar, Dropdown, Menu, Button } from 'antd';
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import Title from 'antd/lib/typography/Title';
 import { DownOutlined } from '@ant-design/icons';
-
+import * as http from '../common/http-common'
 const { Header, Content } = Layout;
 
 const menu = (
@@ -24,7 +24,11 @@ const menu = (
     </Menu>
 );
 
-function Nav(props) { 
+function Nav(props) {
+
+    useEffect(() => {
+        
+    })
     return (
         <Header>
             <Space size='large'>
@@ -52,7 +56,7 @@ function Nav(props) {
                             return (
                                 <Dropdown overlay={menu} placement="bottomRight" arrow>
                                     <a onClick={e => e.preventDefault()}>
-                                        <Avatar size="32" src={props.user.avatarUrl?props.user.avatarUrl:"./dp.png"} />
+                                        <Avatar size="32" src={props.user.avatarUrl ? props.user.avatarUrl : "./dp.png"} />
                                         <DownOutlined className='header-nav-link' style={{ paddingLeft: 6 }} />
                                     </a>
 

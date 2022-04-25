@@ -12,7 +12,7 @@ import { GoogleLogin } from 'react-google-login';
 
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
+import { $CombinedState, bindActionCreators } from 'redux'
 import * as AppReducer from '../redux/app'
 
 
@@ -20,7 +20,7 @@ function RegisterForm(props) {
 
 
   const [form] = Form.useForm();
-  
+  const [isGoogle,setIsGoogle] = useState(false)
 
 
   const onFinish = (values) => {
@@ -36,7 +36,7 @@ function RegisterForm(props) {
         props.navigate("/signin")
 
       } catch (ex) {
-        
+        setIsGoogle(false)
         console.dir(ex)
       }
 
@@ -47,6 +47,7 @@ function RegisterForm(props) {
     if (!res) {
       return;
     }
+    setIsGoogle(true)
     let profile = { ...res.profileObj }
 
     let newObj = {
@@ -60,6 +61,7 @@ function RegisterForm(props) {
     Object.keys(newObj).forEach(key => {
       setFormValue(key, newObj[key])
     })
+    
 
   }
   const failGoogle = (res) => {
@@ -73,7 +75,12 @@ function RegisterForm(props) {
     })
   }
 
+  const renderGoogleTextInput = () => {
+    return isGoogle?<Input  disabled />:<Input  />
+  }
 
+
+  
 
 
   const children = [
@@ -81,7 +88,7 @@ function RegisterForm(props) {
       <Card >
         <Form form={form} {...formItemLayout} name="register" onFinish={onFinish}  >
           <Form.Item name="email" label="e-mail" rules={emailRules}  >
-            <Input name="email" />
+            {renderGoogleTextInput()}
           </Form.Item>
           <Form.Item name="password" label="Password" rules={passwordRules}>
             <Input.Password />
@@ -89,7 +96,7 @@ function RegisterForm(props) {
           <Form.Item name="confirm" label="Confirm Password" rules={confirmRules}>
             <Input.Password />
           </Form.Item>
-          <Form.Item name="username" label="Username" rules={usernameRules}>
+          <Form.Item name="username" label="Username / Staff Code" rules={usernameRules}>
             <Input />
           </Form.Item>
           <Form.Item name="firstName" label="First name" >
@@ -98,13 +105,13 @@ function RegisterForm(props) {
           <Form.Item name="lastName" label="Last Name" >
             <Input />
           </Form.Item>
-          <Form.Item name="role" initialValue={"user"} label="Choose Role" rules={requireRadioFieldRules}>
-            <Radio.Group  buttonStyle="solid">
+          <Form.Item name="role" initialValue={"user"} label="Choose Role" rules={requireRadioFieldRules} >
+            <Radio.Group  buttonStyle="solid" >
               <Radio.Button value="user">Normal User</Radio.Button>
               <Radio.Button value="staff">Staff</Radio.Button>
             </Radio.Group>
           </Form.Item>
-          <Form.Item name="companyCode" label="Company Code" rules={companyCodeRules}>
+          <Form.Item name="companyCode" label="Company Code" rules={companyCodeRules} >
             <Input />
           </Form.Item>
           <Form.Item name="avatarUrl" hidden>
