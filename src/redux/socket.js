@@ -1,14 +1,14 @@
 import { setLocalStorageItem, getLocalStorageItem } from "../common/utils";
 
-const LOAD = 'user/load';
-const RESET = 'user/reset';
+const LOAD = 'socket/load';
+const RESET = 'socket/reset';
 
 
-export function load(user) {
-  setLocalStorageItem("user", user)
+export function load(socket) {
+  setLocalStorageItem("socket", socket)
   return {
     type: LOAD,
-    value: user
+    value: socket
   }
 }
 
@@ -24,9 +24,10 @@ export function reset() {
 const initialState = {
   isLogin: false,
   token: '',
+  
 };
 
-export default function reducer(state = getLocalStorageItem("user") || initialState, action) {
+export default function reducer(state = getLocalStorageItem("socket") || initialState, action) {
   //console.log(action)
   switch (action.type) {
     case LOAD:

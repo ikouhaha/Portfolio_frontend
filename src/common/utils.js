@@ -61,6 +61,10 @@ export const getAccessToken = () => {
   return getLocalStorageItem("user")?getLocalStorageItem("user").token:undefined
 }
 
+export const getRole = () => {
+  return getLocalStorageItem("user")?getLocalStorageItem("user").role:'public'
+}
+
 export const getAllStateMap = state => ({ app: state.App, user: state.User,select:state.Select });
 
 

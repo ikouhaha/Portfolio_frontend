@@ -13,6 +13,7 @@ import NotFound from "./containers/notfound"
 import DetailDog from "./containers/detailDog"
 import Favourites from "./containers/favourites"
 import Chat from "./containers/chat"
+import ChatStaff from "./containers/chatStaff"
 import Dogs from "./containers/dogs"
 import { Layout, Space, Avatar, Dropdown, Menu, Breadcrumb } from 'antd';
 import './less/antMotionStyle.less';
@@ -24,7 +25,7 @@ import LoadingOverlay from 'react-loading-overlay';
 import BarLoader from "react-spinners/BarLoader";
 
 import { connect } from 'react-redux';
-import { getAllStateMap, getAllActionMap, loading, done } from './common/utils'
+import { getAllStateMap, getAllActionMap, loading, done, getRole } from './common/utils'
 
 import io from 'socket.io-client';
 
@@ -98,11 +99,24 @@ function App(props) {
   }
 
 
+  const renderChat = () => {
+    if(getRole() === "staff"){
+      return (
+        <ChatStaff />
+      )
+    }else{
+      return (
+        <Chat />
+      )
+    }
+    
+  }
 
 
   return (
     <>
-     <Chat  />
+      
+     {renderChat()}
       <LoadingOverlay
         styles={{
           content: { margin: 'unset', width: '100%' }

@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import {createLogger} from 'redux-logger';
-import toDoApp from './toDoApp';
+import Socket from './socket';
 import User from './user';
 import App from './app';
 import Select from './select';
@@ -11,7 +11,7 @@ const loggerMiddleware = createLogger(); // initialize logger
 const createStoreWithMiddleware = applyMiddleware(loggerMiddleware)(createStore); // apply logger to redux
 
 const reducer = combineReducers({
-  toDoApp,
+  Socket,
   User,
   App,
   Select

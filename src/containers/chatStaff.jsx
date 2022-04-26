@@ -4,6 +4,7 @@ import 'react-chat-widget/lib/styles.css';
 import io from 'socket.io-client';
 import PropTypes from 'prop-types';
 import { getAccessToken, getRole } from '../common/utils';
+import { useCookies } from 'react-cookie';
 import { withCookies, Cookies } from 'react-cookie';
 
 const buttons = [{ label: 'start', value: 'start' }, { label: 'end', value: 'end' }];
@@ -13,69 +14,48 @@ Chat.propTypes = {
     cookies: PropTypes.instanceOf(Cookies).isRequired
   };
 
+
 function Chat(props) {
-    const [socket, setSocket] = useState(null);    
+    const [socket, setSocket] = useState(null); 
     const { cookies } = props;
+    
 
     const connectSocket = () => {
         //not need new socket if exists
-
+        console.log(cookies)
 
         if (getAccessToken()) {
             const newSocket = io(process.env.REACT_APP_BASE_URL, {
                 query: {
                     token: getAccessToken(),
                     roomId: getRoomID()
-                    
                 }
             });
             setSocket(newSocket);
 
-        } else {
-            //guest room id
-            const newSocket = io(process.env.REACT_APP_BASE_URL,{
-                query: {
-                    
-                    roomId: getRoomID()
-                    
-                }
-            });
-            setSocket(newSocket);
-        }
+        } 
         //return () => newSocket.close();
     }
 
     const initSocket = () => {
 
-
-        socket.on('getStaff', data => {
-            console.log('getStaff',data)
-            addResponseMessage(data.firstName + ": " + data.msg)
+        
+        socket.on('getGuest', data => {
+                addResponseMessage(data.firstName + ": " + data.msg)
         })
+        
 
-        socket.on('onStaffJoin', firstName => {
-            addResponseMessage(`Staff ${firstName} has joined the room`)
-
-        })
-
-        socket.on('getPendingUsers', data => {
-            if(data>0){
-                addResponseMessage(`${data} users is pending`)
-            }       
-        })
-
-
-        socket.on('exitStaffUser', msg => {
-            console.log('exitStaffUser', msg)
+        socket.on('exitClientUser', msg => {
+            console.log('exitClientUser',msg)
             addResponseMessage(msg)
 
         })
         socket.on('getRoom', data => {
-            console.log('room', data)
+            console.log('room',data)
             cookies.set('room',data)
         })
 
-
+       
 
     }
 
@@ -98,13 +78,11 @@ function Chat(props) {
         //     socket.off('get_staff')
         // }
 
-
+        socket.off('getGuest')
         socket.off('getStaff')
-        socket.off('onStaffJoin')
-        socket.off('exitUser')
         socket.off('getRoom')
-        socket.off('getPendingUsers')
-
+   
+        
         
         socket.close()
 
@@ -114,19 +92,15 @@ function Chat(props) {
     useEffect(() => {
 
         if (!socket) {
-
-
             
+
             if(getRoomID()){
                 setQuickButtons(buttons.filter(button => button.value == 'end'));
                 connectSocket()
             }else{
-                addResponseMessage("please press the button to start chat")
-                setQuickButtons(buttons.filter(button => button.value == 'start'));
+                connectSocket()
             }
             
-
-
         }
 
 
@@ -141,19 +115,19 @@ function Chat(props) {
     }, [socket]);
 
     const handleQuickButtonClicked = data => {
+        
+  
 
-        if (data == "start") {
-            connectSocket()
-            setQuickButtons(buttons.filter(button => button.value == 'end'));
-        }
-
-        if (data == "end") {
-            socket.emit('clientDisconnect', { roomId: getRoomID() })
-            setQuickButtons(buttons.filter(button => button.value == 'start'));
+        if (data == "end") {            
+            socket.emit('staffDisconnect', { roomId: getRoomID() })
             cookies.remove('room')
+            setTimeout(()=>{
+                connectSocket() //connect again
+            },500)
+            
         }
 
-
+        
 
     };
 
@@ -161,9 +135,9 @@ function Chat(props) {
     const handleNewUserMessage = (newMessage) => {
 
         if (socket) {
-
-            socket.emit('guestMsg', { roomId: getRoomID(), msg: newMessage })
-
+            
+                socket.emit('staffMsg', { roomId: getRoomID(), msg: newMessage })
+         
         }
 
         // Now send the message throught the backend API
@@ -171,7 +145,7 @@ function Chat(props) {
 
     return (
 
-        <Widget handleQuickButtonClicked={handleQuickButtonClicked} handleNewUserMessage={handleNewUserMessage} subtitle={'Welcome to the chat ' + getRoomID()?getRoomID():''} title="Pet Finder"  showAvatar={true} />
+        <Widget handleQuickButtonClicked={handleQuickButtonClicked} handleNewUserMessage={handleNewUserMessage} subtitle={'Welcome to the chat ' + getRoomID()?getRoomID():''}  title="Pet Finder"  showAvatar={true} />
 
     )
 }
