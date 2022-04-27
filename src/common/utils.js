@@ -61,6 +61,9 @@ export const getAccessToken = () => {
   return getLocalStorageItem("user")?getLocalStorageItem("user").token:undefined
 }
 
+export const getProfile = () => {
+  return getLocalStorageItem("user")?getLocalStorageItem("user").token:undefined
+}
 export const getRole = () => {
   return getLocalStorageItem("user")?getLocalStorageItem("user").role:'public'
 }

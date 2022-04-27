@@ -12,6 +12,7 @@ import Register from "./containers/Register"
 import NotFound from "./containers/notfound"
 import DetailDog from "./containers/detailDog"
 import Favourites from "./containers/favourites"
+import Profile from "./containers/Profile"
 import Chat from "./containers/chat"
 import ChatStaff from "./containers/chatStaff"
 import Dogs from "./containers/dogs"
@@ -49,15 +50,7 @@ function App(props) {
   useEffect(() => {
     (async () => {
       try {
-
-
-          //let res = null
           let res = await http.get(props, "/users/profile")
-          //store the profile to redux
-          // props.userAction.load(res)
-
-
-
       } catch (ex) {
 
           console.dir(ex)
@@ -153,6 +146,7 @@ function App(props) {
               <Route exact path="/" element={<Home />} />
               <Route exact path="/signin" element={<Login />} />
               <Route exact path="/signup" element={<Register />} />
+              <Route exact path="/profile" element={<Profile />} />
               <Route exact path="/signout" element={<Logout />} />
               <Route exact path="/dogs" element={<Dogs breadcrumb={DogsBread()} />} />
               <Route exact path="/favourites" element={<Favourites breadcrumb={DogsBread()} />} />
