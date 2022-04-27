@@ -27,7 +27,8 @@ function Chat(props) {
                     token: getAccessToken(),
                     roomId: getRoomID()
                     
-                }
+                },
+                transports: ["websocket"] 
             });
             setSocket(newSocket);
 
@@ -38,7 +39,8 @@ function Chat(props) {
                     
                     roomId: getRoomID()
                     
-                }
+                },
+                transports: ["websocket"] 
             });
             setSocket(newSocket);
         }
@@ -171,7 +173,7 @@ function Chat(props) {
 
     return (
 
-        <Widget handleQuickButtonClicked={handleQuickButtonClicked} handleNewUserMessage={handleNewUserMessage} subtitle={'Welcome to the chat ' + getRoomID()?getRoomID():''} title="Pet Finder"  showAvatar={true} />
+        <Widget handleQuickButtonClicked={handleQuickButtonClicked} handleNewUserMessage={handleNewUserMessage} subtitle={'Welcome to the chat ' + getRoomID()?getRoomID():''} title="Customer Services"  showAvatar={true} />
 
     )
 }

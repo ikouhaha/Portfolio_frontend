@@ -98,12 +98,13 @@ function Dogs(props) {
   const onCreateFinish = (id, values) => {
     (async () => {
       try {
+        setShowActionModal(false)
         console.log(id, values)
         //ignore image field
         const { image, ...data } = values
         console.log(data)
         const res = await http.post(props, "/dogs", { param: data, successMsg: "create successfully" })
-        setShowActionModal(false)
+        
         loadPage()
       } catch (ex) {
 

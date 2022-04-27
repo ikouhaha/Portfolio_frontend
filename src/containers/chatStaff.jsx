@@ -7,7 +7,7 @@ import { getAccessToken, getRole } from '../common/utils';
 import { useCookies } from 'react-cookie';
 import { withCookies, Cookies } from 'react-cookie';
 
-const buttons = [{ label: 'start', value: 'start' }, { label: 'end', value: 'end' }];
+const buttons = [ { label: 'refresh', value: 'refresh' }];
 
 
 Chat.propTypes = {
@@ -29,7 +29,8 @@ function Chat(props) {
                 query: {
                     token: getAccessToken(),
                     roomId: getRoomID()
-                }
+                },
+                transports: ["websocket"] 
             });
             setSocket(newSocket);
 
@@ -95,7 +96,7 @@ function Chat(props) {
             
 
             if(getRoomID()){
-                setQuickButtons(buttons.filter(button => button.value == 'end'));
+                setQuickButtons(buttons.filter(button => button.value == 'refresh'));
                 connectSocket()
             }else{
                 connectSocket()
@@ -118,7 +119,7 @@ function Chat(props) {
         
   
 
-        if (data == "end") {            
+        if (data == "refresh") {            
             socket.emit('staffDisconnect', { roomId: getRoomID() })
             cookies.remove('room')
             setTimeout(()=>{
@@ -145,7 +146,7 @@ function Chat(props) {
 
     return (
 
-        <Widget handleQuickButtonClicked={handleQuickButtonClicked} handleNewUserMessage={handleNewUserMessage} subtitle={'Welcome to the chat ' + getRoomID()?getRoomID():''}  title="Pet Finder"  showAvatar={true} />
+        <Widget handleQuickButtonClicked={handleQuickButtonClicked} handleNewUserMessage={handleNewUserMessage} subtitle={'Welcome to the chat ' + getRoomID()?getRoomID():''}  title="Customer Services(Staff)"  showAvatar={true} />
 
     )
 }

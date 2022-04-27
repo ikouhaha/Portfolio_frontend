@@ -11,6 +11,7 @@
     "enquire-js": "^0.2.1",
     "google-map-react": "^2.1.10",
     "js-loading-overlay": "^1.2.0",
+    "moment": "^2.29.3",
     "rc-banner-anim": "^2.2.2",
     "rc-queue-anim": "^1.6.12",
     "rc-scroll-anim": "^2.5.6",

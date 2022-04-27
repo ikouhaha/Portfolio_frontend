@@ -100,6 +100,7 @@ function App(props) {
 
 
   const renderChat = () => {
+    console.log('role', props.user.role)
     if(getRole() === "staff"){
       return (
         <ChatStaff />

@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import * as AppReducer from '../redux/app'
 import * as UserReducer from '../redux/user'
 import * as SelectReducer from '../redux/select'
-
+import moment from "moment"
 
 export const isImg = /^http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?/;
 export const getChildrenToRender = (item, i) => {
@@ -65,6 +65,20 @@ export const getRole = () => {
   return getLocalStorageItem("user")?getLocalStorageItem("user").role:'public'
 }
 
+export const getUserFullName = () => {
+  return getLocalStorageItem("user")?getLocalStorageItem("user").role:'Guest'
+}
+
+export const getAvatar = () => {
+  if(getLocalStorageItem("user")){
+    if(getLocalStorageItem("user").avatarUrl){
+      return getLocalStorageItem("user").avatarUrl
+    }
+  }
+
+  return process.env.REACT_APP_DEFAULT_IMAGE
+
+}
 export const getAllStateMap = state => ({ app: state.App, user: state.User,select:state.Select });
 
 
@@ -90,4 +104,15 @@ export const getFilterString = filterObj  => {
     string.push(`${key}=${filterObj[key]}`)
   })
   return string.join('&')
+};
+
+
+export const getDateTimeString = value  => {
+  return moment(value).format("YYYY-MM-DD HH:mm:ss")
+  //  if(typeof(value)=='string'){
+  //   return new Date(value).toString()
+  //  }else{
+  //   return value.toString()
+  //  }
+
 };

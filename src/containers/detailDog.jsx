@@ -10,6 +10,7 @@ import FavouriteButton from "../components/FavouriteButton";
 import { getAllActionMap, getAllStateMap, uuid } from "../common/utils";
 import { connect } from 'react-redux';
 import DogModalForm from "../components/DogModalForm";
+import CommentObj from "../components/Comment"
 
 const { confirm } = Modal;
 
@@ -174,10 +175,13 @@ function DetailDog(props) {
 
                       </Col>
                     </Row>
-
+                    <CommentObj  dog={dog}/>
                   </div>
+                  
+                
                 </Content>
                 <Footer style={{ textAlign: 'center' }}></Footer>
+                      
               </Layout>
             </div>
           </div>

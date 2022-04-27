@@ -58,6 +58,8 @@ export const get = async (props, endpoint, { successMsg,needLoading=true } = {})
         
         if (getAccessToken()) {
             http.defaults.headers.common["Authorization"] = getAccessToken()
+        }else{
+            delete http.defaults.headers.common["Authorization"] 
         }
         // console.log(successMsg)
         let response = await http.get(endpoint)
@@ -99,6 +101,8 @@ export const post = async (props, endpoint,
         }
         if (getAccessToken() && !requestConfig.auth) {
             http.defaults.headers.common["Authorization"] = getAccessToken()
+        }else {
+            delete http.defaults.headers.common["Authorization"] 
         }
         response = await http.post(endpoint, param, requestConfig)
         //console.error(response)
@@ -134,6 +138,8 @@ export const put = async (props, endpoint,
 
         if (getAccessToken() && !requestConfig.auth) {
             http.defaults.headers.common["Authorization"] = getAccessToken()
+        }else {
+            delete http.defaults.headers.common["Authorization"] 
         }
 
         response = await http.put(endpoint, param, requestConfig)
@@ -170,6 +176,8 @@ export const del = async (props, endpoint,
 
         if (getAccessToken() && !requestConfig.auth) {
             http.defaults.headers.common["Authorization"] = getAccessToken()
+        }else {
+            delete http.defaults.headers.common["Authorization"] 
         }
 
         response = await http.delete(endpoint, requestConfig)
