@@ -13,6 +13,7 @@ import NotFound from "./containers/notfound"
 import DetailDog from "./containers/detailDog"
 import Favourites from "./containers/favourites"
 import Profile from "./containers/Profile"
+import ChangePwd from "./containers/ChangePwd"
 import Chat from "./containers/chat"
 import ChatStaff from "./containers/chatStaff"
 import Dogs from "./containers/dogs"
@@ -28,9 +29,7 @@ import BarLoader from "react-spinners/BarLoader";
 import { connect } from 'react-redux';
 import { getAllStateMap, getAllActionMap, loading, done, getRole } from './common/utils'
 
-import io from 'socket.io-client';
-
-const { Header, Content } = Layout;
+const { Content } = Layout;
 
 
 
@@ -47,17 +46,7 @@ function App(props) {
   }, [setSocket]);
   */
 
-  useEffect(() => {
-    (async () => {
-      try {
-          let res = await http.get(props, "/users/profile")
-      } catch (ex) {
 
-          console.dir(ex)
-      }
-
-  })()
-  }, [])
 
 
   const DogBread = () => {
@@ -134,19 +123,16 @@ function App(props) {
         active={props.app.loading}
         spinner
         text="Loading your content"
-
-
       >
         <Router>
           <Nav  userAction={props.userAction} user={props.user} />
-
           <Content>
             <Routes>
-
               <Route exact path="/" element={<Home />} />
               <Route exact path="/signin" element={<Login />} />
               <Route exact path="/signup" element={<Register />} />
               <Route exact path="/profile" element={<Profile />} />
+              <Route exact path="/changepwd" element={<ChangePwd />} />
               <Route exact path="/signout" element={<Logout />} />
               <Route exact path="/dogs" element={<Dogs breadcrumb={DogsBread()} />} />
               <Route exact path="/favourites" element={<Favourites breadcrumb={DogsBread()} />} />

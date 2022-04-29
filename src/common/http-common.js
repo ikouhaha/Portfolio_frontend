@@ -12,6 +12,7 @@ const http = axios.create({
 })
 
 let messageError = (ex, props) => {
+    
     const { navigate } = props
     if (ex.response && ex.response.status && ex.response.status == 401) {
         if(ex.response.statusText){
@@ -30,6 +31,9 @@ let messageError = (ex, props) => {
     }
     else if (ex.response && ex.response.data && ex.response.data.message) {
         message.error(ex.response.data.message)
+    }
+    else if (ex.response && ex.response.data) {
+        message.error(ex.response.data)
     }
     else if (ex.response && ex.response.message) {
         message.error(ex.response.message)
