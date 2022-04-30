@@ -3,13 +3,11 @@
 import React, { useEffect, useState } from 'react';
 
 import { Modal,Comment, Avatar, Form, Button, List, Input, Tooltip } from 'antd';
-import { InboxOutlined, UpOutlined, DownOutlined, SearchOutlined, ClearOutlined, FileAddFilled,DeleteOutlined,DeleteFilled } from '@ant-design/icons';
+import { DeleteFilled } from '@ant-design/icons';
 //import articles from './data/articles.json'
 
-import { formItem2Layout, emailRules, passwordRules, requireUploadFieldRules, usernameRules, tailFormItemLayout, requireRadioFieldRules, requireTextFieldRules, companyCodeRules, requireSelectFieldRules } from '../common/latoutAndRules'
-
-import { HeartOutlined, HeartFilled,ExclamationCircleOutlined } from '@ant-design/icons';
-import { uuid, toBase64, getAccessToken, getAvatar, getUserFullName,getDateTimeString } from '../common/utils';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import {  getAvatar, getUserFullName,getDateTimeString } from '../common/utils';
 import PropTypes from 'prop-types';
 import * as http from '../common/http-common'
 
@@ -71,7 +69,7 @@ function CommentObj(props) {
           try {
             
     
-            const res = await http.del(props, `/comments/${id}`, { successMsg: "delete successfully" })
+             await http.del(props, `/comments/${id}`, { successMsg: "delete successfully" })
             loadComments()
           } catch (ex) {
     
@@ -133,7 +131,7 @@ function CommentObj(props) {
                     comment: comment
                 }
 
-                const res = await http.post(props, "/comments", { param: data, needLoading: false })
+                 await http.post(props, "/comments", { param: data, needLoading: false })
                 loadComments()
                 setSubmitting(false)
             } catch (ex) {

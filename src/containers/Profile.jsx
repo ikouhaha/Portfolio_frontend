@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Text, Form, Card, Input, Radio } from 'antd';
+import { Button, Form, Card, Input, Radio } from 'antd';
 
-import { formItemLayout, emailRules, passwordRules, confirmRules, usernameRules, tailFormItemLayout, requireRadioFieldRules, requireTextFieldRules, companyCodeRules } from '../common/latoutAndRules'
+import { formItemLayout, emailRules, tailFormItemLayout, requireRadioFieldRules, companyCodeRules } from '../common/latoutAndRules'
 
 
-import { uuid, loading, done, getAllActionMap, getAllStateMap } from "../common/utils"
+import { uuid, loading, done, getAllActionMap, getAllStateMap,getAccessToken } from "../common/utils"
 import * as http from "../common/http-common"
 import { GoogleLogin } from 'react-google-login';
 
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { $CombinedState, bindActionCreators } from 'redux'
-import * as AppReducer from '../redux/app'
-
+import config from '../config'
 
 function Profile(props) {
 
@@ -21,7 +19,7 @@ function Profile(props) {
   const [user, setUser] = useState({})
 
   const loadProfile = async (needLoading = true) => {
-    try {
+    try {      
       let res = await http.get(props, "/users/profile", { needLoading })
       setUser(res)
     } catch (ex) {
@@ -41,7 +39,7 @@ function Profile(props) {
         //ignore confirm field
         const { username,confirm, ...data } = values
         loading(props)
-        const res = await http.put(props, "/users/" + user.id, { param: data, needLoading: false,successMsg:"update successfully ! Please login again" })
+        await http.put(props, "/users/" + user.id, { param: data, needLoading: false,successMsg:"update successfully ! Please login again" })
         await loadProfile(false)
         done(props)
       } catch (ex) {
@@ -108,7 +106,7 @@ function Profile(props) {
           </Form.Item>
           <Form.Item label="Other">
             <GoogleLogin
-              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+              clientId={config.REACT_APP_GOOGLE_CLIENT_ID}
               buttonText="Continue with Google"
               scope="profile email"
               accessType="offline"

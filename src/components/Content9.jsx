@@ -2,7 +2,7 @@ import React from 'react';
 import OverPack from 'rc-scroll-anim/lib/ScrollOverPack';
 import QueueAnim from 'rc-queue-anim';
 import { getChildrenToRender } from '../common/utils';
-import { loremIpsum, name, surname, fullname, username, LoremIpsum } from 'react-lorem-ipsum';
+import { fullname, username, LoremIpsum } from 'react-lorem-ipsum';
 
 class Content9 extends React.PureComponent {
   getBlockChildren = (block, i) => {

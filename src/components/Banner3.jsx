@@ -15,22 +15,6 @@ class Banner extends React.Component {
 
     const { ...currentProps } = this.props
     
-
-    
-
-    const test = () => {
-      (async () => {
-        try {
-          
-          //await http.get(this.props, "/dogs/37")
-          
-        } catch (ex) {
-          
-        }
-
-      })()
-
-    }
     const dataSource = {
       wrapper: { className: 'banner3' },
       textWrapper: {

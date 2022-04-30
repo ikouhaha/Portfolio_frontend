@@ -3,9 +3,9 @@ import { Widget, addResponseMessage, setQuickButtons } from 'react-chat-widget';
 import 'react-chat-widget/lib/styles.css';
 import io from 'socket.io-client';
 import PropTypes from 'prop-types';
-import { getAccessToken, getRole } from '../common/utils';
-import { useCookies } from 'react-cookie';
+import { getAccessToken } from '../common/utils';
 import { withCookies, Cookies } from 'react-cookie';
+import config from '../config'
 
 const buttons = [ { label: 'refresh', value: 'refresh' }];
 
@@ -25,7 +25,7 @@ function Chat(props) {
         console.log(cookies)
 
         if (getAccessToken()) {
-            const newSocket = io(process.env.REACT_APP_BASE_URL, {
+            const newSocket = io(config.REACT_APP_BASE_URL, {
                 query: {
                     token: getAccessToken(),
                     roomId: getRoomID()
@@ -73,11 +73,6 @@ function Chat(props) {
         if (!socket) {
             return
         }
-        // if(getRole() === 'staff'){
-        //     socket.off('get_guest')
-        // }else{
-        //     socket.off('get_staff')
-        // }
 
         socket.off('getGuest')
         socket.off('getStaff')
@@ -96,7 +91,7 @@ function Chat(props) {
             
 
             if(getRoomID()){
-                setQuickButtons(buttons.filter(button => button.value == 'refresh'));
+                setQuickButtons(buttons.filter(button => button.value === 'refresh'));
                 connectSocket()
             }else{
                 connectSocket()
@@ -119,7 +114,7 @@ function Chat(props) {
         
   
 
-        if (data == "refresh") {            
+        if (data === "refresh") {            
             socket.emit('staffDisconnect', { roomId: getRoomID() })
             cookies.remove('room')
             setTimeout(()=>{

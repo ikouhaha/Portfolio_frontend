@@ -95,7 +95,7 @@ export const requireUploadFieldRules = [
       validator(rule, value) {
         console.log(value)
           if (value) {
-              if(value.length==0){                
+              if(value.length===0){                
                 return Promise.reject();
               }
               return Promise.resolve();

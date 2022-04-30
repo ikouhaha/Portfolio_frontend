@@ -1,8 +1,6 @@
 import React from 'react';
 import OverPack from 'rc-scroll-anim/lib/ScrollOverPack';
 import QueueAnim from 'rc-queue-anim';
-import TweenOne from 'rc-tween-one';
-import { Button } from 'antd';
 import { getChildrenToRender } from '../common/utils'
 
 class Content11 extends React.PureComponent {

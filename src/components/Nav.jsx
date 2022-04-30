@@ -3,12 +3,12 @@ import React, { useEffect } from 'react';
 
 
 import { Layout, Space, Avatar, Dropdown, Menu, Button } from 'antd';
-import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Title from 'antd/lib/typography/Title';
 import { DownOutlined } from '@ant-design/icons';
-import * as http from '../common/http-common'
+
 import { uuid } from '../common/utils';
-const { Header, Content } = Layout;
+const { Header } = Layout;
 
 
 const menu = (
@@ -59,10 +59,10 @@ function Nav(props) {
                         } else {
                             return (
                                 <Dropdown overlay={menu} placement="bottomRight" arrow>
-                                    <a key={uuid()} onClick={e => e.preventDefault()}>
+                                    <Link to="/" key={uuid()} onClick={e => e.preventDefault()}>
                                         <Avatar size="32" src={props.user.avatarUrl ? props.user.avatarUrl : "./dp.png"} />
                                         <DownOutlined className='header-nav-link' style={{ paddingLeft: 6 }} />
-                                    </a>
+                                    </Link>
 
                                 </Dropdown>
                             )

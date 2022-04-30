@@ -5,8 +5,6 @@ import LoginForm from '../components/LoginForm';
 import { Card } from 'antd'
 import React from "react";
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
-import * as AppReducer from '../redux/app'
 import { getAllActionMap, getAllStateMap, uuid } from '../common/utils'
 import { useNavigate } from 'react-router-dom';
 

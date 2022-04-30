@@ -3,10 +3,9 @@ import TweenOne from 'rc-tween-one';
 import OverPack from 'rc-scroll-anim/lib/ScrollOverPack';
 import { Row, Col } from 'antd';
 import QueueAnim from 'rc-queue-anim';
-import { getChildrenToRender,getAllStateMap,getAllActionMap,loading,done } from '../common/utils';
-import { connect } from 'react-redux';
-import * as http from "../common/http-common"
-import { useNavigate, Link, unstable_HistoryRouter } from 'react-router-dom';
+import { getChildrenToRender } from '../common/utils';
+import {  Link} from 'react-router-dom';
+import config from '../config';
 
 class Content8 extends React.Component {
    
@@ -48,7 +47,7 @@ class Content8 extends React.Component {
 
   render() {
     const { ...props } = this.props;
-    const baseLink = process.env.REACT_APP_BASE_URL+process.env.REACT_APP_API_VERSION_LINK
+    const baseLink = config.REACT_APP_BASE_URL+config.REACT_APP_API_VERSION_LINK
     if(!props.dogs){
       return (<></>)
     }

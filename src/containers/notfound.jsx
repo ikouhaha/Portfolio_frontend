@@ -1,9 +1,9 @@
 import React from "react";
 import { Result, Button } from 'antd';
-import { useNavigate,Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function NotFound() {  
-  const navigate = useNavigate();
+ 
   
   return (
     <>

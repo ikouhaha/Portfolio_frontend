@@ -1,8 +1,7 @@
 
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Card, Col, Row, Spin, Button } from 'antd';
+import { Button } from 'antd';
 //import articles from './data/articles.json'
 
 import { HeartOutlined, HeartFilled } from '@ant-design/icons';

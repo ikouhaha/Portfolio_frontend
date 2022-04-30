@@ -1,14 +1,15 @@
 
 
-import { Card, Avatar, Button, Modal } from 'antd';
-import { EyeOutlined, EditOutlined, EllipsisOutlined, SettingOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import React, { Children, useState } from 'react';
-import { config } from '../common/config';
+import { Card, Button, Modal } from 'antd';
+import { EyeOutlined, EditOutlined,  DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import React, {  useState } from 'react';
+
 import FavouriteButton from './FavouriteButton';
 import DogModalForm from './DogModalForm';
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { uuid } from '../common/utils'
+import config from '../config'
 
 
 const { Meta } = Card;
@@ -27,7 +28,7 @@ DogCard.propTypes = {
 }
 
 function DogCard(props) {
-    const baseLink = process.env.REACT_APP_BASE_URL+process.env.REACT_APP_API_VERSION_LINK
+    const baseLink = config.REACT_APP_BASE_URL+config.REACT_APP_API_VERSION_LINK
     const [showActionModal, setShowActionModal] = useState(false)
     const dog = { ...props.dog }
     

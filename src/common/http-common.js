@@ -1,9 +1,10 @@
 import axios from 'axios'
 import { message } from "antd"
 import { loading, done, getAccessToken } from './utils'
+import config from "../config"
 
 const http = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL+process.env.REACT_APP_API_VERSION_LINK,
+    baseURL: config.REACT_APP_BASE_URL+config.REACT_APP_API_VERSION_LINK,
     headers: {
         "Content-type": "application/json; charset=utf-8"
     },
@@ -14,7 +15,7 @@ const http = axios.create({
 let messageError = (ex, props) => {
     
     const { navigate } = props
-    if (ex.response && ex.response.status && ex.response.status == 401) {
+    if (ex.response && ex.response.status && ex.response.status === 401) {
         if(ex.response.statusText){
             message.error(ex.response.statusText)
         }
@@ -22,7 +23,7 @@ let messageError = (ex, props) => {
             props.userAction.reset()
         }
         navigate("/signin")
-    } else if (ex.response && ex.response.status && ex.response.status == 404) {
+    } else if (ex.response && ex.response.status && ex.response.status === 404) {
         navigate("/404")
     }
     
@@ -50,7 +51,7 @@ let messageSucceess = (msg) => {
     }
 }
 
-export const get = async (props, endpoint, { successMsg,needLoading=true } = {}) => {
+export const get = async (props, endpoint, { successMsg,needLoading=true,token = null } = {}) => {
     //add auth header automatically
 
     let res = {};
@@ -60,7 +61,10 @@ export const get = async (props, endpoint, { successMsg,needLoading=true } = {})
             loading(props)
         }
         
-        if (getAccessToken()) {
+        
+        if(token){//call it when sign in
+            http.defaults.headers.common["Authorization"] = token
+        }else if (getAccessToken()) { //otherwise
             http.defaults.headers.common["Authorization"] = getAccessToken()
         }else{
             delete http.defaults.headers.common["Authorization"] 
@@ -147,7 +151,7 @@ export const put = async (props, endpoint,
         }
 
         response = await http.put(endpoint, param, requestConfig)
-        //console.error(response)
+        console.dir(response)
         const { data } = response
         res = data
         messageSucceess(successMsg)

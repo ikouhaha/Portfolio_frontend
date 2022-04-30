@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import { Button, Text, Form, Card, Input, Radio } from 'antd';
+import { Button, Form, Card, Input, Radio } from 'antd';
 
-import { formItemLayout, emailRules, passwordRules, confirmRules, usernameRules, tailFormItemLayout, requireRadioFieldRules, requireTextFieldRules, companyCodeRules } from '../common/latoutAndRules'
+import { formItemLayout, emailRules, passwordRules, confirmRules, usernameRules, tailFormItemLayout, requireRadioFieldRules, companyCodeRules } from '../common/latoutAndRules'
 
 
-import { uuid,loading,done,getAllActionMap,getAllStateMap } from "../common/utils"
+import { uuid,getAllActionMap,getAllStateMap } from "../common/utils"
 import * as http from "../common/http-common"
 import { GoogleLogin } from 'react-google-login';
 
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { $CombinedState, bindActionCreators } from 'redux'
-import * as AppReducer from '../redux/app'
+import config from '../config';
 
 
 function RegisterForm(props) {
@@ -29,7 +28,7 @@ function RegisterForm(props) {
         //ignore confirm field
         const { confirm, ...data } = values
         
-        const res = await http.post(props, "/users", {param:data})
+        await http.post(props, "/users", {param:data})
         
         props.navigate("/signin")
 
@@ -120,7 +119,7 @@ function RegisterForm(props) {
           </Form.Item>
           <Form.Item label="Other">
             <GoogleLogin
-              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+              clientId={config.REACT_APP_GOOGLE_CLIENT_ID}
               buttonText="Register with Google"
               scope="profile email"
               accessType="offline"

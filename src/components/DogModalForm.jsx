@@ -1,14 +1,14 @@
 
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Card, Col, Row, Spin, Button, Modal, Form, Input, Select, Upload, message } from 'antd';
+
+import {  Button, Modal, Form, Input, Select, Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 //import articles from './data/articles.json'
 
-import { formItem2Layout, emailRules, passwordRules, requireUploadFieldRules, usernameRules, tailFormItemLayout, requireRadioFieldRules, requireTextFieldRules, companyCodeRules, requireSelectFieldRules } from '../common/latoutAndRules'
+import { formItem2Layout, requireUploadFieldRules,  requireTextFieldRules, requireSelectFieldRules } from '../common/latoutAndRules'
 
-import { HeartOutlined, HeartFilled } from '@ant-design/icons';
+
 import { uuid,toBase64, getAllActionMap, getAllStateMap } from '../common/utils';
 
 import { connect } from 'react-redux';
@@ -38,7 +38,7 @@ function DogModalForm(props) {
         return (<></>)
     }
     
-    const [fileList, setFileList] = useState(props.fileList);
+    const [fileList] = useState(props.fileList);
    
 
     const [form] = Form.useForm();

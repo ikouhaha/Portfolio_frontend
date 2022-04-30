@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Text, Form, Card, Input, Radio } from 'antd';
+import { Button, Form, Card, Input } from 'antd';
 
-import { formItemLayout, emailRules, passwordRules, confirmRules, usernameRules, tailFormItemLayout, requireRadioFieldRules, requireTextFieldRules, companyCodeRules } from '../common/latoutAndRules'
+import { formItemLayout, passwordRules, confirmRules, tailFormItemLayout } from '../common/latoutAndRules'
 
 
 import { uuid, loading, done, getAllActionMap, getAllStateMap } from "../common/utils"
 import * as http from "../common/http-common"
-import { GoogleLogin } from 'react-google-login';
 
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { $CombinedState, bindActionCreators } from 'redux'
-import * as AppReducer from '../redux/app'
+
 
 
 function ChangePwd(props) {
@@ -41,7 +39,7 @@ function ChangePwd(props) {
         //ignore confirm field
         const { confirm, ...data } = values
         loading(props)
-        const res = await http.put(props, "/users/p/" + user.id, { param: data, needLoading: false, successMsg: "update successfully" })
+        await http.put(props, "/users/p/" + user.id, { param: data, needLoading: false, successMsg: "update successfully" })
         await loadProfile(false)
         done(props)
       } catch (ex) {

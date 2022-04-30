@@ -1,9 +1,9 @@
-import React, { Component, useEffect, useState } from 'react';
+import React from 'react';
 
-import { enquireScreen } from 'enquire-js';
+
 import {
   BrowserRouter as Router,
-  Routes, Route, Link, BrowserRouter
+  Routes, Route, Link
 } from 'react-router-dom'
 import Home from "./containers/Home"
 import Login from "./containers/Login"
@@ -17,9 +17,9 @@ import ChangePwd from "./containers/ChangePwd"
 import Chat from "./containers/chat"
 import ChatStaff from "./containers/chatStaff"
 import Dogs from "./containers/dogs"
-import { Layout, Space, Avatar, Dropdown, Menu, Breadcrumb } from 'antd';
+import { Layout, Breadcrumb } from 'antd';
 import './less/antMotionStyle.less';
-import * as http from './common/http-common'
+
 
 import Footer2 from './components/Footer2';
 import Nav from './components/Nav';
@@ -27,7 +27,7 @@ import LoadingOverlay from 'react-loading-overlay';
 import BarLoader from "react-spinners/BarLoader";
 
 import { connect } from 'react-redux';
-import { getAllStateMap, getAllActionMap, loading, done, getRole } from './common/utils'
+import { getAllStateMap, getAllActionMap, getRole } from './common/utils'
 
 const { Content } = Layout;
 
@@ -36,19 +36,6 @@ const { Content } = Layout;
 
 
 function App(props) {
-  /*
-  const [socket, setSocket] = useState(null);
-
-  useEffect(() => {
-    const newSocket = io(process.env.REACT_APP_BASE_URL);
-    setSocket(newSocket);
-    //return () => newSocket.close();
-  }, [setSocket]);
-  */
-
-
-
-
   const DogBread = () => {
     return (
       <Breadcrumb style={{ margin: '16px 0' }}>

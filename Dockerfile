@@ -22,7 +22,6 @@ COPY . .
 
 # Build for production.
 ENV REACT_APP_BASE_URL="https://vt6003cem-portfolio-api.azurewebsites.net"
-ENV F_V=""
 RUN npm run build 
 
 # Install `serve` to run the application.

@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
-import { Button, Text, Form, Card, Input, Radio, Checkbox } from 'antd';
+import React from 'react';
+import { Button, Form, Input, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined ,GoogleOutlined} from '@ant-design/icons';
 import 'rc-texty/assets/index.css';
 
-import { formItemLayout, emailRules, passwordRules, confirmRules, usernameRules, tailFormItemLayout, requireRadioFieldRules, requireTextFieldRules, companyCodeRules } from '../common/latoutAndRules'
+import {  passwordRules, usernameRules } from '../common/latoutAndRules'
 
-import { config } from "../common/config"
+import config  from "../config"
 
 import * as http from "../common/http-common"
 import { GoogleLogin } from 'react-google-login';
 
-import { useNavigate, Link, unstable_HistoryRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { loading ,done} from '../common/utils';
 
 function LoginForm(props) {
 
   const [form] = Form.useForm();
-  console.log(process.env)
+  
   const onFinish = (values) => {
     (async () => {
       try {
@@ -30,11 +31,13 @@ function LoginForm(props) {
         }
         delete data.password
         
-        
-        let res = await http.post(props, "/auth", {param:data,requestConfig:config})
+        loading(props)
+        let token = await http.post(props, "/auth", {param:data,requestConfig:config,needLoading:false})
+        props.userAction.load({isLogin:true,token:token})
+        let res = await http.get(props, "/users/profile",{needLoading:false,token:token})
+        //set profile
         props.userAction.load(res)
-        
-        
+        done(props)
         props.navigate("/")
         
       } catch (ex) {
@@ -54,10 +57,12 @@ function LoginForm(props) {
           "access_token": values.accessToken
         }
         console.log(values.accessToken)
-        
-        let res = await http.post(props, "/auth/google/token", {param:data})
-        
+        loading(props)
+        let token = await http.post(props, "/auth/google/token", {param:data,needLoading:false})        
+        let res = await http.get(props, "/users/profile",{needLoading:false,token:token})
+        //set profile
         props.userAction.load(res)
+        done(props)
         props.navigate("/")
         
       } catch (ex) {
@@ -73,16 +78,6 @@ function LoginForm(props) {
     console.log(res)
 
   }
-
-  const setFormValue = (name, value) => {
-    form.setFieldsValue({
-      [name]: value,
-    })
-  }
-
-
-
-
 
 
   return (
@@ -116,10 +111,8 @@ function LoginForm(props) {
             <Form.Item name="remember" valuePropName="checked" noStyle>
               <Checkbox>Remember me</Checkbox>
             </Form.Item>
-
-            <a className="login-form-forgot" href="" style={{ float: "right" }}>
-              Forgot password
-            </a>
+            <Link style={{ float: 'right' }} to="/signup">Forgot password</Link>
+        
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" className="login-form-button" >
@@ -133,7 +126,7 @@ function LoginForm(props) {
             <GoogleLogin
               autoLoad={false}
               disabledStyle
-              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+              clientId={config.REACT_APP_GOOGLE_CLIENT_ID}
               buttonText="Login with Google"
               scope="profile email"
               render={renderProps => (

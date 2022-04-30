@@ -3,8 +3,9 @@ import { Widget, addResponseMessage, setQuickButtons } from 'react-chat-widget';
 import 'react-chat-widget/lib/styles.css';
 import io from 'socket.io-client';
 import PropTypes from 'prop-types';
-import { getAccessToken, getRole } from '../common/utils';
+import { getAccessToken } from '../common/utils';
 import { withCookies, Cookies } from 'react-cookie';
+import config from '../config'
 
 const buttons = [{ label: 'start', value: 'start' }, { label: 'end', value: 'end' }];
 
@@ -22,7 +23,7 @@ function Chat(props) {
 
 
         if (getAccessToken()) {
-            const newSocket = io(process.env.REACT_APP_BASE_URL, {
+            const newSocket = io(config.REACT_APP_BASE_URL, {
                 query: {
                     token: getAccessToken(),
                     roomId: getRoomID()
@@ -34,7 +35,7 @@ function Chat(props) {
 
         } else {
             //guest room id
-            const newSocket = io(process.env.REACT_APP_BASE_URL,{
+            const newSocket = io(config.REACT_APP_BASE_URL,{
                 query: {
                     
                     roomId: getRoomID()
@@ -94,7 +95,7 @@ function Chat(props) {
         if (!socket) {
             return
         }
-        // if(getRole() === 'staff'){
+        // if(getRole() ==== 'staff'){
         //     socket.off('get_guest')
         // }else{
         //     socket.off('get_staff')
@@ -120,11 +121,11 @@ function Chat(props) {
 
             
             if(getRoomID()){
-                setQuickButtons(buttons.filter(button => button.value == 'end'));
+                setQuickButtons(buttons.filter(button => button.value === 'end'));
                 connectSocket()
             }else{
                 addResponseMessage("please press the button to start chat")
-                setQuickButtons(buttons.filter(button => button.value == 'start'));
+                setQuickButtons(buttons.filter(button => button.value === 'start'));
             }
             
 
@@ -144,14 +145,14 @@ function Chat(props) {
 
     const handleQuickButtonClicked = data => {
 
-        if (data == "start") {
+        if (data === "start") {
             connectSocket()
-            setQuickButtons(buttons.filter(button => button.value == 'end'));
+            setQuickButtons(buttons.filter(button => button.value === 'end'));
         }
 
-        if (data == "end") {
+        if (data === "end") {
             socket.emit('clientDisconnect', { roomId: getRoomID() })
-            setQuickButtons(buttons.filter(button => button.value == 'start'));
+            setQuickButtons(buttons.filter(button => button.value === 'start'));
             cookies.remove('room')
         }
 

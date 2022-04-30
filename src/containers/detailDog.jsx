@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { Modal,Icon, Layout, Row, Col, Button, Card, Avatar, Descriptions, Badge, Breadcrumb } from 'antd';
-import { useNavigate, Link, useParams } from 'react-router-dom';
+import React, {  useState } from "react";
+import { Modal, Layout, Row, Col, Button, Descriptions } from 'antd';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import LoginForm from '../components/LoginForm'
+
 import * as http from '../common/http-common'
 import { EditOutlined } from '@ant-design/icons';
-import { MessageOutlined,ExclamationCircleOutlined ,DeleteOutlined} from '@ant-design/icons';
+import { ExclamationCircleOutlined ,DeleteOutlined} from '@ant-design/icons';
 import FavouriteButton from "../components/FavouriteButton";
 import { getAllActionMap, getAllStateMap, uuid } from "../common/utils";
 import { connect } from 'react-redux';
 import DogModalForm from "../components/DogModalForm";
 import CommentObj from "../components/Comment"
+import config from '../config'
 
 const { confirm } = Modal;
 
 
-const { Meta } = Card;
-const { Header, Footer, Sider, Content } = Layout;
+
+const {  Footer, Content } = Layout;
 function DetailDog(props) {
   const { id } = useParams();
   
@@ -24,7 +25,7 @@ function DetailDog(props) {
   const [isFavourite, setFavourite] = useState(false)
   const [dog, setDog] = useState({ breed: { weight: {}, height: {} } })
   const [breeds, setBreeds] = useState([])
-  const baseLink = process.env.REACT_APP_BASE_URL+process.env.REACT_APP_API_VERSION_LINK
+  const baseLink = config.REACT_APP_BASE_URL+config.REACT_APP_API_VERSION_LINK
   const imageLink = baseLink + '/dogs/image/' + id
   const loadPage = (async () => {
     try {
@@ -58,7 +59,7 @@ function DetailDog(props) {
       try {
         console.log(id,values)
 
-        const res = await http.del(props, `/dogs/${id}/${values.companyCode}`, { successMsg: "delete successfully" })
+        await http.del(props, `/dogs/${id}/${values.companyCode}`, { successMsg: "delete successfully" })
         props.navigate(-1)
       } catch (ex) {
 
@@ -90,7 +91,7 @@ function DetailDog(props) {
         const { image, ...data } = values
         console.log(values)
         setShowEditModal(false)
-        const res = await http.put(props, "/dogs/" + id, { param: data, successMsg: "update successfully" })
+        await http.put(props, "/dogs/" + id, { param: data, successMsg: "update successfully" })
 
         //props.navigate("/signin")
         
@@ -140,7 +141,7 @@ function DetailDog(props) {
                   <div className="site-layout-content">
 
                     <Row key={uuid()}>
-                      <Col key={uuid()} span={6}><img width={'100%'} src={imageLink}></img>
+                      <Col key={uuid()} span={6}><img alt="#" width={'100%'} src={imageLink}></img>
                         <FavouriteButton key={uuid()} loading={props.app.loading} type="text" isFavourite={isFavourite} handleFavourite={(val) => handleFavourite(val)} />
                         {(() => {
                           let childrens = []

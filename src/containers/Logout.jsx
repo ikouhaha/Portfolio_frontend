@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
-import { Result, Button } from 'antd';
-import { useNavigate, Link } from 'react-router-dom';
+import React from "react";
+
+import { useNavigate } from 'react-router-dom';
 
 import * as http from '../common/http-common'
-import { getAllActionMap, getAllStateMap, loading, done } from '../common/utils'
+import { getAllActionMap, getAllStateMap } from '../common/utils'
 import { connect } from "react-redux";
 
 
@@ -16,8 +16,8 @@ function Logout(props) {
         
      
         
-        let res = await http.get(props,"/auth/signout")
-        //console.log(res)
+        await http.get(props,"/auth/signout")
+        
         localStorage.clear()
         props.userAction.reset()
         navigate("/")

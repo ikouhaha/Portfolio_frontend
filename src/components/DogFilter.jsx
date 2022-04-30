@@ -1,28 +1,17 @@
 
 
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Card, Col, Row, Spin, Button, Modal, Form, Input, Select, Upload, message, Space, Tooltip } from 'antd';
-import { InboxOutlined, UpOutlined, DownOutlined, SearchOutlined, ClearOutlined, FileAddFilled } from '@ant-design/icons';
+import React from 'react';
+
+import {  Col, Row, Button, Form, Input, Select, Space, Tooltip } from 'antd';
+import { SearchOutlined, ClearOutlined, FileAddFilled } from '@ant-design/icons';
 //import articles from './data/articles.json'
 
-import { formItem2Layout, emailRules, passwordRules, requireUploadFieldRules, usernameRules, tailFormItemLayout, requireRadioFieldRules, requireTextFieldRules, companyCodeRules, requireSelectFieldRules } from '../common/latoutAndRules'
-
-import { HeartOutlined, HeartFilled } from '@ant-design/icons';
-import { uuid, toBase64 } from '../common/utils';
-import PropTypes from 'prop-types';
 
 const { Option } = Select;
 
 
 function DogFilter(props) {
 
-  const [expand, setExpand] = useState(false);
-  const dog = { ...props.dog }
-  // if (!dog.id) {
-  //     return (<></>)
-  // }
-  const [filter, setFilter] = useState({});
   const [form] = Form.useForm();
 
 

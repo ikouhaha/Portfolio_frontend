@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Pagination, Icon, Layout, Row, Col, Button, Card, Avatar, Descriptions, Badge, Breadcrumb } from 'antd';
-import { useNavigate, Link, useParams } from 'react-router-dom';
+import React, { useState } from "react";
+import { Pagination, Layout, Row, Col } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
-import LoginForm from '../components/LoginForm'
+
 import * as http from '../common/http-common'
 
-import { MessageOutlined, EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-import FavouriteButton from "../components/FavouriteButton";
 import { getAllActionMap, getAllStateMap, getFilterString, loading, done } from "../common/utils";
 import { connect } from 'react-redux';
 import DogFilter from "../components/DogFilter";
@@ -16,12 +14,12 @@ import DogModalForm from "../components/DogModalForm";
 
 
 
-const { Meta } = Card;
-const { Header, Footer, Sider, Content } = Layout;
-function Dogs(props) {
-  const { id } = useParams();
 
-  const [action, setAction] = useState('create')
+const {  Footer, Content } = Layout;
+function Dogs(props) {
+  
+
+  
   const [showActionModal, setShowActionModal] = useState(false)
   const [dogs, setDogs] = useState([])
   const [breeds, setBreeds] = useState([])
@@ -69,7 +67,7 @@ function Dogs(props) {
     (async () => {
       try {
 
-        const res = await http.del(props, "/dogs/" + id, { successMsg: "delete successfully" })
+         await http.del(props, "/dogs/" + id, { successMsg: "delete successfully" })
         loadPage()
       } catch (ex) {
 
@@ -86,7 +84,7 @@ function Dogs(props) {
         //ignore image field
         const { image, ...data } = values
 
-        const res = await http.put(props, "/dogs/" + id, { param: data, successMsg: "update successfully" })
+        await http.put(props, "/dogs/" + id, { param: data, successMsg: "update successfully" })
         loadPage()
       } catch (ex) {
 
@@ -103,7 +101,7 @@ function Dogs(props) {
         //ignore image field
         const { image, ...data } = values
 
-        const res = await http.post(props, "/dogs", { param: data, successMsg: "create successfully" })
+        await http.post(props, "/dogs", { param: data, successMsg: "create successfully" })
         setShowActionModal(false)
         loadPage()
       } catch (ex) {

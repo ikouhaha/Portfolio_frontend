@@ -7,7 +7,7 @@ import Content10 from '../components/Content10';
 import Content11 from '../components/Content11';
 import Content12 from '../components/Content12';
 
-import { useNavigate, Link, unstable_HistoryRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import React, { useState } from "react";
 

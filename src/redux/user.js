@@ -14,6 +14,7 @@ export function load(user) {
 
 export function reset() {
   localStorage.clear()
+  console.log("reset")
   return {
     type: RESET
 
@@ -36,13 +37,8 @@ export default function reducer(state = getLocalStorageItem("user") || initialSt
         state,
         action.value
       );
-    case RESET:
-
-      return Object.assign(
-        {},
-        state,
-        initialState
-      );
+    case RESET:   
+      return initialState;
 
 
     default:
