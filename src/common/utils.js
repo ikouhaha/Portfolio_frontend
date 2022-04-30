@@ -6,6 +6,7 @@ import * as AppReducer from '../redux/app'
 import * as UserReducer from '../redux/user'
 import * as SelectReducer from '../redux/select'
 import moment from "moment"
+import config from "../config"
 
 export const isImg = /^http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?/;
 export const getChildrenToRender = (item, i) => {
@@ -79,7 +80,7 @@ export const getAvatar = () => {
     }
   }
 
-  return process.env.REACT_APP_DEFAULT_IMAGE
+  return config.REACT_APP_DEFAULT_IMAGE
 
 }
 export const getAllStateMap = state => ({ app: state.App, user: state.User,select:state.Select });
