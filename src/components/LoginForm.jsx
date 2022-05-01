@@ -41,7 +41,7 @@ function LoginForm(props) {
         props.navigate("/")
         
       } catch (ex) {
-        
+        done(props)
         console.dir(ex)
       }
 
@@ -66,7 +66,7 @@ function LoginForm(props) {
         props.navigate("/")
         
       } catch (ex) {
-        
+        done(props)
         console.dir(ex)
       }
 
