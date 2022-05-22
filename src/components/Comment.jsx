@@ -50,7 +50,7 @@ function CommentObj(props) {
 
     const deleteComment = (e) =>{
         confirm({
-            title: 'Are you sure delete this dog?',
+            title: 'Are you sure delete this comment?',
             icon: <ExclamationCircleOutlined />,
             okText: 'Yes',
             okType: 'danger',
