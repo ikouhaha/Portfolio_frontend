@@ -23,25 +23,25 @@ function Chat(props) {
 
 
         if (getAccessToken()) {
-            const newSocket = io(config.REACT_APP_BASE_URL, {
+            const newSocket = io(config.REACT_APP_SOCKET_BASE_URL, {
                 query: {
                     token: getAccessToken(),
                     roomId: getRoomID()
                     
                 },
-                transports: ["websocket"] 
+                transports: ["websocket","polling"]                 
             });
             setSocket(newSocket);
 
         } else {
             //guest room id
-            const newSocket = io(config.REACT_APP_BASE_URL,{
+            const newSocket = io(config.REACT_APP_SOCKET_BASE_URL,{
                 query: {
                     
                     roomId: getRoomID()
                     
                 },
-                transports: ["websocket"] 
+                transports: ["websocket","polling"]            
             });
             setSocket(newSocket);
         }
